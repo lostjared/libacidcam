@@ -10,13 +10,12 @@ Then you should be able to use pkg-config in your project and include ac.h
 
 	$ pkg-config acidcam --cflags --libs
 
-Something like this in your Makefile
+if you are using autotools you can use this macro in your configure.ac
 
-CXXFLAGS= `pkg-config acidcam --cfalgs`
+PKG_CHECK_MODULES(ACIDCAM, acidcam, found=1, found=0)
 
-LDADD= `pkg-config acidcam --libs`
+CV_INCLUDES=$ACIDCAM_CFLAGS
 
-all:
+CV_LIBS=$ACIDCAM_LIBS
 
-	$(CXX) $(CXXFLAGS) program.cpp -o test.program $(LDADD)
 
