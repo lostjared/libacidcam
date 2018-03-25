@@ -8,8 +8,6 @@ This library uses pkg-config and OpenCV. First install/compile OpenCV and pkg-co
 
 Then you should be able to use pkg-config in your project and include ac.h
 
-	$ pkg-config acidcam --cflags --libs
-
 if you are using autotools you can use this macro in your configure.ac
 
 PKG_CHECK_MODULES(ACIDCAM, acidcam, found=1, found=0)
