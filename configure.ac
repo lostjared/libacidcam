@@ -9,6 +9,12 @@ AC_PROG_LIBTOOL
 
 PKG_CHECK_MODULES(OPENCV, opencv, found=1, found=0)
 
+if test $found = 0; then
+AC_MSG_ERROR(Error could not find OpenCV pkg-config file is it installed?)
+else
+echo "OpenCV Found!"
+fi
+
 
 CV_INCLUDES=$OPENCV_CFLAGS
 CV_LIBS=$OPENCV_LIBS
