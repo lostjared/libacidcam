@@ -13,8 +13,10 @@ Then you should be able to use pkg-config in your project and include ac.h
 Something like this in your Makefile
 
 CXXFLAGS= `pkg-config acidcam --cfalgs`
+
 LDADD= `pkg-config acidcam --libs`
 
 all:
+
 	$(CXX) $(CXXFLAGS) program.cpp -o test.program $(LDADD)
 
