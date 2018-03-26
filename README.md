@@ -16,8 +16,12 @@ if you are using autotools you can use this macro in your configure.ac
 
 PKG_CHECK_MODULES(ACIDCAM, acidcam, found=1, found=0)
 
-CV_INCLUDES=$ACIDCAM_CFLAGS
+AC_INCLUDES=$ACIDCAM_CFLAGS
 
-CV_LIBS=$ACIDCAM_LIBS
+AC_LIBS=$ACIDCAM_LIBS
+
+AC_SUBST(AC_INCLUDES)
+
+AC_SUBST(AC_LIBS)
 
 
