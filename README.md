@@ -2,8 +2,8 @@
 
 Shared library with filters from Acid Cam v2.3.5
 
-This library uses pkg-config and OpenCV. First install/compile OpenCV and pkg-config then
-
+This library uses pkg-config and OpenCV. First install/compile OpenCV and pkg-config. You will also need Autoconf,Automake,Libtool.
+	
 	$ ./autogen.sh && ./configure && make && sudo make install
 
 If you are running on Linux you will need to use this command so it can find the library
