@@ -1,5 +1,6 @@
 # libacidcam
 
+Be sure to recompile, install and relink any applications that use this library.
 Shared library with filters from Acid Cam v2.3.5
 
 This library uses pkg-config and OpenCV. First install/compile OpenCV and pkg-config. You will also need Autoconf,Automake,Libtool.
