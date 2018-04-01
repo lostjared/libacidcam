@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT(libacidcam, 2.3.5, lostjared@lostsidedead.com)
+AC_INIT(libacidcam, 1.0, lostjared@lostsidedead.com)
 AC_CANONICAL_SYSTEM
 # Checks for programs.
 AC_PROG_CXX

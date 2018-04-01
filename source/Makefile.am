@@ -4,6 +4,6 @@ libacidcam_includedir= $(includedir)/acidcam
 libacidcam_include_HEADERS=ac.h fractal.h
 libacidcam_la_SOURCES=ac.cpp fractal.cpp
 libacidcam_la_CXXFLAGS=-std=c++11 -O2 $(CV_INCLUDES)
-libacidcam_la_LDFLAGS= -version-info 0:0:0
+libacidcam_la_LDFLAGS= -version-info 1:0:0
 pkgconfigdir=$(libdir)/pkgconfig
 pkgconfig_DATA= ../acidcam.pc
