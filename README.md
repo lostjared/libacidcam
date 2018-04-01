@@ -16,6 +16,8 @@ Then you should be able to use pkg-config in your project and include ac.h
 
 if you are using autotools you can use this macro in your configure.ac
 
+be sure to recompile this library and relink if you are using version 0:0:0 current is version 1:0:0
+
 PKG_CHECK_MODULES(ACIDCAM, acidcam, found=1, found=0)
 
 AC_INCLUDES=$ACIDCAM_CFLAGS
