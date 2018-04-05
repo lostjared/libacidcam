@@ -291,12 +291,15 @@ namespace ac {
     void ImageXor(cv::Mat &frame);
     void ImageAlphaBlend(cv::Mat &frame);
     void ColorRange(cv::Mat &frame);
+    void ImageInter(cv::Mat &frame);
+    void TrailsInter(cv::Mat &frame);
+    void TrailsBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
     // plugin must be implemented in project
-	void plugin(cv::Mat &frame);
+    void plugin(cv::Mat &frame);
     // set Custom Filter callback function
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);
