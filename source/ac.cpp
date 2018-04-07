@@ -45,7 +45,7 @@
 
 // Acid Cam namespace
 namespace ac {
-    const std::string version="2.3.6";
+    const std::string version="2.3.7";
     // variables
     unsigned int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
@@ -372,10 +372,12 @@ void ac::ThoughtMode(cv::Mat &frame) {
 void ac::Pass2Blend(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) { // top to bottom
         for(int i = 0; i < frame.cols; ++i) { // left to right
-            cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
-            cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
-            for(int q = 0; q < 3; ++q)
+            if(!frame.empty() && !orig_frame.empty()) {
+        	    cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
+    	        cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
+	            for(int q = 0; q < 3; ++q)
                 color1[q] = color2[q]+(color1[q]*ac::pass2_alpha);// multiply
+            }
         }
     }
 }
@@ -2447,41 +2449,40 @@ void ac::Laplacian(cv::Mat &frame) {
 
 // XOR - takes cv::Mat reference
 void ac::Bitwise_XOR(cv::Mat &frame) {
-    static cv::Mat initial = frame; /// set initial frame
-    
-    if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame; // resize? set new values
+    static cv::Mat initial;// set initial frame
+    if(initial.size() != frame.size()) {
+        initial = frame.clone(); // did frame resize? if so set the new frame value
     }
-    cv::Mat start = frame.clone(); // clone image
-    cv::Mat output;// output value
-    cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_xor
+    cv::Mat start = frame.clone(); // clone frame (make a copy)
+    cv::Mat output = frame.clone();// output variable
+    cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
     frame = output; // set frame to output
 }
 
 // And takes cv::Mat reference
 void ac::Bitwise_AND(cv::Mat &frame) {
-    static cv::Mat initial = frame;// set initial frame
-    if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame; // did frame resize? if so set the new frame value
+    static cv::Mat initial;// set initial frame
+    if(initial.size() != frame.size()) {
+        initial = frame.clone(); // did frame resize? if so set the new frame value
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
-    cv::Mat output;// output variable
+    cv::Mat output = frame.clone();// output variable
     cv::bitwise_and(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
     frame = output; // set frame to output
 }
 // takes cv::Mat reference
 void ac::Bitwise_OR(cv::Mat &frame) {
-    static cv::Mat initial = frame;// set initial frame
-    if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame;// did frame resize? if so set new frame
+    static cv::Mat initial;// set initial frame
+    if(initial.size() != frame.size()) {
+        initial = frame.clone(); // did frame resize? if so set the new frame value
     }
-    cv::Mat start = frame.clone(); // set start to copy of frame
-    cv::Mat output;// output variable
-    cv::bitwise_or(frame, initial, output);// OpenCV bitwise_or
+    cv::Mat start = frame.clone(); // clone frame (make a copy)
+    cv::Mat output = frame.clone();// output variable
+    cv::bitwise_or(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
-    frame = output;// set frame to output
+    frame = output; // set frame to output
 }
 // takes cv::Mat reference
 // Equalize image
@@ -5774,7 +5775,6 @@ bool testBounds(int value, int low, int high) {
 
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
     if(colorkey_set == false || color_image.empty()) return;
-    
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
         return;
