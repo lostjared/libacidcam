@@ -295,6 +295,8 @@ namespace ac {
     void TrailsInter(cv::Mat &frame);
     void TrailsBlend(cv::Mat &frame);
     void TrailsNegate(cv::Mat &frame);
+    void InterReverse(cv::Mat &frame);
+    void InterMirror(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
