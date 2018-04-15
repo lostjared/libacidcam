@@ -1,5 +1,6 @@
 AC_PREREQ([2.69])
 AC_INIT(libacidcam, 1.0, lostjared@lostsidedead.com)
+AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_SYSTEM
 # Checks for programs.
 AC_PROG_CXX
