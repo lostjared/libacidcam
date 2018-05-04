@@ -448,11 +448,13 @@ namespace ac {
     class GridBox {
     public:
         GridBox();
+        GridBox(const GridBox &gb);
         GridBox(const Rect &r, const cv::Vec3b &col);
         GridBox(const cv::Vec3b &col);
         Rect location;
         cv::Vec3b color;
         bool on;
+        GridBox &operator=(const GridBox &gb);
     };
     
     class Grid {
@@ -461,7 +463,7 @@ namespace ac {
         Grid();
         ~Grid();
         void createGrid(cv::Mat &frame, unsigned int w, unsigned int h, unsigned int size);
-        void updateGrid();
+        void updateGrid(unsigned int max);
         void Release();
         void cleanBoxes();
         void fillGrid(cv::Mat &frame);
