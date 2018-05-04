@@ -1,6 +1,8 @@
 /* Acid Cam Functions for OpenCV
  * written by Jared Bruni https://github.com/lostjared
  
+ This software is dedicated to all the people that struggle with mental illness.
+ 
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
  Instagram: http://instagram.com/jaredbruni
@@ -323,6 +325,7 @@ namespace ac {
     void RollRandom(cv::Mat &frame);
     void AverageRandom(cv::Mat &frame);
     void HorizontalStripes(cv::Mat &frame);
+    void DiamondStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
