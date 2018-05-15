@@ -348,6 +348,7 @@ namespace ac {
     void SmoothImageAlphaBlend(cv::Mat &frame);
     void RandomAlphaBlend(cv::Mat &frame);
     void RandomTwoFilterAlphaBlend(cv::Mat &frame);
+    void PixelatedSquare(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -357,6 +358,7 @@ namespace ac {
     // set Custom Filter callback function
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);
+    void setProcMode(unsigned int value);
     // color maps
     void Negate(cv::Mat &frame);
     void ApplyColorMap(cv::Mat &frame);
