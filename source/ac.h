@@ -394,7 +394,7 @@ namespace ac {
             int wx = frame.cols;
             int wh = frame.rows;
             if(w != wx || h != wh) {
-                for(unsigned int i = 0; i < Size; ++i)
+                for(int i = 0; i < Size; ++i)
                     frames[i] = frame.clone();
                 w = wx;
                 h = wh;
