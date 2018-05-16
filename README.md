@@ -1,6 +1,8 @@
 # libacidcam
 
-Be sure to recompile, install and relink any applications that use this library.
+When upgrading to new versions of Acid Cam Qt, acidcam-cli or any other project that uses libacidcam:
+
+Please be sure to recompile, install and relink any applications.
 
 Shared library with filters from Acid Cam
 
