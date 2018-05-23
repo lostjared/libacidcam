@@ -112,6 +112,8 @@ namespace ac {
     inline int GetFX(cv::Mat &frame, int x, int nw);
     inline int GetFY(cv::Mat &frame, int y, int nh);
     inline void invert(cv::Mat &frame, int x, int y);
+    
+    std::string getVersion();
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
     // ror/rol tempaltes
@@ -365,6 +367,7 @@ namespace ac {
     void BlendImageOnOff(cv::Mat &frame);
     void XorSelfAlphaImage(cv::Mat &frame);
     void BitwiseXorStrobe(cv::Mat &frame);
+    void AlphaBlendRandom(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
