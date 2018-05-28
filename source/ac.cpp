@@ -85,6 +85,7 @@ namespace ac {
     int colors[3] = {rand()%255, rand()%255, rand()%255};
     unsigned int proc_mode = 0;
     bool reset_filter = false;
+    double alpha_increase = 0;
     
 }
 
@@ -208,8 +209,8 @@ inline void ac::invert(cv::Mat &frame, int y, int x) {
 }
 
 // proc position
-void ac::procPos(int &direction, double &pos, double &pos_max, const double max_size, const double iter) {
-    
+void ac::procPos(int &direction, double &pos, double &pos_max, const double max_size, double iter) {
+    if(alpha_increase != 0) iter = alpha_increase;
     switch(proc_mode) {
         case 0: { // move in - increase move out movin - increase move out
             // static int direction
