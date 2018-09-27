@@ -1,5 +1,7 @@
 # libacidcam
 
+To watch all the creations I have created with this project checkout my YouTube playlist: https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
+
 When upgrading to new versions of Acid Cam Qt, acidcam-cli or any other project that uses libacidcam:
 
 Please be sure to recompile, install and relink any applications.
