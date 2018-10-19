@@ -679,6 +679,10 @@ namespace ac {
     void PixelatedHorizontalLines(cv::Mat &frame);
     void PixelatedVerticalLines(cv::Mat &frame);
     void StrobeShuffle(cv::Mat &frame);
+    void BlendBurred(cv::Mat &frame);
+    void BlendCombinedValues(cv::Mat &frame);
+    void RGBColorTrails(cv::Mat &frame);
+    void BlendCombinedValueSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
