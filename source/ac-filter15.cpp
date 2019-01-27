@@ -43,4 +43,29 @@
 
 #include "ac.h"
 
-
+void ac::ImageXorScale(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static int scale = rand()%255;
+    static int dir = rand()%2;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b copy_pix = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^copy_pix[j]^scale;
+            }
+        }
+    }
+    if(dir == 1) {
+        ++scale;
+        if(scale >= 255)
+            dir = 0;
+    } else {
+        --scale;
+        if(scale <= 1)
+            dir = 1;
+    }
+}
