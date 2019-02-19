@@ -122,7 +122,6 @@ namespace ac {
     extern bool strobe_It;
     extern int set_color_map;
     extern bool color_map_set;
-    extern int proc_mode;
     extern int GetFX(cv::Mat &frame, int x, int nw);
     extern int GetFY(cv::Mat &frame, int y, int nh);
     extern bool reset_alpha;
@@ -957,19 +956,13 @@ namespace ac {
     void ImageShuffle(cv::Mat &frame);
     void ImageSubFilter(cv::Mat &frame);
     void ImageAlphaBlendWithFrameSubFilter(cv::Mat &frame);
-    void ImageStrobe(cv::Mat &frame);
-    void ImageXorStrobe(cv::Mat &frame);
-    void ImageStrobeAlpha(cv::Mat &frame);
-    void ImageXorStrobeAlpha(cv::Mat &frame);
-    void ImageBlurXorAlphaSubFilter(cv::Mat &frame);
-    void ImageAlphaBlendDouble(cv::Mat &frame);
-    void AlphaBlendDoubleSubFilter(cv::Mat &frame);
-    void ImageSmoothAlphaDouble(cv::Mat &frame);
-    void ImageRandomAlphaDouble(cv::Mat &frame);
     void ImageFadeInOut(cv::Mat &frame);
     void ImageFadeBlackInOut(cv::Mat &frame);
     void ImageFadeBlackInOutSubFilter(cv::Mat &frame);
     void ImageFadeFrameInOut(cv::Mat &frame);
+    
+    
+    // testing
     void ImageFadeFrameInOutSubFilter(cv::Mat &frame);
     void ImageFadeDouble(cv::Mat &frame);
     void BlendSubFilterAndImage(cv::Mat &frame);
@@ -982,6 +975,7 @@ namespace ac {
     void ColorFlashIncrease(cv::Mat &frame);
     void ScaleFilter(cv::Mat &frame);
     void NegativeDarkenXor(cv::Mat &frame);
+    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1008,9 +1002,9 @@ namespace ac {
     void AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
     void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void AlphaXorBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
+    void AlphaMovement(double *alpha, int *dir, double inc);
+    void AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min);
     void PixelScaleAlpha(cv::Mat &frame, double amt);
-    void AlphaMovement(double *alpha, int *dir, double inc = 0.01);
-    void AlphaMovementMaxMin(double &alpha, int &dir,double speed, double max, double min);
     void DarkenImage(cv::Mat &frame, unsigned int size);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
