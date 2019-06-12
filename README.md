@@ -8,6 +8,10 @@ When upgrading to new versions of Acid Cam Qt, acidcam-cli or any other project 
 
 Please be sure to recompile, install and relink any applications.
 
+When writing C++ using libacidcam  do not call another mulithreaded filter
+
+from within a mulithreaded filter inside of its loop callback
+
 Shared library with filters from Acid Cam
 
 With this library you can use the same filters in your own OpenCV applications.
