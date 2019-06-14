@@ -16,6 +16,7 @@ Shared library with filters from Acid Cam
 
 With this library you can use the same filters in your own OpenCV applications.
 
+First install/compile OpenCV development libraries  and pkg-config.
 
 If you want to compile with CMake use
 
@@ -27,7 +28,7 @@ If you want to compile with CMake use
 
 	$ sudo make install
 
-This library uses pkg-config and OpenCV. First install/compile OpenCV and pkg-config. You will also need Autoconf,Automake,Libtool.
+If you want to compile with Autotools this library uses pkg-config and Autoconf,Automake,Libtool.
 	
 	$ ./autogen.sh && ./configure && make && sudo make install
 
