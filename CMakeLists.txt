@@ -67,8 +67,12 @@ ${CMAKE_SOURCE_DIR}/source/fractal.h
 
 list(APPEND install_headers ${CMAKE_SOURCE_DIR}/source/ac.h ${CMAKE_SOURCE_DIR}/source/fractal.h)
 find_package(OpenCV REQUIRED)
-include_directories({CMAKE_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/source ${OpenCV_INCLUDE_DIRS})
 add_library(acidcam ${source_files})
 target_link_libraries(acidcam ${OpenCV_LIBS})
+if(ENABLE_TESTS)
+	add_executable(test-filter1 ${CMAKE_SOURCE_DIR}/tests/test-filters.cpp)
+	target_link_libraries(test-filter1 acidcam)
+endif()
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
