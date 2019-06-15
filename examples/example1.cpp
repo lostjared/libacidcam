@@ -1,5 +1,5 @@
 
-// add CXXFLAG  -I/usr/local/includ/acidcam
+// add CXXFLAG  -I/usr/local/include/acidcam
 
 #include"ac.h"
 #include<iostream>
