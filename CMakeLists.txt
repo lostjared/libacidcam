@@ -84,6 +84,8 @@ add_executable(example1 ${CMAKE_SOURCE_DIR}/examples/example1.cpp)
 target_link_libraries(example1 acidcam)
 add_executable(example2 ${CMAKE_SOURCE_DIR}/examples/example2.cpp)
 target_link_libraries(example2 acidcam)
+add_executable(example3 ${CMAKE_SOURCE_DIR}/examples/example3.cpp)
+target_link_libraries(example3 acidcam)
 
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
