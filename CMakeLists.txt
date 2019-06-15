@@ -79,6 +79,10 @@ if(ENABLE_TESTS)
 	add_executable(test-subfilter ${CMAKE_SOURCE_DIR}/tests/test-subfilter.cpp)
 	target_link_libraries(test-subfilter acidcam)
 endif()
+
+add_executable(example1 ${CMAKE_SOURCE_DIR}/examples/example1.cpp)
+target_link_libraries(example1 acidcam)
+
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
 
