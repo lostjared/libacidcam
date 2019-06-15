@@ -8,9 +8,7 @@ When upgrading to new versions of Acid Cam Qt, acidcam-cli or any other project 
 
 Please be sure to recompile, install and relink any applications.
 
-When writing C++ using libacidcam  do not call another mulithreaded filter
-
-from within a mulithreaded filter inside of its loop callback
+When writing C++ using libacidcam  do not call another mulithreaded filter from within a mulithreaded filter inside of its loop callback
 
 Shared library with filters from Acid Cam
 
@@ -22,15 +20,20 @@ If you want to compile with CMake use
 
 	$ mkdir build && cd build
 
-	$ cmake .. -DBUILD_SHARED_LIBS=YES 
+	$ cmake .. -DBUILD_SHARED_LIBS=ON 
 
 or
 
-	$ cmake .. -DBUILD_SHARED_LIBS=YES -DENABLE_TESTS=YES
+	$ cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON
 
 	$ make -j4
 
 	$ sudo make install
+
+To run the test use:
+
+    $ ./test-filter1
+    
 
 If you want to compile with Autotools this library uses pkg-config and Autoconf,Automake,Libtool.
 	
