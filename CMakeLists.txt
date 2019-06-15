@@ -17,7 +17,6 @@ endif()
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQURIED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(ENABLE_TESTS)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
 list(APPEND COMPILER_FLAGS "-Wall" "-pedantic" "-ansi" "-Ofast")
@@ -66,11 +65,14 @@ ${CMAKE_SOURCE_DIR}/source/fractal.cpp
 ${CMAKE_SOURCE_DIR}/source/fractal.h
 )
 
+
+
 list(APPEND install_headers ${CMAKE_SOURCE_DIR}/source/ac.h ${CMAKE_SOURCE_DIR}/source/fractal.h)
 find_package(OpenCV REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/source ${OpenCV_INCLUDE_DIRS})
 add_library(acidcam ${source_files})
 target_link_libraries(acidcam ${OpenCV_LIBS})
+set(ENABLE_TESTS ON CACHE BOOL "Compile Testing Program")
 if(ENABLE_TESTS)
 	add_executable(test-filter1 ${CMAKE_SOURCE_DIR}/tests/test-filters.cpp)
 	target_link_libraries(test-filter1 acidcam)
