@@ -25,6 +25,7 @@ If you want to compile with CMake use
 	$ cmake .. -DBUILD_SHARED_LIBS=YES 
 
 or
+
 	$ cmake .. -DBUILD_SHARED_LIBS=YES -DENABLE_TESTS=YES
 
 	$ make -j4
