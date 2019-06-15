@@ -28,6 +28,12 @@ or
 
 	$ make -j4
 
+to run tests to make sure everything is working (will take a while)
+
+	$ ctest
+
+install
+
 	$ sudo make install
 
 To run the test use:
