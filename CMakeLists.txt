@@ -81,3 +81,11 @@ if(ENABLE_TESTS)
 endif()
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
+
+enable_testing()
+
+add_test(NAME test1 COMMAND $<TARGET_FILE:test-filter1>)
+add_test(NAME test2 COMMAND $<TARGET_FILE:test-image>)
+add_test(NAME test3 COMMAND $<TARGET_FILE:test-subfilter>)
+
+ 
