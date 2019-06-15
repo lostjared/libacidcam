@@ -3,6 +3,14 @@
 #include<iostream>
 #include"ac.h"
 
+void buildFilters(std::vector<std::string> &current) {
+    for(int i = 0; i < ac::getFilterCount(); ++i) {
+        std::string name = ac::draw_strings[i];
+        if(name.find("Image") != std::string::npos && name.find("1080") == std::string::npos && name.find("720") == std::string::npos)
+            current.push_back(name);
+    }
+}
+
 int main(int argc, char **argv) {
     cv::Mat test_image;
     test_image.create(cv::Size(640, 480), CV_8UC3);
@@ -23,14 +31,22 @@ int main(int argc, char **argv) {
     ac::fill_filter_map();
     // print out library version
     std::cout << "Library Version: " << ac::getVersion() << "\n";
-    for(unsigned int i = 0; i < ac::solo_filter.size(); ++i) {
-        std::cout << "Testing Filter: " << ac::solo_filter[i] << "\n";
+    // setup variables
+    ac::orig_frame = test_image_sized.clone();
+    blend_image = test_image_sized.clone();
+    blend_set = true;
+    // create vector of filters
+    std::vector<std::string> image_filters;
+    // populate vector with image filters
+    buildFilters(image_filters);
+    for(unsigned int i = 0; i < image_filters.size(); ++i) {
+        std::cout << "Testing Filter: " << image_filters[i] << "\n";
         for(int j = 0; j < 10; ++j) {
             cv::Mat test_image_copy = test_image_sized.clone();
-            ac::CallFilter(ac::solo_filter[i], test_image_copy);
+            ac::CallFilter(image_filters[i], test_image_copy);
         }
-        std::cout << "Passed...\n";
+        std::cout << "Passed Test...\n";
     }
-    std::cout << "Passed " << ac::solo_filter.size() << " Basic Filter Tests...\n";
+    std::cout << "Passed " << image_filters.size() << " Image Filter Tests...\n";
 	return 0;
 }
