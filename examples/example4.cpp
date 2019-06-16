@@ -9,6 +9,7 @@ int main(int argc, char **argv) {
         std::cerr << "Error erequires one argument, the index of capture device.\n";
         exit(EXIT_FAILURE);
     }
+    ac::init();
     cv::VideoCapture cap(atoi(argv[1]));
     if(!cap.isOpened()) {
         std::cerr << "Error could not open capture device!\n";
