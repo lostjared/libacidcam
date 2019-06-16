@@ -72,6 +72,7 @@ add_library(acidcam ${source_files})
 target_link_libraries(acidcam ${OpenCV_LIBS})
 target_compile_options(acidcam PRIVATE ${COMPILER_FLAGS})
 set(ENABLE_TESTS ON CACHE BOOL "Compile Testing Program")
+set(ENABLE_EXAMPLES ON CACHE BOOL "Compile Examples")
 if(ENABLE_TESTS)
 	add_executable(test-filter1 ${CMAKE_SOURCE_DIR}/tests/test-filters.cpp)
 	target_link_libraries(test-filter1 acidcam)
@@ -84,6 +85,8 @@ if(ENABLE_TESTS)
 	target_compile_options(test-subfilter PRIVATE ${COMPILER_FLAGS})
 endif()
 
+
+if(ENABLE_EXAMPLES)
 add_executable(example1 ${CMAKE_SOURCE_DIR}/examples/example1.cpp)
 target_link_libraries(example1 acidcam)
 target_compile_options(example1 PRIVATE ${COMPILER_FLAGS})
@@ -93,14 +96,15 @@ target_compile_options(example2 PRIVATE ${COMPILER_FLAGS})
 add_executable(example3 ${CMAKE_SOURCE_DIR}/examples/example3.cpp)
 target_link_libraries(example3 acidcam)
 target_compile_options(example3 PRIVATE ${COMPILER_FLAGS})
+endif()
 
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
 
+if(ENABLE_TESTS)
 enable_testing()
-
 add_test(NAME test1 COMMAND $<TARGET_FILE:test-filter1>)
 add_test(NAME test2 COMMAND $<TARGET_FILE:test-image>)
 add_test(NAME test3 COMMAND $<TARGET_FILE:test-subfilter>)
-
+endif()
  

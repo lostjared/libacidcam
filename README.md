@@ -26,6 +26,10 @@ or
 
 	$ cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON
 
+or to compile examples:
+
+	$ cmake .. -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON -DENABLE_EXAMPLES=ON
+
 	$ make -j4
 
 to run tests to make sure everything is working (will take a while)
