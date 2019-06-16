@@ -1,6 +1,6 @@
 
 // add CXXFLAG  -I/usr/local/include/acidcam
-
+// How to use SubFilters
 #include"ac.h"
 #include<iostream>
 #include<string>
@@ -22,7 +22,8 @@ int main(int argc, char **argv) {
             ac::EnergizeSubFilter32(frame);
             ac::popSubFilter();
             cv::imshow("Example3", frame);
-        }
+        } else
+            break;
         int key;
         key = cv::waitKey(50);
         if(key == 27) {

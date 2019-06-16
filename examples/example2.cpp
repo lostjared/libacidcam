@@ -1,5 +1,6 @@
 
 // add CXXFLAG  -I/usr/local/include/acidcam
+// Using CallFilter
 
 #include"ac.h"
 #include<iostream>
@@ -21,7 +22,8 @@ int main(int argc, char **argv) {
         if(cap.read(frame)) {
             ac::CallFilter(index, frame);
             cv::imshow("Example1", frame);
-        }
+        } else
+            break;
         int key;
         key = cv::waitKey(50);
         if(key == 27) {

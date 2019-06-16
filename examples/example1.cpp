@@ -1,6 +1,6 @@
 
 // add CXXFLAG  -I/usr/local/include/acidcam
-
+// Simple Example Program
 #include"ac.h"
 #include<iostream>
 #include<string>
@@ -19,7 +19,8 @@ int main(int argc, char **argv) {
         if(cap.read(frame)) {
             ac::MedianBlendMultiThread(frame);
             cv::imshow("Example1", frame);
-        }
+        } else
+            break;
         int key;
         key = cv::waitKey(50);
         if(key == 27) {
