@@ -101,8 +101,13 @@ target_link_libraries(example4 acidcam)
 target_compile_options(example4 PRIVATE ${COMPILER_FLAGS})
 endif()
 
+set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
+set(PRIVATE_LIBS "-lacidcam")
+configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_SOURCE_DIR}/acidcam.pc @ONLY)
+
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
+install(FILES acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
 if(ENABLE_TESTS)
 enable_testing()
