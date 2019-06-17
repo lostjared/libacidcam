@@ -10,6 +10,8 @@ Please be sure to recompile, install and relink any applications.
 
 When writing C++ using libacidcam  do not call another mulithreaded filter from within a mulithreaded filter inside of its loop callback
 
+To be able to use all the filters in this library your system should have at lest 8 GB of ram.
+
 Shared library with filters from Acid Cam
 
 With this library you can use the same filters in your own OpenCV applications.
