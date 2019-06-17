@@ -70,8 +70,10 @@ find_package(PkgConfig REQUIRED)
 find_package(Threads REQUIRED)
 
 if(${OpenCV_VERSION} LESS 3.0)
-	message(FATAL_ERROR "Requires OpenCV 3 or greaer")
+	message(FATAL_ERROR "Requires OpenCV 3 or greater")
 endif()
+
+set(BUILD_SHARED_LIBS ON CACHE BOOL "Build Shared Libraries")
 
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/source ${OpenCV_INCLUDE_DIRS})
 add_library(acidcam ${source_files})
