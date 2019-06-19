@@ -67,7 +67,7 @@ ${CMAKE_SOURCE_DIR}/source/ac-util.cpp
 ${CMAKE_SOURCE_DIR}/source/fractal.cpp
 )
 
-list(APPEND header ${CMAKE_SOURCE_DIR}/source/include/ac.h ${CMAKE_SOURCE_DIR}/source/include/fractal.h ${CMAKE_SOURCE_DIR}/source/include/ac-filtercat.h)
+list(APPEND header ${CMAKE_SOURCE_DIR}/source/ac.h ${CMAKE_SOURCE_DIR}/source/fractal.h ${CMAKE_SOURCE_DIR}/source/ac-filtercat.h)
 find_package(OpenCV REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Threads REQUIRED)
@@ -78,7 +78,7 @@ endif()
 
 set(BUILD_SHARED_LIBS ON CACHE BOOL "Build Shared Libraries")
 
-include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/include ${OpenCV_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})
 add_library(acidcam ${header} ${source_files})
 target_link_libraries(acidcam ${OpenCV_LIBS} Threads::Threads)
 target_compile_options(acidcam PRIVATE ${COMPILER_FLAGS})
@@ -130,7 +130,7 @@ install(TARGETS acidcam EXPORT acidcam DESTINATION "${lib_dest}")
 install(EXPORT acidcam DESTINATION "${lib_dest}")
 
 target_include_directories(acidcam PUBLIC
-$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source/include>
+$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source>
 $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 $<INSTALL_INTERFACE:${include_dest}>
 $<INSTALL_INTERFACE:${lib_dest}>)
