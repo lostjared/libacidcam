@@ -121,6 +121,7 @@ configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/aci
 
 configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
 install(TARGETS acidcam DESTINATION "${main_lib_dest}")
+install(TARGETS acidcam DESTINATION lib)
 install(FILES ${header} DESTINATION "${include_dest}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
