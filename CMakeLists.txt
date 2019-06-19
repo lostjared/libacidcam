@@ -114,14 +114,14 @@ endif()
 
 set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
 set(PRIVATE_LIBS "-lacidcam")
-configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_SOURCE_DIR}/acidcam.pc @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
 
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
-install(FILES acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
 if(ENABLE_TESTS)
-enable_testing()
+	enable_testing()
 	add_test(NAME test1 COMMAND $<TARGET_FILE:test-filter1>)
 	add_test(NAME test2 COMMAND $<TARGET_FILE:test-image>)
 	add_test(NAME test3 COMMAND $<TARGET_FILE:test-subfilter>)
