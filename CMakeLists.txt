@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(libacidcam LANGUAGES CXX)
 
+set(ACIDCAM_MAJOR_VERSION 2)
+set(ACIDCAM_MINOR_VERSION 0)
+set(ACIDCAM_VERSION ${ACIDCAM_MINOR_VERSION}.${ACIDCAM_MAJOR_VERSION})
 if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
@@ -16,6 +19,9 @@ endif()
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQURIED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(include_dest "include/acidcam")
+set(main_lib_dest "lib/acidcam")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
 list(APPEND COMPILER_FLAGS "-Wall" "-pedantic" "-ansi" "-Ofast")
@@ -52,19 +58,16 @@ ${CMAKE_SOURCE_DIR}/source/ac-filter7.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter8.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter9.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filtercat.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filtercat.h
 ${CMAKE_SOURCE_DIR}/source/ac-grid.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-image.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-obj.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-particle.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-square.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-util.cpp
-${CMAKE_SOURCE_DIR}/source/ac.h
 ${CMAKE_SOURCE_DIR}/source/fractal.cpp
-${CMAKE_SOURCE_DIR}/source/fractal.h
 )
 
-list(APPEND install_headers ${CMAKE_SOURCE_DIR}/source/ac.h ${CMAKE_SOURCE_DIR}/source/fractal.h ${CMAKE_SOURCE_DIR}/source/ac-filtercat.h)
+list(APPEND header ${CMAKE_SOURCE_DIR}/source/include/ac.h ${CMAKE_SOURCE_DIR}/source/include/fractal.h ${CMAKE_SOURCE_DIR}/source/include/ac-filtercat.h)
 find_package(OpenCV REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Threads REQUIRED)
@@ -75,8 +78,8 @@ endif()
 
 set(BUILD_SHARED_LIBS ON CACHE BOOL "Build Shared Libraries")
 
-include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/source ${OpenCV_INCLUDE_DIRS})
-add_library(acidcam ${source_files})
+include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/include ${OpenCV_INCLUDE_DIRS})
+add_library(acidcam ${header} ${source_files})
 target_link_libraries(acidcam ${OpenCV_LIBS} Threads::Threads)
 target_compile_options(acidcam PRIVATE ${COMPILER_FLAGS})
 set(ENABLE_TESTS ON CACHE BOOL "Compile Testing Program")
@@ -116,11 +119,23 @@ set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
 set(PRIVATE_LIBS "-lacidcam")
 configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
 
-install(TARGETS acidcam  DESTINATION lib)
-install(FILES ${install_headers} DESTINATION include/acidcam)
+configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
+install(TARGETS acidcam DESTINATION "${main_lib_dest}")
+install(FILES ${header} DESTINATION "${include_dest}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
-install(TARGETS acidcam EXPORT acidcam DESTINATION lib/cmake)
-install(EXPORT acidcam DESTINATION lib/cmake)
+
+set(lib_dest ${main_lib_dest}/${CMAKE_BUILD_TYPE})
+
+install(TARGETS acidcam EXPORT acidcam DESTINATION "${lib_dest}")
+install(EXPORT acidcam DESTINATION "${lib_dest}")
+
+target_include_directories(acidcam PUBLIC
+$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source/include>
+$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+$<INSTALL_INTERFACE:${include_dest}>
+$<INSTALL_INTERFACE:${lib_dest}>)
+
+install(FILES acidcam-config.cmake DESTINATION ${main_lib_dest})
 
 if(ENABLE_TESTS)
 	enable_testing()
