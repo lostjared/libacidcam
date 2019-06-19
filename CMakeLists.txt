@@ -119,6 +119,8 @@ configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/aci
 install(TARGETS acidcam  DESTINATION lib)
 install(FILES ${install_headers} DESTINATION include/acidcam)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
+install(TARGETS acidcam EXPORT acidcam DESTINATION lib/cmake)
+install(EXPORT acidcam DESTINATION lib/cmake)
 
 if(ENABLE_TESTS)
 	enable_testing()
