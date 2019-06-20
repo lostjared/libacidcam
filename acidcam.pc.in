@@ -1,6 +1,6 @@
 prefix=@DEST_DIR@
 exec_prefix=${prefix}
-libdir=${prefix}/lib/acidcam
+libdir=${prefix}/lib
 includedir=${prefix}/include/acidcam
 Name: libacidcam
 Description: acidcam filters
