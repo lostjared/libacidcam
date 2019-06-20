@@ -84,9 +84,6 @@ target_compile_options(acidcam PRIVATE ${COMPILER_FLAGS})
 set(ENABLE_TESTS ON CACHE BOOL "Compile Testing Program")
 set(ENABLE_EXAMPLES ON CACHE BOOL "Compile Examples")
 
-add_subdirectory("tests")
-add_subdirectory("examples")
-
 set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
 set(PRIVATE_LIBS "-lacidcam")
 configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
@@ -106,5 +103,27 @@ $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source>
 $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 $<INSTALL_INTERFACE:${include_dest}>
 $<INSTALL_INTERFACE:${lib_dest}>)
+
+add_subdirectory("examples")
+
+if(ENABLE_TESTS)
+	add_executable(test-filter1 ${CMAKE_SOURCE_DIR}/tests/test-filters.cpp)
+	target_link_libraries(test-filter1 acidcam Threads::Threads)
+	target_compile_options(test-filter1 PRIVATE ${COMPILER_FLAGS})
+	add_executable(test-image ${CMAKE_SOURCE_DIR}/tests/test-image-filters.cpp)
+	target_link_libraries(test-image acidcam Threads::Threads)
+	target_compile_options(test-image PRIVATE ${COMPILER_FLAGS})
+	add_executable(test-subfilter ${CMAKE_SOURCE_DIR}/tests/test-subfilter.cpp)
+	target_link_libraries(test-subfilter acidcam Threads::Threads)
+	target_compile_options(test-subfilter PRIVATE ${COMPILER_FLAGS})
+endif()
+
+
+if(ENABLE_TESTS)
+	enable_testing()
+	add_test(NAME test1 COMMAND $<TARGET_FILE:test-filter1>)
+	add_test(NAME test2 COMMAND $<TARGET_FILE:test-image>)
+	add_test(NAME test3 COMMAND $<TARGET_FILE:test-subfilter>)
+endif()
 
 install(FILES acidcam-config.cmake DESTINATION ${main_lib_dest})
