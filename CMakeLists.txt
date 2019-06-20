@@ -92,15 +92,14 @@ set(PRIVATE_LIBS "-lacidcam")
 configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
 
 configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
-install(TARGETS acidcam DESTINATION "${main_lib_dest}")
 install(TARGETS acidcam DESTINATION lib)
-#install(FILES ${header} DESTINATION "${include_dest}")
+install(FILES ${header} DESTINATION "${include_dest}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
 set(lib_dest ${main_lib_dest})
 
-install(TARGETS acidcam EXPORT acidcam DESTINATION "${lib_dest}")
-install(EXPORT acidcam DESTINATION "${lib_dest}")
+#install(TARGETS acidcam EXPORT acidcam DESTINATION "${lib_dest}")
+#install(EXPORT acidcam DESTINATION "${lib_dest}")
 
 target_include_directories(acidcam PUBLIC
 $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source>
