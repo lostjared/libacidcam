@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 project(libacidcam LANGUAGES CXX)
-
 set(ACIDCAM_MAJOR_VERSION 2)
 set(ACIDCAM_MINOR_VERSION 0)
 set(ACIDCAM_VERSION ${ACIDCAM_MINOR_VERSION}.${ACIDCAM_MAJOR_VERSION})
@@ -122,10 +121,10 @@ configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/aci
 configure_file(${CMAKE_SOURCE_DIR}/acidcam.pc.in ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc @ONLY)
 install(TARGETS acidcam DESTINATION "${main_lib_dest}")
 install(TARGETS acidcam DESTINATION lib)
-install(FILES ${header} DESTINATION "${include_dest}")
+#install(FILES ${header} DESTINATION "${include_dest}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/acidcam.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
-set(lib_dest ${main_lib_dest}/${CMAKE_BUILD_TYPE})
+set(lib_dest ${main_lib_dest})
 
 install(TARGETS acidcam EXPORT acidcam DESTINATION "${lib_dest}")
 install(EXPORT acidcam DESTINATION "${lib_dest}")
