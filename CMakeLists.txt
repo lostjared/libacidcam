@@ -50,6 +50,7 @@ ${CMAKE_SOURCE_DIR}/source/ac-filter21.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter22.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter23.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter24.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter25.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter3.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter4.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter5.cpp
