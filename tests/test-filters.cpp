@@ -30,6 +30,8 @@ int main(int argc, char **argv) {
             ac::CallFilter(ac::solo_filter[i], test_image_copy);
         }
         std::cout << "Passed...\n";
+        ac::release_all_objects();
+        std::cout << "Cleared Frames...\n";
     }
     std::cout << "Passed " << ac::solo_filter.size() << " Basic Filter Tests...\n";
 	return 0;

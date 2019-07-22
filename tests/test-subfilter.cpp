@@ -44,6 +44,8 @@ int main(int argc, char **argv) {
             ac::CallFilter(sub_filters[i], test_image_copy);
         }
         std::cout << "Passed Test...\n";
+        ac::release_all_objects();
+        std::cout << "Cleared Frames...\n";
     }
     std::cout << "Passed " << sub_filters.size() << " Image Filter Tests...\n";
     return 0;
