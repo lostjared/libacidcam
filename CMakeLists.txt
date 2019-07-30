@@ -34,6 +34,14 @@ ${CMAKE_SOURCE_DIR}/source/ac-alpha.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-basic.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-box.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter1.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter2.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter3.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter4.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter5.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter6.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter7.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter8.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter9.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter10.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter11.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter12.cpp
@@ -44,7 +52,6 @@ ${CMAKE_SOURCE_DIR}/source/ac-filter16.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter17.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter18.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter19.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter2.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter20.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter21.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter22.cpp
@@ -52,13 +59,7 @@ ${CMAKE_SOURCE_DIR}/source/ac-filter23.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter24.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter25.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter26.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter3.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter4.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter5.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter6.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter7.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter8.cpp
-${CMAKE_SOURCE_DIR}/source/ac-filter9.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter27.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filtercat.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-grid.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-image.cpp
