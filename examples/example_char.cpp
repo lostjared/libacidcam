@@ -39,10 +39,11 @@ int main(int argc, char **argv) {
         if(cap.read(frame)) {
             charFrame(index, value, frame);
             writer.write(frame);
+            if(!frame.empty())
+                cv::imshow("CharExample", frame);
             int key = cv::waitKey(25);
             if(key == 28 || key == 'q' || key == 'Q')
                 break;
-            cv::imshow("CharExample", frame);
         }
         else
             break;
@@ -56,7 +57,7 @@ void charFrame(int &index, std::string &text, cv::Mat &frame) {
         exit(EXIT_FAILURE);
         return;
     }
-    if(index+2 > text.length()-1) {
+    if(index+2 >= text.length()-1) {
         index = 0;
     }
     char array[3];
