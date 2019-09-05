@@ -1,5 +1,3 @@
-
-
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
@@ -1016,3 +1014,4 @@ void ac::MedianBlendIncrease16(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
