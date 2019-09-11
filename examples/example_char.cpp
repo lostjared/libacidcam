@@ -57,7 +57,7 @@ void charFrame(int &index, std::string &text, cv::Mat &frame) {
         exit(EXIT_FAILURE);
         return;
     }
-    if(index+2 >= text.length()-1) {
+    if(index+2 >= static_cast<int>(text.length()-1)) {
         index = 0;
     }
     char array[3];
