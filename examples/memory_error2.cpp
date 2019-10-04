@@ -22,6 +22,11 @@ int main(int argc, char **argv) {
         std::cerr << "Error could not open capture...\n";
         exit(EXIT_FAILURE);
     }
+    
+    cv::VideoWriter writer;
+    
+  writer.open("~/Movies/safesex.mp4", /*VideoWriter::fourcc('m', 'p', '4', 'v')*/ -1, 30, cv::Size(320, 240), true);
+    
     cv::namedWindow("Test Window");
     while(1) {
         cv::Mat frame;
