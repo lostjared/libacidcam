@@ -206,9 +206,6 @@ namespace ac {
     void Type(cv::Mat &frame);
     void NewOne(cv::Mat &frame);
     void blendWithImage(cv::Mat &frame);
-    void triBlendWithImage(cv::Mat &frame);
-    void imageStrobe(cv::Mat &frame);
-    void imageDistraction(cv::Mat &frame);
     void blendFractal(cv::Mat &frame);
     void blendFractalMood(cv::Mat &frame);
     void cossinMultiply(cv::Mat &frame);
@@ -1889,8 +1886,10 @@ namespace ac {
     void MedianBlendInOut_ColorScale(cv::Mat &frame);
     void CollectionTruncate(cv::Mat &frame);
     void MedianBlendCollectionTruncate(cv::Mat &frame);
+    void VideoBlendTruncate(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
+    void Empty(cv::Mat &frame);
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
     // plugin must be implemented in project
