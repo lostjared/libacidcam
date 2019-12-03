@@ -254,22 +254,69 @@ void ac::FrameJump(cv::Mat &frame) {
     if((frame_counter%(fps_/6)) == 0) {
         frame = collection.frames[rand()%(collection.size()-1)].clone();
     }
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadVariable(cv::Mat &frame) {
     static constexpr int SIZE = 8;
     static MatrixCollection<SIZE> collection;
     MedianBlendMultiThreadVariable(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadVariable32(cv::Mat &frame) {
     static constexpr int SIZE = 32;
     static MatrixCollection<SIZE> collection;
     MedianBlendMultiThreadVariable(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadVariable16(cv::Mat &frame) {
     static constexpr int SIZE = 16;
     static MatrixCollection<SIZE> collection;
     MedianBlendMultiThreadVariable(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendMultiThreadSkip8(cv::Mat &frame) {
+    static constexpr int SIZE = 8;
+    static MatrixCollection<SIZE> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    static int counter = 0;
+    ++counter;
+    if((counter%8)==0) {
+        collection.shiftFrames(frame);
+    }
+    MedianBlendMultiThreadNoShift(frame, &collection, 1);
+    AddInvert(frame);
+}
+
+void ac::BlockyTrails(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    static int counter = 0;
+    ++counter;
+    if((counter%8)==0) {
+        collection.shiftFrames(frame);
+    }
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    for(int q = 0; q < 3; ++q) {
+        int off = rand()%3;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = frames[off].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    }
+    BlendWithSource25(frame);
+    AddInvert(frame);
 }
