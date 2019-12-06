@@ -1906,6 +1906,9 @@ namespace ac {
     void BlockyTrails16(cv::Mat &frame);
     void BlockyTrails32(cv::Mat &frame);
     void BlockyTrails64(cv::Mat &frame);
+    void UseOffRowVert(cv::Mat &frame);
+    void UseOldRowVert(cv::Mat &frame);
+    void UseEveryOtherRowVert(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
