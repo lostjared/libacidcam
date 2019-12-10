@@ -1914,6 +1914,9 @@ namespace ac {
     void UseEveryOtherRowDir(cv::Mat &frame);
     void SetCurrentFrameStateAsSource(cv::Mat &frame);
     void RegularTrails(cv::Mat &frame);
+    void UseOldRow64(cv::Mat &frame);
+    void UseOldRowVert64(cv::Mat &frame);
+    void UseOldRowDir64(cv::Mat &fame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
