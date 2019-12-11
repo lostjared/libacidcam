@@ -1917,6 +1917,14 @@ namespace ac {
     void UseOldRow64(cv::Mat &frame);
     void UseOldRowVert64(cv::Mat &frame);
     void UseOldRowDir64(cv::Mat &fame);
+    void GradientColorBlend(cv::Mat &frame);
+    void MedianBlendMultiThreadGradientGray(cv::Mat &frame);
+    void GradientRedBlend(cv::Mat &frame);
+    void MedianBlendMultiThreadGradientRed(cv::Mat &frame);
+    void GradientGreenBlend(cv::Mat &frame);
+    void MedianBlendMultiThreadGradientGreen(cv::Mat &frame);
+    void GradientBlueBlend(cv::Mat &frame);
+    void MedianBlendMultiThreadGradientBlue(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
