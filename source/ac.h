@@ -1934,6 +1934,11 @@ namespace ac {
     void MedianBlendMultiThreadAllGradients(cv::Mat &frame);
     void StretchRowMatrix16(cv::Mat &frame);
     void StretchRowMatrix32(cv::Mat &frame);
+    void StretchRowMatrix8(cv::Mat &frame);
+    void StretchColMatrix8(cv::Mat &frame);
+    void StretchColMatrix16(cv::Mat &frame);
+    void StretchColMatrix32(cv::Mat &frame);
+
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
