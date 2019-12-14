@@ -194,3 +194,19 @@ void ac::GradientFlashComponent(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::GradientRandomShift(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    GradientRandomSwitch(frame);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+    BlendWithSource25(frame);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendMultiThreadGradientShift(cv::Mat &frame) {
+    GradientColorBlend(frame);
+    GradientRandomShift(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}

@@ -1941,6 +1941,8 @@ namespace ac {
     void GradientRandomSwitch(cv::Mat &frame);
     void GradientFlashColor(cv::Mat &frame);
     void GradientFlashComponent(cv::Mat &frame);
+    void GradientRandomShift(cv::Mat &frame);
+    void MedianBlendMultiThreadGradientShift(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
