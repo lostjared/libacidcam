@@ -1970,6 +1970,11 @@ namespace ac {
     void MirrorFlipYRightBottomToTop(cv::Mat &frame);
     void HorizontalGlitch(cv::Mat &frame);
     void VerticalGlitch(cv::Mat &frame);
+    void HorizontalXor(cv::Mat &frame);
+    void VerticalXor(cv::Mat &frame);
+    void Vertical_Horizontal_Glitch(cv::Mat &frame);
+    void HorizontalSplitGlitch(cv::Mat &frame);
+    void VerticalSplitGlitch(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

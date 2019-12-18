@@ -585,3 +585,139 @@ void ac::VerticalGlitch(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::HorizontalXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int pos = 0;
+    int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = pos; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((alpha * pixel[j])) ^ static_cast<unsigned char>(((1-alpha) * pix[j]));
+            }
+        }
+        if((z%3) == 0) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            pos = rand()%(frame.cols-1);
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+    AddInvert(frame);
+}
+
+void ac::VerticalXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int pos = 0;
+    int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = pos; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((alpha * pixel[j])) ^ static_cast<unsigned char>(((1-alpha) * pix[j]));
+            }
+        }
+        if((i%4) == 0) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            pos = rand()%(frame.rows-1);
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+    AddInvert(frame);
+}
+
+void ac::Vertical_Horizontal_Glitch(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    int pos_x = 0, pos_y = 0;
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = pos_x; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(pos_y, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        if((z%4) == 0) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            pos_x = rand()%(frame.cols-1);
+            pos_y = rand()%(frame.rows-1);
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::HorizontalSplitGlitch(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    int dir = 1;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            if(dir == 1) {
+                ++index;
+                if(index > (collection.size()-1)) {
+                    index = collection.size()-1;
+                    dir = 0;
+                }
+            } else {
+                --index;
+                if(index <= 0) {
+                    index = 0;
+                    dir = 1;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VerticalSplitGlitch(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            if(dir == 1) {
+                ++index;
+                if(index > (collection.size()-1)) {
+                    index = collection.size()-1;
+                    dir = 0;
+                }
+            } else {
+                --index;
+                if(index <= 0) {
+                    index = 0;
+                    dir = 1;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
