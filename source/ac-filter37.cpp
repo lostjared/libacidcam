@@ -467,3 +467,75 @@ void ac::MirrorFlipBottomRight(cv::Mat &frame) {
     MirrorRightBottomToTop(frame);
     AddInvert(frame);
 }
+
+void ac::MirrorFlipXMirrorLeft(cv::Mat &frame) {
+    FlipX_Axis(frame);
+    MirrorLeft(frame);
+    AddInvert(frame);
+}
+
+void ac::MirrorFlipXMirrorRight(cv::Mat &frame) {
+    FlipX_Axis(frame);
+    MirrorRight(frame);
+    AddInvert(frame);
+}
+
+void ac::MirrorFlipYMirrorLeft(cv::Mat &frame) {
+    FlipY_Axis(frame);
+    MirrorLeft(frame);
+    AddInvert(frame);
+}
+
+void ac::MirrorFlipYMirrorRight(cv::Mat &frame) {
+    FlipY_Axis(frame);
+    MirrorRight(frame);
+    AddInvert(frame);
+}
+
+void ac::MirrorFlipXLeftTopToBottom(cv::Mat &frame) {
+    FlipX_Axis(frame);
+    MirrorLeftTopToBottom(frame);
+    AddInvert(frame);
+
+}
+void ac::MirrorFlipXLeftBottomToTop(cv::Mat &frame) {
+    FlipX_Axis(frame);
+    MirrorLeftBottomToTop(frame);
+    AddInvert(frame);
+
+}
+void ac::MirrorFlipXRightTopToBottom(cv::Mat &frame) {
+    FlipX_Axis(frame);
+    MirrorRightTopToBottom(frame);
+    AddInvert(frame);
+}
+void ac::MirrorFlipXRightBottomToTop(cv::Mat &frame) {
+    FlipX_Axis(frame);
+    MirrorRightBottomToTop(frame);
+    AddInvert(frame);
+
+}
+void ac::MirrorFlipYLeftTopToBottom(cv::Mat &frame) {
+    FlipY_Axis(frame);
+    MirrorLeftTopToBottom(frame);
+    AddInvert(frame);
+
+}
+void ac::MirrorFlipYLeftBottomToTop(cv::Mat &frame) {
+    FlipY_Axis(frame);
+    MirrorLeftBottomToTop(frame);
+    AddInvert(frame);
+
+}
+void ac::MirrorFlipYRightTopToBottom(cv::Mat &frame) {
+    FlipY_Axis(frame);
+    MirrorRightTopToBottom(frame);
+    AddInvert(frame);
+
+}
+void ac::MirrorFlipYRightBottomToTop(cv::Mat &frame) {
+    FlipY_Axis(frame);
+    MirrorRightBottomToTop(frame);
+    AddInvert(frame);
+
+}
