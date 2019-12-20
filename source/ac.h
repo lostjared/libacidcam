@@ -1980,6 +1980,9 @@ namespace ac {
     void PixelInterlace(cv::Mat &frame);
     void PixelInterlaceColSkip(cv::Mat &frame);
     void PixelInterlaceRowSkip(cv::Mat &frame);
+    void StartOffsetInterlace(cv::Mat &frame);
+    void WaveTrails(cv::Mat &frame);
+    void WaveTrailsAura(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
