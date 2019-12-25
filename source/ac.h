@@ -1999,6 +1999,8 @@ namespace ac {
     void VideoCollectionOutline(cv::Mat &frame);
     void VideoSaturateAdd(cv::Mat &frame);
     void VideoSmoothMedianBlend(cv::Mat &frame);
+    void Square_Blocks(cv::Mat &frame);
+    void Square_Block_Resize(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
