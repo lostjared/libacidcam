@@ -128,3 +128,18 @@ void ac::Square_Block_Resize_All(cv::Mat &frame) {
     Square_Block_Resize_Vert_Reset(frame);
     AddInvert(frame);
 }
+
+void ac::VideoTest(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static MatrixCollection<8> collection;
+        collection.shiftFrames(frame);
+        collection.shiftFrames(reframe);
+        Smooth(frame, &collection, false);
+        MedianBlendMultiThread(frame);
+    }
+}
