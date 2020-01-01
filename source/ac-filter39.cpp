@@ -811,3 +811,129 @@ void ac::VideoXor_Frame(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoSlideRGB(cv::Mat &frame) {
+    static int bgr = 0;
+    static int x_offset = 0;
+    static int x_dir = 1;
+    static int speed = 30;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = x_offset; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
+            }
+            for(int i = 0; i < x_offset; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, (frame.cols-1-i));
+                pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
+            }
+        }
+        if(x_dir == 1) {
+            x_offset += speed;
+            if(x_offset > frame.cols-1) {
+                x_offset = frame.cols-1;
+                x_dir = 0;
+            }
+        } else {
+            x_offset -= speed;
+            if(x_offset <= 1) {
+                x_offset = 1;
+                x_dir = 1;
+            }
+        }
+        bgr++;
+        if(bgr > 2)
+            bgr = 0;
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoSlide(cv::Mat &frame) {
+    static int x_offset = 0;
+    static int x_dir = 1;
+    static int speed = 30;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = x_offset; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int bgr = 0; bgr < 3; ++bgr) {
+                    pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
+                }
+            }
+            for(int i = 0; i < x_offset; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, (frame.cols-1-i));
+                for(int bgr = 0; bgr < 3; ++bgr) {
+                    pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
+                }
+            }
+        }
+        if(x_dir == 1) {
+            x_offset += speed;
+            if(x_offset > frame.cols-1) {
+                x_offset = frame.cols-1;
+                x_dir = 0;
+            }
+        } else {
+            x_offset -= speed;
+            if(x_offset <= 1) {
+                x_offset = 1;
+                x_dir = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoSlideOffset(cv::Mat &frame) {
+    static int x_offset = 0;
+    static int x_dir = 1;
+    static int speed = 30;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            int pos = 0;
+            for(int i = x_offset; i < frame.cols && pos < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int bgr = 0; bgr < 3; ++bgr) {
+                    pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
+                }
+                ++pos;
+            }
+            for(int i = 0; i < x_offset && pos < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, pos);
+                for(int bgr = 0; bgr < 3; ++bgr) {
+                    pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
+                }
+                ++pos;
+            }
+        }
+        if(x_dir == 1) {
+            x_offset += speed;
+            if(x_offset > frame.cols-1) {
+                x_offset = frame.cols-1;
+                x_dir = 0;
+            }
+        } else {
+            x_offset -= speed;
+            if(x_offset <= 1) {
+                x_offset = 1;
+                x_dir = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
