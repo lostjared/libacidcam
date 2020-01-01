@@ -997,3 +997,4 @@ void ac::VideoSlideOffsetX(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
