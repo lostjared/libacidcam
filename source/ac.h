@@ -2040,6 +2040,8 @@ namespace ac {
     void SelfSlideOffsetX(cv::Mat &frame);
     void SelfSlideOffsetRGB(cv::Mat &frame);
     void SelfSlideOffsetRGB_X(cv::Mat &frame);
+    void MedianBlendMultiThreadStrobe(cv::Mat &frame);
+    void VideoXor_XY(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

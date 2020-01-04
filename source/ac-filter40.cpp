@@ -314,3 +314,50 @@ void ac::SelfSlideOffsetRGB_X(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MedianBlendMultiThreadStrobe(cv::Mat &frame) {
+    static int index = 0;
+    switch(index) {
+        case 0:
+            MedianBlendMultiThread(frame);
+            break;
+        case 1:
+            MedianBlendMultiThread_2160p(frame);
+            break;
+        case 2:
+            MedianBlendMultiThreadByFour(frame);
+            break;
+        case 3:
+            MedianBlendMultiThreadByEight(frame);
+            break;
+    }
+    ++index;
+    if(index > 3)
+        index = 0;
+    AddInvert(frame);
+}
+
+void ac::VideoXor_XY(cv::Mat &frame) {
+    
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int val1 = pixel[j]^i;
+                    int val2 = pix[j]^z;
+                    double op1 = (0.5 * pixel[j]);
+                    double op2 = (0.5 * pix[j]);
+                    pixel[j] = (static_cast<unsigned char>(op1)^val1) + (static_cast<unsigned char>(op2)^val2);
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
