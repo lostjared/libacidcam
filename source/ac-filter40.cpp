@@ -483,7 +483,7 @@ void ac::RandomMedianFrame(cv::Mat &frame) {
 }
 
 void ac::VideoSmoothDoubleAlphaBlend(cv::Mat &frame) {
-    static MatrixCollection<8> collection1, collection2;
+    static MatrixCollection<16> collection1, collection2;
     cv::Mat vframe;
     if(VideoFrame(vframe)) {
         collection1.shiftFrames(frame);
@@ -506,6 +506,31 @@ void ac::VideoSmoothDoubleAlphaBlend(cv::Mat &frame) {
             }
         };
         UseMultipleThreads(frame, getThreadCount(), callback);
+    }
+    AddInvert(frame);
+}
+
+void ac::VariableLines(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        int offset = rand()%frame.cols;
+        int pos = 0;
+        for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+            }
+            ++pos;
+        }
+        for(int i = 0; i < offset && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+            }
+            ++pos;
+        }
     }
     AddInvert(frame);
 }
