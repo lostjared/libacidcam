@@ -458,3 +458,54 @@ void ac::RandomWaveStartStop(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RandomMedianFrame(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat random_frame = collection.frames[rand()%collection.size()].clone();
+    MedianBlendMultiThread(random_frame);
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = random_frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::VideoSmoothDoubleAlphaBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        collection1.shiftFrames(frame);
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection2.shiftFrames(reframe);
+        cv::Mat copy1 = frame.clone(),copy2 = reframe.clone();
+        Smooth(copy1, &collection1);
+        Smooth(copy2, &collection2);
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix2 = copy2.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pix1[j]) + (0.5 * pix2[j]));
+                    }
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+    }
+    AddInvert(frame);
+}
