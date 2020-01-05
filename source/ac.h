@@ -2049,6 +2049,8 @@ namespace ac {
     void VideoSmoothDoubleAlphaBlend(cv::Mat &frame);
     void VariableLines(cv::Mat &frame);
     void VariableLinesOffset(cv::Mat &frame);
+    void VaraibleLinesRectangle(cv::Mat &frame);
+    void VariableLinesRectangleSource(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
