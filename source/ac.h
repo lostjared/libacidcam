@@ -2056,6 +2056,7 @@ namespace ac {
     void VariableLinesOnOffBlend(cv::Mat &frame);
     void VariableCollectionLinesOffBlend(cv::Mat &frame);
     void VariableDistortionWave(cv::Mat &frame);
+    void VariableDistortionReset(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
