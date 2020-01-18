@@ -17,9 +17,10 @@ JNIEXPORT void JNICALL Java_com_lostsidedead_acidcam_AcidCam_1Filter_Filter
         init = 1;
         std::cout << "acidcam: initalized...\n";
     }
-    std::cout << "frame: width: " << mRgb.cols << "x" << mRgb.rows << "\n";
-    std::cout << "filter: " << filter << "\n";
-    ac::CallFilter(filter, mRgb);
+    cv::Mat out;
+    cv::cvtColor(mRgb,out,COLOR_RGBA2BGR);
+    ac::CallFilter(filter,out);
+    cv::cvtColor(out,mRgb,COLOR_BGR2RGBA);
 }
 
 void custom_filter(cv::Mat &frame) {
