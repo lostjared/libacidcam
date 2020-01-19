@@ -14,6 +14,11 @@ extern "C" {
  */
 JNIEXPORT void JNICALL Java_com_lostsidedead_acidcam_AcidCam_1Filter_Filter
   (JNIEnv *, jobject, jint, jlong);
+    
+JNIEXPORT void JNICALL Java_com_lostsidedead_acidcam_AcidCam_1Filter_clear_1frames
+    (JNIEnv *, jobject);
+    
+
 
 #ifdef __cplusplus
 }
