@@ -1,0 +1,8 @@
+Package: libacidcam
+Architecture: amd64
+Maintainer: Jared Bruni
+Depends: libopencv-dev
+Priority: optional
+Version: 2.53.0
+Description: Acid.Cam
+	Shared Library with Filters
