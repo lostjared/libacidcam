@@ -15,7 +15,8 @@ JNIEXPORT void JNICALL Java_com_lostsidedead_acidcam_AcidCam_1Filter_Filter
     if(init == 0) {
         ac::init();
         init = 1;
-        ac::setMaxAllocated(25000);
+        //ac::setMaxAllocated(25000);
+	ac::setMaxAllocated(1500);
     }
     cv::Mat out;
     cv::cvtColor(mRgb,out,COLOR_RGBA2BGR);
