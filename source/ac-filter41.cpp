@@ -742,3 +742,88 @@ void ac::XorScaleValue(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 0.8, 0.5);
 }
+
+void ac::DiamondCollection(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    ShuffleMedian(frame);
+    collection.shiftFrames(frame);
+    int current_frame = 0;
+    static double pos = 1.0;
+    int w = frame.cols;
+    int h = frame.rows;
+    static int offset = 1, offsetx = 0;
+    
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b index = collection.frames[current_frame].at<cv::Vec3b>(z, i);
+            if((i%2) == 0) {
+                if((z%2) == 0) {
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    buffer[0] = static_cast<unsigned char>(1-pos*index[0]);
+                    buffer[offset] = static_cast<unsigned char>((i+z)*pos);
+                } else {
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    buffer[0] = static_cast<unsigned char>(pos*index[1]-z);
+                    buffer[offset] = static_cast<unsigned char>((i-z)*pos);
+                }
+            } else {
+                if((z%2) == 0) {
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    switch(offset) {
+                        case 0:
+                            buffer[0] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[1] = static_cast<unsigned char>((i-z)*pos);
+                            break;
+                        case 1:
+                            buffer[1] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[0] = static_cast<unsigned char>((i-z)*pos);
+                        case 2:
+                            buffer[2] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[0] = static_cast<unsigned char>((i-z)*pos);
+                            break;
+                        case 3:
+                            buffer[1] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[2] = static_cast<unsigned char>((i-z)*pos);
+                            break;
+                    }
+
+                } else {
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    switch(offset) {
+                        case 0:
+                            buffer[0] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[1] = static_cast<unsigned char>((i+z)*pos);
+                            break;
+                        case 1:
+                            buffer[1] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[0] = static_cast<unsigned char>((i+z)*pos);
+                        case 2:
+                            buffer[2] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[0] = static_cast<unsigned char>((i+z)*pos);
+                            break;
+                        case 3:
+                            buffer[1] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[2] = static_cast<unsigned char>((i+z)*pos);
+                            break;
+                    }
+                }
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    
+    ++offsetx;
+    if(offsetx > (collection.size()-1))
+        offsetx = rand()%collection.size();
+    
+    ++offset;
+    if(offset > 3)
+        offset = 0;
+    
+    static double pos_max = 7.0f;
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
+    AddInvert(frame);
+}
