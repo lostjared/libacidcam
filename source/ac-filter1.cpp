@@ -157,7 +157,7 @@ void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
 }
 
 bool ac::CallFilter(int index, cv::Mat &frame) {
-    if(index >= 0 && index < ac::draw_max) {
+    if(index >= 0 && index < ac::draw_strings.size()) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -180,7 +180,7 @@ unsigned long ac::calculateMemory() {
 
 bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
     int index = ac::filter_map[name];
-    if(index >= 0 && index < ac::draw_max && index != subfilter) {
+    if(index >= 0 && index < ac::draw_strings.size() && index != subfilter) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -196,6 +196,13 @@ bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
 }
 
 void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
+    if(user_filter.find(name) != user_filter.end()) {
+        std::string fname = user_filter[name].other_name;
+        if(!ac::CallFilterFile(frame, fname)) {
+            std::cerr << "CallFilterFile failed...\n";
+        }
+    }
+    else
     if(filter_map_str.find(name) != filter_map_str.end())
         filter_map_str[name].second(frame);
     else
@@ -216,8 +223,100 @@ bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size
     return false;
 }
 
-void ac::CallFilterFile(std::string filename) {
-    //std::cout << ":" << filename << "\n";
+bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
+    auto pos = user_filter.find(filtername);
+    if(pos != user_filter.end()) {
+        for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
+            FileT &type = pos->second.custom_filter;
+            int f = type.name[i];
+            int s = type.subname[i];
+            if(f >= 0 && f < ac::draw_strings.size()) {
+                if(s != -1) {
+                    ac::pushSubFilter(s);
+                    ac::CallFilter(f, frame);
+                    ac::popSubFilter();
+                } else
+                    CallFilter(f, frame);
+            }
+        }
+    }
+    return true;
+}
+
+bool ac::LoadFilterFile(std::string fname, std::string filen) {
+    ac::FileT typev;
+    std::fstream file;
+    file.open(filen, std::ios::in);
+    if(!file.is_open()) {
+        return false;
+    }
+    std::vector<std::string> values;
+    while(!file.eof()) {
+        std::string item;
+        std::getline(file, item);
+        if(file)
+            values.push_back(item);
+    }
+    // check if data valid
+    for(int i = 0; i < values.size(); ++i ){
+        std::string item = values[i];
+        std::string s_left, s_right;
+        auto pos = item.find(":");
+        if(pos == std::string::npos) {
+            return false;
+        }
+        if(item[0] == '=')
+            continue;
+        
+        s_left = item.substr(0,pos);
+        s_right = item.substr(pos+1, item.length());
+        if(ac::filter_map.find(s_left) == ac::filter_map.end()) {
+            return false;
+        }
+        if(s_right != "None" && ac::filter_map.find(s_right) == ac::filter_map.end()) {
+            return false;
+        }
+        int val1 = ac::filter_map[s_left];
+        int val2 = 0;
+        if(s_right == "None")
+            val2 = -1;
+        else
+            val2 = ac::filter_map[s_right];
+        
+        if(!(val1 >= 0 && val1 < ac::draw_strings.size()-4)) {
+            return false;
+        }
+        if(!(val2 == -1 || (val2 >= 0 && val2 < ac::draw_max-4))) {
+            return false;
+        }
+    }
+    for(int i = 0; i < values.size(); ++i) {
+        std::string item = values[i];
+        std::string s_left, s_right;
+        s_left = item.substr(0, item.find(":"));
+        s_right = item.substr(item.find(":")+1, item.length());
+        int val1 = ac::filter_map[s_left];
+        int val2 = 0;
+        if(s_right == "None")
+            val2 = -1;
+        else
+            val2 = ac::filter_map[s_right];
+        if(item[0] == '=') {
+            std::string item = values[i];
+            std::string s_left, s_right;
+            s_left = item.substr(0, item.find(":"));
+            s_right = item.substr(item.find(":")+1, item.length());
+            typev.options[s_left] = s_right;
+        } else {
+            typev.name.push_back(val1);
+            typev.subname.push_back(val2);
+            typev.filter_on.push_back(1);
+            std::cout << "added: " << ac::draw_strings[val1] << ":" << ac::draw_strings[val2] << "\n";
+        }
+    }
+    std::cout << "Loaded file: " << filen << "\n";
+    user_filter[fname].custom_filter = typev;
+    return true;
 }
 
 void ac::swapColors(cv::Mat &frame, int y, int x) {
