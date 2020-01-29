@@ -114,8 +114,8 @@ namespace ac {
     class FileT {
     public:
         std::string fname;
-        std::vector<int> name;
-        std::vector<int> subname;
+        std::vector<std::string> name;
+        std::vector<std::string> subname;
         std::vector<int> filter_on;
         std::unordered_map<std::string, std::string> options;
     };
@@ -211,6 +211,7 @@ namespace ac {
     bool CallFilter(const std::string &name, cv::Mat &frame);
     bool CallFilterFile(cv::Mat &frame, std::string filename);
     bool LoadFilterFile(std::string name, std::string file);
+    void clearFilterFiles();
     bool getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size> &res);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);

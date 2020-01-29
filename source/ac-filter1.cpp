@@ -180,7 +180,7 @@ unsigned long ac::calculateMemory() {
 
 bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
     int index = ac::filter_map[name];
-    if(index >= 0 && index < ac::draw_strings.size() && index != subfilter) {
+    if(index >= 0 && index < ac::draw_strings.size()) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -203,10 +203,28 @@ void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
         }
     }
     else
-    if(filter_map_str.find(name) != filter_map_str.end())
-        filter_map_str[name].second(frame);
-    else
-        std::cerr << "filter: " << name << " not found!\n";
+        if(filter_map_str.find(name) != filter_map_str.end()) {
+            filter_map_str[name].second(frame);
+        }
+        else
+            std::cerr << "filter: " << name << " not found!\n";
+}
+
+
+
+
+void ac::clearFilterFiles() {
+    for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+        int offset = i->second.index;
+        if(!draw_strings.empty()) {
+            auto pos = std::find(draw_strings.begin(), draw_strings.end(), i->first);
+            if(pos != draw_strings.end()) {
+                std::cout << "cleraed offset: " << offset << "\n";
+                draw_strings.erase(pos);
+                user_filter.erase(i);
+            }
+        }
+    }
 }
 
 bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size> &res) {
@@ -228,15 +246,13 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
     if(pos != user_filter.end()) {
         for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
             FileT &type = pos->second.custom_filter;
-            int f = type.name[i];
-            int s = type.subname[i];
-            if(f >= 0 && f < ac::draw_strings.size()) {
-                if(s != -1) {
-                    ac::pushSubFilter(s);
-                    ac::CallFilter(f, frame);
-                    ac::popSubFilter();
-                } else
-                    CallFilter(f, frame);
+            std::string f = type.name[i];
+            std::string s = type.subname[i];
+            if(s.length() > 0) {
+                ac::setSubFilter(ac::filter_map[s]);
+                ac::CallFilter(f, frame);
+            } else {
+                CallFilter(f, frame);
             }
         }
     }
@@ -244,9 +260,8 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
 }
 
 bool ac::LoadFilterFile(std::string fname, std::string filen) {
-    std::cout << "attempting to load; " << fname << ":" << filen << "\n";
+    std::cout << "attempting to load: " << fname << ":" << filen << "\n";
     static int sort_index = 0;
-    
     ac::FileT typev;
     std::fstream file;
     file.open(filen, std::ios::in);
@@ -299,12 +314,9 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
         std::string s_left, s_right;
         s_left = item.substr(0, item.find(":"));
         s_right = item.substr(item.find(":")+1, item.length());
-        int val1 = ac::filter_map[s_left];
-        int val2 = 0;
-        if(s_right == "None")
-            val2 = -1;
-        else
-            val2 = ac::filter_map[s_right];
+        std::string val1 = s_left;
+        std::string val2;
+        val2 = s_right;
         if(item[0] == '=') {
             std::string item = values[i];
             std::string s_left, s_right;
@@ -315,7 +327,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
             typev.name.push_back(val1);
             typev.subname.push_back(val2);
             typev.filter_on.push_back(1);
-            std::cout << "added: " << ac::draw_strings[val1] << ":" << ac::draw_strings[val2] << "\n";
+            std::cout << "added: " << val1 << ":" << val2 << "\n";
         }
     }
     std::cout << "Loaded file: " << filen << "\n";
@@ -337,6 +349,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
     }
     user_filter[fname].sort_num = ++sort_index;
     user_filter[fname].other_name = fname;
+    std::cout << "Successfully loaded file with: " << typev.name.size() << " filters.\n";
     return true;
 }
 
