@@ -747,7 +747,7 @@ void ac::DiamondCollection(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     ShuffleMedian(frame);
     collection.shiftFrames(frame);
-    int current_frame = 0;
+    //int current_frame = 0;
     static double pos = 1.0;
     int w = frame.cols;
     int h = frame.rows;

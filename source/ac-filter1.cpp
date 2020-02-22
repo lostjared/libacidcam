@@ -246,7 +246,7 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
             pos->second.func(frame);
             return true;
         }
-        for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
+        for(int i = 0; i < static_cast<int>(pos->second.custom_filter.name.size()); ++i) {
             FileT &type = pos->second.custom_filter;
             std::string f = type.name[i];
             std::string s = type.subname[i];
