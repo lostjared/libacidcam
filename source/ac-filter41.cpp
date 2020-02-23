@@ -747,7 +747,7 @@ void ac::DiamondCollection(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     ShuffleMedian(frame);
     collection.shiftFrames(frame);
-    //int current_frame = 0;
+    int current_frame = 0;
     static double pos = 1.0;
     int w = frame.cols;
     int h = frame.rows;
@@ -756,7 +756,7 @@ void ac::DiamondCollection(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
-            //cv::Vec3b index = collection.frames[current_frame].at<cv::Vec3b>(z, i);
+            cv::Vec3b index = collection.frames[current_frame].at<cv::Vec3b>(z, i);
             if((i%2) == 0) {
                 if((z%2) == 0) {
                     cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);

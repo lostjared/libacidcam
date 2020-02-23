@@ -154,7 +154,7 @@ void ac::HorizontalColorOffset(cv::Mat &frame) {
                 index = 0;
             
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            //cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(cdir == 1) {
                 color += speed;
                 if(color >= 1) {
@@ -176,7 +176,7 @@ void ac::HorizontalColorOffset(cv::Mat &frame) {
                 index = 0;
             
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            //cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(cdir == 1) {
                 color += speed;
                 if(color >= 1) {
