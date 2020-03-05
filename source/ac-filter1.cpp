@@ -178,7 +178,7 @@ unsigned long ac::calculateMemory() {
 
 bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
     int index = ac::filter_map[name];
-    if(index >= 0 && index < ac::draw_strings.size()) {
+    if(index >= 0 && index < static_cast<int>(ac::draw_strings.size())) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -246,7 +246,7 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
             pos->second.func(frame);
             return true;
         }
-        for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
+        for(int i = 0; i < static_cast<int>(pos->second.custom_filter.name.size()); ++i) {
             FileT &type = pos->second.custom_filter;
             std::string f = type.name[i];
             std::string s = type.subname[i];
