@@ -155,7 +155,7 @@ void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
 }
 
 bool ac::CallFilter(int index, cv::Mat &frame) {
-    if(index >= 0 && index < ac::draw_strings.size()) {
+    if(index >= 0 && index < static_cast<int>(ac::draw_strings.size())) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -2278,7 +2278,7 @@ bool ac::checkFilter(std::string name) {
     if(pos == user_filter.end())
         return true;
     FileT &ft = pos->second.custom_filter;
-    for(int i = 0; i < ft.name.size(); i++) {
+    for(int i = 0; i < static_cast<int>(ft.name.size()); i++) {
         std::cout << ft.name[i] << ":" << name << "\n";
         if(ft.name[i] == name || (ft.name[i].find("User_") != std::string::npos && checkFilter(ft.name[i]) == false)) {
             return false;
@@ -2308,7 +2308,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen, int &plugin) {
     }
   
      // check if data valid
-    for(int i = 0; i < values.size(); ++i ){
+    for(int i = 0; i < static_cast<int>(values.size()); ++i ){
         std::string item = values[i];
         std::string s_left, s_right;
         
@@ -2330,7 +2330,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen, int &plugin) {
             return false;
         }
     }
-    for(int i = 0; i < values.size(); ++i) {
+    for(int i = 0; i < static_cast<int>(values.size()); ++i) {
         std::string item = values[i];
         if(item[0] == '*') {
             plugin = 1;
@@ -2358,7 +2358,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen, int &plugin) {
     std::cout << "Loaded file: " << filen << "\n";
     user_filter[fname].custom_filter = typev;
     int found = -1;
-    for(int i = 0; i < draw_strings.size(); ++i) {
+    for(int i = 0; i < static_cast<int>(draw_strings.size()); ++i) {
         if(draw_strings[i] == fname) {
             found = i;
             break;
