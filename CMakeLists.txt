@@ -77,6 +77,7 @@ ${CMAKE_SOURCE_DIR}/source/ac-filter41.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter42.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter43.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter44.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter45.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filtercat.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-grid.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-image.cpp
@@ -85,6 +86,7 @@ ${CMAKE_SOURCE_DIR}/source/ac-particle.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-square.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-util.cpp
 ${CMAKE_SOURCE_DIR}/source/fractal.cpp
+
 )
 
 list(APPEND header ${CMAKE_SOURCE_DIR}/source/ac.h ${CMAKE_SOURCE_DIR}/source/fractal.h ${CMAKE_SOURCE_DIR}/source/ac-filtercat.h)
