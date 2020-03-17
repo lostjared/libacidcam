@@ -2249,6 +2249,8 @@ namespace ac {
     void StretchLineColInc(cv::Mat &frame);
     void StretchRowSplit(cv::Mat &frame);
     void VideoAddBlend(cv::Mat &frame);
+    void VideoFadeInAndOut(cv::Mat &frame);
+    void VideoFadeRGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
