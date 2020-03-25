@@ -35,11 +35,11 @@ void procFilter(cv::VideoCapture &cap, std::string file, std::string fname) {
     file_stream << "<!DOCTYPE html><head><title> Acid Cam Filter - " << fname << "</title></head>";
     file_stream << "<body><h1>" << fname << "</h1><br>Description: <br><br><a href=\"" << gfx_name << "\"><img src=\"" << gfx_name << "\"></a><br><br>";
     file_stream << "</body></html>";
-    for(int i = 0; i < 160; ++i) {
+    for(int i = 0; i < 8; ++i) {
         cv::Mat frame;
         cap >> frame;
         ac::CallFilter(fname, frame);
-        if(i == 158) {
+        if(i == 6) {
             cv::imwrite(gfx_name, frame);
             ac::release_all_objects();
             return;
