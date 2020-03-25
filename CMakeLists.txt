@@ -23,10 +23,10 @@ set(include_dest "include/acidcam")
 set(main_lib_dest "lib/acidcam")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-list(APPEND COMPILER_FLAGS "-Wall" "-pedantic" "-ansi" "-Ofast")
+list(APPEND COMPILER_FLAGS "-Ofast")
 else()
 message(STATUS "Debug Mode")
-list(APPEND COMPILER_FLAGS "-Wall" "-pedantic" "-ansi")
+list(APPEND COMPILER_FLAGS "-Ofast")
 endif()
 
 list(APPEND source_files 
