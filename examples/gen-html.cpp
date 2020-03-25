@@ -32,7 +32,7 @@ void procFilter(cv::VideoCapture &cap, std::string file, std::string fname) {
     if(!file_stream.is_open()) {
         std::cerr << "Error could not open file: " << file_name << "\n";
     }
-    file_stream << "<!DOCTYPE html><head><title> Acid Cam Filter - " << fname << "</title></head>";
+    file_stream << "<!DOCTYPE html><html><head><title> Acid Cam Filter - " << fname << "</title></head>";
     file_stream << "<body><h1>" << fname << "</h1><br>Description: <br><br><a href=\"" << gfx_name << "\"><img src=\"" << gfx_name << "\"></a><br><br>";
     file_stream << "</body></html>";
     for(int i = 0; i < 8; ++i) {
@@ -54,7 +54,7 @@ void genIndex(int start) {
         std::cerr << "Error could not open file.\n";
         exit(EXIT_FAILURE);
     }
-    file << "<!DOCTYPE html><head><title>Acid Cam Index</title></head><body><h1>Index</h1><br><br>";
+    file << "<!DOCTYPE html><html><head><title>Acid Cam Index</title></head><body><h1>Index</h1><br><br>";
 
     std::vector<std::string> &names = ac::draw_strings;
     
