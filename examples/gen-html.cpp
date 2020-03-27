@@ -30,8 +30,8 @@ void procFilter(cv::VideoCapture &cap, std::string file, std::string fname) {
     if(!file_stream.is_open()) {
         std::cerr << "Error could not open file: " << file_name << "\n";
     }
-    file_stream << "<!DOCTYPE html>\n<html>\n<head><title> Acid Cam Filter - " << fname << "</title></head>\n";
-    file_stream << "<body><h1>" << fname << "</h1><br>Description: <br><br><a href=\"" << gfx_name << "\"><img src=\"" << gfx_name << "\"></a>\n<br><br>";
+    file_stream << "<!DOCTYPE html>\n<html>\n<head>\n<title> Acid Cam Filter - " << fname << "</title>\n</head>\n";
+    file_stream << "<body>\n<h1>" << fname << "</h1>\n<br>Description: <br><br>\n<a href=\"" << gfx_name << "\"><img src=\"" << gfx_name << "\"></a>\n<br><br>\n";
     file_stream << "\n</body>\n</html>\n";
     for(int i = 0; i < 8; ++i) {
         cv::Mat frame;
@@ -52,7 +52,7 @@ void genIndex(int start) {
         std::cerr << "Error could not open file.\n";
         exit(EXIT_FAILURE);
     }
-    file << "<!DOCTYPE html>\n<html>\n<head><title>Acid Cam Index</title></head>\n<body>\n<h1>Index</h1>\n<br><br>";
+    file << "<!DOCTYPE html>\n<html>\n<head>\n<title>Acid Cam Index</title>\n</head>\n<body>\n<h1>Index</h1>\n<br><br>";
 
     std::vector<std::string> &names = ac::draw_strings;
     
@@ -61,7 +61,7 @@ void genIndex(int start) {
             file << "<a href=\"" << ac::draw_strings[i] << ".html" << "\">" << ac::draw_strings[i] <<  "</a><br>\n";
         }
     }
-    file << "\n</body>\n<html>";
+    file << "\n</body>\n<html>\n";
     std::cout << "generated index..\n";
     return;
 }
