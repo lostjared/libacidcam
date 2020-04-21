@@ -79,6 +79,7 @@ ${CMAKE_SOURCE_DIR}/source/ac-filter43.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter44.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter45.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filter46.cpp
+${CMAKE_SOURCE_DIR}/source/ac-filter47.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-filtercat.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-grid.cpp
 ${CMAKE_SOURCE_DIR}/source/ac-image.cpp
