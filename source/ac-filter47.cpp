@@ -191,7 +191,7 @@ void ac::MoveInThenMoveOutFast(cv::Mat &frame) {
 }
 
 
-#define CONTAINS_SCREEN_GRAB
+//#define CONTAINS_SCREEN_GRAB
 
 
 #ifdef CONTAINS_SCREEN_GRAB
