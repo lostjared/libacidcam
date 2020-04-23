@@ -23,10 +23,10 @@ set(include_dest "include/acidcam")
 set(main_lib_dest "lib/acidcam")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-list(APPEND COMPILER_FLAGS "-O2")
+list(APPEND COMPILER_FLAGS "-O2" "-DNO_SCREEN_GRAB")
 else()
 message(STATUS "Debug Mode")
-list(APPEND COMPILER_FLAGS "-g")
+list(APPEND COMPILER_FLAGS "-g" "-DNO_SCREEN_GRAB")
 endif()
 
 list(APPEND source_files 
