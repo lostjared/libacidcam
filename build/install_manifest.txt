@@ -1,6 +1,0 @@
-/usr/local/lib/libacidcam.dylib
-/usr/local/include/acidcam/ac.h
-/usr/local/include/acidcam/fractal.h
-/usr/local/include/acidcam/ac-filtercat.h
-/usr/local/lib/pkgconfig/acidcam.pc
-/usr/local/lib/acidcam/acidcam-config.cmake
