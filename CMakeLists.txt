@@ -141,6 +141,9 @@ if(ENABLE_TESTS)
 	add_executable(test-subfilter ${CMAKE_SOURCE_DIR}/tests/test-subfilter.cpp)
 	target_link_libraries(test-subfilter acidcam Threads::Threads)
 	target_compile_options(test-subfilter PRIVATE ${COMPILER_FLAGS})
+	add_executable(test-filter-ex ${CMAKE_SOURCE_DIR}/tests/test-filter-ex.cpp)
+	target_link_libraries(test-filter-ex acidcam Threads::Threads)
+	target_compile_options(test-filter-ex PRIVATE ${COMPILERFLAGS})
 endif()
 
 
