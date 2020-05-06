@@ -16,6 +16,10 @@ int main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 	for(int i = 0; i < ac::getFilterCount(); ++i) {
+
+		if(ac::draw_strings[i].find("Shuffle") != std::string::npos || ac::draw_strings[i].find("Rand") != std::string::npos || ac::draw_strings[i].find("Frame") != std::string::npos)
+			continue;
+
 		cv::Mat frame;
 		if(cap.read(frame)) {
 			std::cout << "calling.. " << ac::draw_strings[i] << "\n";

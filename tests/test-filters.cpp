@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     ac::fill_filter_map();
     // print out library version
     std::cout << "Library Version: " << ac::getVersion() << "\n";
-    for(unsigned int i = 0; i < ac::solo_filter.size(); ++i) {
+    for(unsigned int i = 0; i < ac::solo_filter.size()-2; ++i) {
         std::cout << "Testing Filter: " << ac::solo_filter[i] << "\n";
         for(int j = 0; j < 10; ++j) {
             cv::Mat test_image_copy = test_image_sized.clone();
