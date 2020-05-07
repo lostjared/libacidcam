@@ -15,13 +15,16 @@ int main(int argc, char **argv) {
 		std::cerr << "Error capture device not opened..\n";
 		exit(EXIT_FAILURE);
 	}
+
+	for(int z = 0; z < 2; ++z) {
+
 	for(int i = 0; i < ac::getFilterCount(); ++i) {
 
 	//	if( ac::draw_strings[i].find("Shuffle") != std::string::npos ||  ac::draw_strings[i].find("Rand") != std::string::npos ||  ac::draw_strings[i].find("Frame") != std::string::npos )
 	//		continue;
 
-		if(ac::draw_strings[i].find("Random") != std::string::npos)
-			continue;
+//		if(ac::draw_strings[i].find("Random") != std::string::npos)
+//			continue;
 
 		cv::Mat frame;
 		if(cap.read(frame)) {
@@ -32,6 +35,8 @@ int main(int argc, char **argv) {
 			std::cout << "end of file..\n";
 			exit(EXIT_SUCCESS);
 		}
+	}
+
 	}
 	return 0;
 }
