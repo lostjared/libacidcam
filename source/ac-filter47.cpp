@@ -124,9 +124,11 @@ void ac::ExpandContract(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int col = AC_GetFX(frame.cols, i, nw);
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
-            pixel = pix;
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
+                pixel = pix;
+            }
         }
         static int dir = 1;
         if(dir == 1) {
@@ -1182,6 +1184,35 @@ void ac::MultiVideoDiagSquare(cv::Mat &frame) {
                 ++offset_i;
                 if(offset_i > frames.size()-1)
                     offset_i = 0;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ShiftLinesDown(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    static int counter = 0;
+    static int counter_max = 32;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix = pixelAt(collection.frames[index], z, i);
+            pixel = pix;
+        }
+        ++counter;
+        if(counter > counter_max) {
+            counter = 0;
+            if(rand()%50==0) {
+                counter_max += 10;
+                if(counter_max > frame.rows/4)
+                    counter_max = 32;
+            }
+            ++index;
+            if(index > collection.size()-1) {
+                index = 0;
             }
         }
     }
