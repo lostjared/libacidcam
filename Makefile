@@ -15,3 +15,9 @@ all: libacidcam
 .PHONY: clean
 clean:
 	rm -f source/*.o *.dylib
+
+.PHONY: install
+	mkdir -p /usr/local/include/acidcam
+	cp -rfv  source/*.h /usr/local/include
+	cp -rfv ./libacidcam.dylib /usr/local/lib
+
