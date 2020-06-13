@@ -2417,6 +2417,13 @@ namespace ac {
     void FlipPictureRandomMirror(cv::Mat &frame);
     void PictureShiftVariable(cv::Mat &frame);
     void RGBWideTrails(cv::Mat &frame);
+    void StretchR_Right(cv::Mat &frame);
+    void StretchG_Right(cv::Mat &frame);
+    void StretchB_Right(cv::Mat &frame);
+    void StretchR_Down(cv::Mat &frame);
+    void StretchG_Down(cv::Mat &frame);
+    void StretchB_Down(cv::Mat &frame);
+
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
