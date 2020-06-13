@@ -20,5 +20,5 @@ clean:
 install:
 	mkdir -p /usr/local/include/acidcam
 	cp -rfv  source/*.h /usr/local/include/acidcam/
-	cp -rfv ./libacidcam.dylib /usr/local/lib
+	cp -rfv ./libacidcam.so /usr/local/lib
 
