@@ -686,8 +686,8 @@ void ac::EdgeFill_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::WhiteFill_SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "WhiteFill_SubFilter")
+void ac::FillWhite_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillWhite_SubFilter")
         return;
     cv::Mat copy1 = frame.clone();
     CallFilter(subfilter, copy1);
@@ -703,8 +703,8 @@ void ac::WhiteFill_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
-void ac::BlackFill_SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlackFill_SubFilter")
+void ac::FillBlack_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillBlack_SubFilter")
         return;
     cv::Mat copy1 = frame.clone();
     CallFilter(subfilter, copy1);
@@ -712,6 +712,42 @@ void ac::BlackFill_SubFilter(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(pixel[0] >= 0 && pixel[0] <= 25 && pixel[1] >= 0 && pixel[1] <= 25 && pixel[2] >= 0 && pixel[2] <= 25) {
+                cv::Vec3b pix;
+                pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::FillPink_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillPink_SubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[0] >= 225 && pixel[0] <= 255 && pixel[1] >= 0 && pixel[1] <= 25 && pixel[2] >= 225 && pixel[2] <= 255) {
+                cv::Vec3b pix;
+                pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::FillGreen_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillGreen_SubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[0] >= 0 && pixel[0] <= 25 && pixel[1] >= 225 && pixel[1] <= 255 && pixel[2] >= 0 && pixel[2] <= 25) {
                 cv::Vec3b pix;
                 pix = copy1.at<cv::Vec3b>(z, i);
                 pixel = pix;
