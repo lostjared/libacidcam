@@ -6,7 +6,7 @@
 int main(int argc, char **argv) {
     cv::Mat test_image;
     
-    test_image.create(cv::Size(640, 480), CV_8UC3);
+    test_image.create(cv::Size(1280, 720), CV_8UC3);
     for(int z = 0; z < test_image.rows; ++z) {
         for(int i = 0; i < test_image.cols; ++i) {
             cv::Vec3b &pixel = test_image.at<cv::Vec3b>(z, i);
