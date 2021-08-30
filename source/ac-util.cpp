@@ -1064,7 +1064,7 @@ void ac::InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_obj) {
             pixel = items[index].at<cv::Vec3b>(z, i);
         }
         ++index;
-        if(index > num_obj)
+        if(index > num_obj-1)
             index = 0;
     }
 }
