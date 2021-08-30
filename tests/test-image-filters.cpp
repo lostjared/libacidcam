@@ -12,6 +12,8 @@ void buildFilters(std::vector<std::string> &current) {
 }
 
 int main(int argc, char **argv) {
+    ac::init();
+    ac::subfilter = -1;
     cv::Mat test_image;
     test_image.create(cv::Size(640, 480), CV_8UC3);
     for(int z = 0; z < test_image.rows; ++z) {
