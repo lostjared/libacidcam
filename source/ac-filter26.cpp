@@ -753,7 +753,7 @@ void ac::ColorImageBlendWithFrame(cv::Mat &frame) {
 }
 
 void ac::ColorImageBlendSubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == 1)
+    if(blend_set == false || subfilter == -1)
         return;
     static double alpha = 1.0;
     static int dir = 1;
