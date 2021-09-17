@@ -602,7 +602,7 @@ void ac::MovementTrails_SubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
             bool set_value = false;
-            for(int index = 0; index < collection.size(); ++index) {
+            for(int index = 0; index < collection.size()-1; ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
@@ -630,7 +630,7 @@ void ac::MovementTrailsX_SubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
             bool set_value = false;
-            for(int index = 0; index < collection.size(); ++index) {
+            for(int index = 0; index < collection.size()-1; ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
