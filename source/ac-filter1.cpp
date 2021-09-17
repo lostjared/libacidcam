@@ -120,12 +120,12 @@ namespace ac {
 }
 std::unordered_map<std::string, ac::UserFilter> ac::user_filter;
 cv::Mat blend_image, color_image, color_bg_image,color_replace_image,color_filter;
-bool blend_set = false;
-bool colorkey_set = false;
-bool colorkey_bg = false;
-bool colorkey_replace = false;
-bool colorkey_filter = false;
-bool cl_init = false;
+std::atomic<bool> blend_set(false);
+std::atomic<bool> colorkey_set(false);
+std::atomic<bool> colorkey_bg(false);
+std::atomic<bool> colorkey_replace(false);
+std::atomic<bool> colorkey_filter(false);
+std::atomic<bool> cl_init(false);
 
 bool ac::OpenCL_Enabled() {
     return cl_init;

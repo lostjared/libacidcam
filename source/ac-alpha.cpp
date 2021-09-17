@@ -56,7 +56,7 @@ int blue = 0;
 int offset = 0;
 int randomNumber = 0;
 int reverse = 0;
-bool negate = false;
+std::atomic<bool> negate(false);
 
 // changePixel for Alpha Flame Filters
 // this function is called once for each pixel in the source image
