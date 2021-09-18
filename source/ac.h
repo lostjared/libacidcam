@@ -72,6 +72,7 @@
 #include<mutex>
 #include<chrono>
 #include<deque>
+#include<atomic>
 #include"ac-filtercat.h"
 //#define ASSERT_CHECK
 //Macro for assert testing
