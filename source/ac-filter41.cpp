@@ -652,7 +652,7 @@ void ac::FadeFromFrameToFrame(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
-        current_fade_alpha -= 0.08;
+        current_fade_alpha = alpha- 0.08;
     } else {
         current_filter = new_filter;
         new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
@@ -668,7 +668,7 @@ void ac::GlitchFadeFromFrameToFrame(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 0);
-        current_fade_alpha -= 0.08;
+        current_fade_alpha = alpha- 0.08;
     } else {
         current_filter = new_filter;
         new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
@@ -836,7 +836,7 @@ void ac::RandomFadeDelay(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
-        current_fade_alpha -= 0.06;
+        current_fade_alpha = alpha- 0.06;
     } else {
         static int cnt = 0;
         static int seconds = 0;
@@ -943,7 +943,7 @@ void ac::MirrorFadeDelay(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
-        current_fade_alpha -= 0.06;
+        current_fade_alpha = alpha- 0.06;
     } else {
         static int cnt = 0;
         static int seconds = 0;
