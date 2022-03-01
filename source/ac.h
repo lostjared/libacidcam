@@ -2465,6 +2465,8 @@ namespace ac {
     void SquareByRowRev(cv::Mat &frame);
     void SquareByRow2(cv::Mat &frame);
     void DivideByValue(cv::Mat &frame);
+    void FrameSep(cv::Mat &frame);
+    void FrameSep2(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
