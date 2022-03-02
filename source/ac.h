@@ -2473,6 +2473,7 @@ namespace ac {
     void FrameOffsetRSize2(cv::Mat &frame);
     void FrameOffsetRSize3(cv::Mat &frame);
     void FrameOffsetRSize4(cv::Mat &frame);
+    void SqOnOff(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);

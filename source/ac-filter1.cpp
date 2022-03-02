@@ -107,6 +107,7 @@ namespace ac {
         {"FrameOffsetRSize2", FrameOffsetRSize2},
         {"FrameOffsetRSize3", FrameOffsetRSize3},
         {"FrameOffsetRSize4",FrameOffsetRSize4},
+        {"SqOnOff", SqOnOff},
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
     FilterType *filter_array = &filters[0];
@@ -2508,6 +2509,7 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("FrameOffsetRSize2");
     v.push_back("FrameOffsetRSize3");
     v.push_back("FrameOffsetRSize4");
+    v.push_back("SqOnOff");
     v.push_back("No Filter");
     v.push_back("Blend with Source");
     v.push_back("Plugin");
