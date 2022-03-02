@@ -108,6 +108,9 @@ namespace ac {
         {"FrameOffsetRSize3", FrameOffsetRSize3},
         {"FrameOffsetRSize4",FrameOffsetRSize4},
         {"SqOnOff", SqOnOff},
+        
+        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},
+        
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
     FilterType *filter_array = &filters[0];
@@ -2510,6 +2513,14 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("FrameOffsetRSize3");
     v.push_back("FrameOffsetRSize4");
     v.push_back("SqOnOff");
+    v.push_back("SqOnOffAlpha");
+    v.push_back("SqOnOffAlphaClip");
+    v.push_back("SqOnOffAlphaClipFast");
+    v.push_back("SqOnOffAlphaPixel");
+    v.push_back("SqOnOffDiff");
+    v.push_back("SqOnOffSize");
+    
+    
     v.push_back("No Filter");
     v.push_back("Blend with Source");
     v.push_back("Plugin");

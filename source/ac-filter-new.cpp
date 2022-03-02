@@ -299,32 +299,301 @@ void ac::FrameOffsetRSize4(cv::Mat &frame) {
 
 void ac::SqOnOff(cv::Mat &frame) {
     static constexpr int MAX = 8;
-        static constexpr int PIXEL_SIZE=32;
-        static ac::MatrixCollection<MAX> collection;
-        if(collection.empty()) {
-            srand(static_cast<unsigned int>(time(0)));
+    static constexpr int PIXEL_SIZE=32;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    collection.shiftFrames(frame);
+    
+    static int off = 0;
+    
+    for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
+        for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
+            if((rand()%2)==0) {
+                for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
+                    for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Mat &m = collection.frames[off];
+                        cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
+                        pixel = pix_off;
+                        
+                    }
+                }
+            }
         }
-        collection.shiftFrames(frame);
-        
-        static int off = 0;
-        
-        for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
-            for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
-                if((rand()%2)==0) {
-                    for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
-                        for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
-                            cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
-                            cv::Mat &m = collection.frames[off];
-                            cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
-                            pixel = pix_off;
-                            
+        ++off;
+        if(off > MAX-1)
+            off = 0;
+    }
+    ac::AddInvert(frame);
+}
+
+void ac::SqOnOffAlpha(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    int PIXEL_SIZE=4+(rand()%28);
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    collection.shiftFrames(frame);
+    static int off = 0;
+    static double alpha = 0.1;
+    for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
+        for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
+            if((rand()%2)==0) {
+                for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
+                    for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Mat &m = collection.frames[off];
+                        cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
+                        for(int q = 0; q < 3; ++q) {
+                            pixel[q] = static_cast<unsigned char>((alpha*pixel[q])+((1-alpha)*pix_off[q]));
                         }
                     }
                 }
             }
-            ++off;
-            if(off > MAX-1)
-                off = 0;
+            
         }
-        ac::AddInvert(frame);
+        static int adir = 1;
+        if(adir == 1) {
+            alpha += 0.01;
+            if(alpha >= 1.0)
+                adir = 0;
+        } else {
+            alpha -= 0.01;
+            if(alpha <= 0.1)
+                adir = 1;
+        }
+        ++off;
+        if(off > MAX-1)
+            off = 0;
+    }
+    
+    ac::AddInvert(frame);
 }
+
+void ac::SqOnOffAlphaClip(cv::Mat &frame) {
+    
+    static constexpr int MAX = 8;
+    int PIXEL_SIZE=4+(rand()%28);
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    collection.shiftFrames(frame);
+    static int off = 0;
+    static double alpha = 0.1;
+    for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
+        for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
+            if((rand()%2)==0) {
+                for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
+                    for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Mat &m = collection.frames[off];
+                        cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
+                        for(int q = 0; q < 3; ++q) {
+                            pixel[q] = wrap_cast((alpha*pixel[q])+((1-alpha)*pix_off[q]));
+                        }
+                    }
+                }
+            }
+            
+        }
+        static int adir = 1;
+        if(adir == 1) {
+            alpha += 0.01;
+            if(alpha >= 4.0)
+                adir = 0;
+        } else {
+            alpha -= 0.01;
+            if(alpha <= 0.1)
+                adir = 1;
+        }
+        ++off;
+        if(off > MAX-1)
+            off = 0;
+    }
+    
+    ac::AddInvert(frame);
+}
+
+void ac::SqOnOffAlphaClipFast(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    int PIXEL_SIZE=4+(rand()%36);
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    collection.shiftFrames(frame);
+    static int off = 0;
+    static double alpha = 0.1;
+    for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
+        for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
+            if((rand()%2)==0) {
+                for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
+                    for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Mat &m = collection.frames[off];
+                        cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
+                        for(int q = 0; q < 3; ++q) {
+                            pixel[q] = wrap_cast((alpha*pixel[q])+((1-alpha)*pix_off[q]));
+                        }
+                    }
+                }
+            }
+        }
+        static int adir = 1;
+        if(adir == 1) {
+            alpha += 0.07;
+            if(alpha >= 8.0)
+                adir = 0;
+        } else {
+            alpha -= 0.07;
+            if(alpha <= 0.1)
+                adir = 1;
+        }
+        ++off;
+        if(off > MAX-1)
+            off = 0;
+    }
+    
+    ac::AddInvert(frame);
+}
+
+void ac::SqOnOffAlphaPixel(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    int PIXEL_SIZE=4+(rand()%36);
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    collection.shiftFrames(frame);
+    static int off = 0;
+    static double alpha = 0.1;
+    for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
+        for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
+            if((rand()%2)==0) {
+                
+                static int adir = 1;
+                if(adir == 1) {
+                    alpha += 0.07;
+                    if(alpha >= 8.0)
+                        adir = 0;
+                } else {
+                    alpha -= 0.07;
+                    if(alpha <= 0.1)
+                        adir = 1;
+                }
+                
+                for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
+                    for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Mat &m = collection.frames[off];
+                        cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
+                        for(int q = 0; q < 3; ++q) {
+                            pixel[q] = wrap_cast((alpha*pixel[q])+((1-alpha)*pix_off[q]));
+                        }
+                    }
+                }
+            }
+        }
+        ++off;
+        if(off > MAX-1)
+            off = 0;
+    }
+    
+    ac::AddInvert(frame);
+}
+
+void ac::SqOnOffDiff(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    int PIXEL_SIZE=4+(rand()%28);
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    collection.shiftFrames(frame);
+    static int off = 0;
+    static double alpha = 0.1;
+    for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
+        for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
+            if((rand()%2)==0) {
+                for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
+                    for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Mat &m = collection.frames[off];
+                        cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
+                        for(int q = 0; q < 3; ++q) {
+                            if(abs(pixel[q]-pix_off[q]) > 100) {
+                                pixel[q] = wrap_cast((alpha*pixel[q])+((1-alpha)*pix_off[q]));
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        static int adir = 1;
+        if(adir == 1) {
+            alpha += 0.01;
+            if(alpha >= 4.0)
+                adir = 0;
+        } else {
+            alpha -= 0.01;
+            if(alpha <= 0.1)
+                adir = 1;
+        }
+        ++off;
+        if(off > MAX-1)
+            off = 0;
+    }
+    
+    ac::AddInvert(frame);
+}
+
+void ac::SqOnOffSize(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static int PIXEL_SIZE=8;
+    static int dir = 1;
+    
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    collection.shiftFrames(frame);
+    
+    static int off = 0;
+    
+    for(int z = 0; z < frame.rows; z += PIXEL_SIZE) {
+        for(int i = 0; i < frame.cols; i += PIXEL_SIZE) {
+            if((rand()%2)==0) {
+                for(int y = z; y < z+PIXEL_SIZE && y < frame.rows; ++y) {
+                    for(int x = i; x < i+PIXEL_SIZE && x < frame.cols; ++x) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Mat &m = collection.frames[off];
+                        cv::Vec3b &pix_off = m.at<cv::Vec3b>(y, x);
+                        pixel = pix_off;
+                        
+                    }
+                }
+            }
+        }
+        ++off;
+        if(off > MAX-1)
+            off = 0;
+    }
+    
+    if(dir == 1) {
+        PIXEL_SIZE ++;
+        if(PIXEL_SIZE >= 32)
+            dir = 0;
+    } else {
+        PIXEL_SIZE --;
+        if(PIXEL_SIZE <= 8)
+            dir = 1;
+    }
+    ac::AddInvert(frame);
+}
+
+

@@ -2474,6 +2474,12 @@ namespace ac {
     void FrameOffsetRSize3(cv::Mat &frame);
     void FrameOffsetRSize4(cv::Mat &frame);
     void SqOnOff(cv::Mat &frame);
+    void SqOnOffAlpha(cv::Mat &frame);
+    void SqOnOffAlphaClip(cv::Mat &frame);
+    void SqOnOffAlphaClipFast(cv::Mat &frame);
+    void SqOnOffAlphaPixel(cv::Mat &frame);
+    void SqOnOffDiff(cv::Mat &frame);
+    void SqOnOffSize(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
