@@ -153,7 +153,7 @@ namespace ac {
     };
     
     bool checkFilter(std::string name);
-    
+    extern unsigned char wrap_cast(double d);
     // get version string
     extern std::string getVersion();
     extern int getFilterCount();
@@ -2469,6 +2469,11 @@ namespace ac {
     void FrameSep2(cv::Mat &frame);
     void DefStutter(cv::Mat &frame);
     void StutterFilter(cv::Mat &frame);
+    void FrameOffsetRSize(cv::Mat &frame);
+    void FrameOffsetRSize2(cv::Mat &frame);
+    void FrameOffsetRSize3(cv::Mat &frame);
+    void FrameOffsetRSize4(cv::Mat &frame);
+
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
