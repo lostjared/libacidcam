@@ -51,7 +51,7 @@ void ac::FrameSep2(cv::Mat &frame) {
     }
 }
 
-void stutter_filter(cv::Mat  &frame) {
+void ac::StutterFilter(cv::Mat  &frame) {
     static cv::Mat stored;
     static cv::Size stored_size;
     
@@ -86,7 +86,7 @@ void ac::DefStutter(cv::Mat  &frame) {
         srand(static_cast<unsigned int>(time(0)));
     collection.shiftFrames(frame);
     cv::Mat frame_copy = frame.clone();
-    stutter_filter(frame_copy);
+    StutterFilter(frame_copy);
     int num_pixels = rand()%((frame.rows * frame.cols)/320);
     for(int q = 0; q < num_pixels; ++q) {
        int pixel_size = 16+(rand()%64);

@@ -2468,6 +2468,7 @@ namespace ac {
     void FrameSep(cv::Mat &frame);
     void FrameSep2(cv::Mat &frame);
     void DefStutter(cv::Mat &frame);
+    void StutterFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
