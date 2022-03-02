@@ -2467,6 +2467,7 @@ namespace ac {
     void DivideByValue(cv::Mat &frame);
     void FrameSep(cv::Mat &frame);
     void FrameSep2(cv::Mat &frame);
+    void DefStutter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
