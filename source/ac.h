@@ -2480,7 +2480,7 @@ namespace ac {
     void SqOnOffAlphaPixel(cv::Mat &frame);
     void SqOnOffDiff(cv::Mat &frame);
     void SqOnOffSize(cv::Mat &frame);
-
+    void Placement(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

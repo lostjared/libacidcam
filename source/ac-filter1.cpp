@@ -109,7 +109,7 @@ namespace ac {
         {"FrameOffsetRSize4",FrameOffsetRSize4},
         {"SqOnOff", SqOnOff},
         
-        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},
+        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},
         
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
@@ -2519,7 +2519,7 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("SqOnOffAlphaPixel");
     v.push_back("SqOnOffDiff");
     v.push_back("SqOnOffSize");
-    
+    v.push_back("Placement");
     
     v.push_back("No Filter");
     v.push_back("Blend with Source");
