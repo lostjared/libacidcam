@@ -182,11 +182,11 @@ void ac::ApplyColorRangeInverted(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             unsigned int val = 0;
-            val = cv::saturate_cast<unsigned char>(color_value_r[~pixel[2]]);
+            val = cv::saturate_cast<unsigned char>(color_value_r[pixel[0]]);
             pixel[2] = val;
-            val = cv::saturate_cast<unsigned char>(color_value_g[~pixel[1]]);
+            val = cv::saturate_cast<unsigned char>(color_value_g[pixel[1]]);
             pixel[1] = val;
-            val = cv::saturate_cast<unsigned char>(color_value_b[~pixel[0]]);
+            val = cv::saturate_cast<unsigned char>(color_value_b[pixel[0]]);
             pixel[0] = val;
         }
     }
