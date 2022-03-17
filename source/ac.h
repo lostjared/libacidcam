@@ -2483,7 +2483,7 @@ namespace ac {
     void Placement(cv::Mat &frame);
     void FrameSep3(cv::Mat &frame);
     void FrameSep4(cv::Mat &frame);
-
+    void FrameSep5(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

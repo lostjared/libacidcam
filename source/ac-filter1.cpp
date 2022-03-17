@@ -109,7 +109,7 @@ namespace ac {
         {"FrameOffsetRSize4",FrameOffsetRSize4},
         {"SqOnOff", SqOnOff},
         
-        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},
+        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},{"FrameSep5", FrameSep5},
         
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
@@ -2522,6 +2522,7 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("Placement");
     v.push_back("FrameSep3");
     v.push_back("FrameSep4");
+    v.push_back("FrameSep5");
     
     v.push_back("No Filter");
     v.push_back("Blend with Source");
