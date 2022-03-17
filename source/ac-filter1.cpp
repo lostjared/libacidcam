@@ -110,7 +110,9 @@ namespace ac {
         {"SqOnOff", SqOnOff},
         
         {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},{"FrameSep5", FrameSep5},{"FrameSepDiff", FrameSepDiff},
-        
+/**/
+        {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},
+
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
     FilterType *filter_array = &filters[0];
@@ -2524,6 +2526,12 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("FrameSep4");
     v.push_back("FrameSep5");
     v.push_back("FrameSepDiff");
+    v.push_back("FrameSepResize");
+    v.push_back("FrameSepResize2");
+    v.push_back("FrameSepSquare");
+    v.push_back("FrameSepH");
+    v.push_back("FrameSkip");
+    v.push_back("FrameSkipResize");
     
     v.push_back("No Filter");
     v.push_back("Blend with Source");
