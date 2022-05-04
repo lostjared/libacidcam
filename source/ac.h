@@ -2493,6 +2493,9 @@ namespace ac {
     void FrameSkipResize(cv::Mat &frame);
     void FrameReverse(cv::Mat &frame);
     void FrameStretch_X(cv::Mat &frame);
+    void FrameStretch_Y(cv::Mat &frame);
+    void FrameStretch_XY(cv::Mat &frame);
+
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
