@@ -1355,3 +1355,6 @@ void ac::FrameStretch_XY_IO(cv::Mat &frame) {
     }
 }
 
+void ac::FrameSetGamma(cv::Mat &frame) {
+    ac::setGamma(frame, frame, 4);
+}
