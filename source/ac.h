@@ -2499,6 +2499,8 @@ namespace ac {
     void FrameStretch_Y_IO(cv::Mat &frame);
     void FrameStretch_XY_IO(cv::Mat &frame);
     void FrameSetGamma(cv::Mat &frame);
+    void FramePixelsLeftOver(cv::Mat &frame);
+    void FramePixelsLeftOverBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
