@@ -2501,6 +2501,7 @@ namespace ac {
     void FrameSetGamma(cv::Mat &frame);
     void FramePixelsLeftOver(cv::Mat &frame);
     void FramePixelsLeftOverBlend(cv::Mat &frame);
+    void FramePixels(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
