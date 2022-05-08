@@ -1044,27 +1044,20 @@ void ac::FrameReverse(cv::Mat &frame) {
 }
 
 void ac::FrameStretch_X(cv::Mat &frame) {
-    static int off = 0;
     static int frame_x_off = 0;
     static int frame_y_off = 0;
-    
-    cv::Mat m = frame.clone();
     
     static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
-                
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                
-                int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
-                // int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
-                
-                cv::Vec3b pix = m.at<cv::Vec3b>(z, off_x);
-                
-                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
-                pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
-                pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
-                
+                int off_x = AC_GetFX(frame->cols, i, frame->cols+frame_x_off);
+                 if(z >= 0 && z < frame->rows && off_x >= 0 && off_x < frame->cols) {
+                    cv::Vec3b pix = frame->at<cv::Vec3b>(z, off_x);
+                    pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                    pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                    pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                }
             }
         }
     };
@@ -1089,11 +1082,8 @@ void ac::FrameStretch_X(cv::Mat &frame) {
 }
 
 void ac::FrameStretch_Y(cv::Mat &frame) {
-    static int off = 0;
     static int frame_x_off = 0;
     static int frame_y_off = 0;
-    
-    cv::Mat m = frame.clone();
     
     static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
@@ -1103,8 +1093,7 @@ void ac::FrameStretch_Y(cv::Mat &frame) {
                 
                 // int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
                 int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
-                
-                cv::Vec3b pix = m.at<cv::Vec3b>(off_y, i);
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, i);
                 
                 pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
                 pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
@@ -1134,11 +1123,8 @@ void ac::FrameStretch_Y(cv::Mat &frame) {
 }
 
 void ac::FrameStretch_XY(cv::Mat &frame) {
-    static int off = 0;
     static int frame_x_off = 0;
     static int frame_y_off = 0;
-    
-    cv::Mat m = frame.clone();
     
     static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
@@ -1149,7 +1135,7 @@ void ac::FrameStretch_XY(cv::Mat &frame) {
                 int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
                 int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
                 
-                cv::Vec3b pix = m.at<cv::Vec3b>(off_y, off_x);
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, off_x);
                 
                 pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
                 pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
@@ -1180,11 +1166,8 @@ void ac::FrameStretch_XY(cv::Mat &frame) {
 }
 
 void ac::FrameStretch_X_IO(cv::Mat &frame) {
-    static int off = 0;
     static int frame_x_off = 0;
     static int frame_y_off = 0;
-    
-    cv::Mat m = frame.clone();
     
     static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
@@ -1193,9 +1176,8 @@ void ac::FrameStretch_X_IO(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 
                 int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
-                int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
                 
-                cv::Vec3b pix = m.at<cv::Vec3b>(z, off_x);
+                cv::Vec3b pix = frame->at<cv::Vec3b>(z, off_x);
                 
                 pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
                 pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
@@ -1239,11 +1221,8 @@ void ac::FrameStretch_X_IO(cv::Mat &frame) {
 }
 
 void ac::FrameStretch_Y_IO(cv::Mat &frame) {
-    static int off = 0;
     static int frame_x_off = 0;
     static int frame_y_off = 0;
-    
-    cv::Mat m = frame.clone();
     
     static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
@@ -1251,10 +1230,9 @@ void ac::FrameStretch_Y_IO(cv::Mat &frame) {
                 
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 
-                int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
                 int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
                 
-                cv::Vec3b pix = m.at<cv::Vec3b>(off_y, i);
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, i);
                 
                 pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
                 pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
@@ -1298,11 +1276,8 @@ void ac::FrameStretch_Y_IO(cv::Mat &frame) {
 }
 
 void ac::FrameStretch_XY_IO(cv::Mat &frame) {
-    static int off = 0;
     static int frame_x_off = 0;
     static int frame_y_off = 0;
-    
-    cv::Mat m = frame.clone();
     
     static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
@@ -1313,7 +1288,7 @@ void ac::FrameStretch_XY_IO(cv::Mat &frame) {
                 int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
                 int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
                 
-                cv::Vec3b pix = m.at<cv::Vec3b>(off_y, off_x);
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, off_x);
                 
                 pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
                 pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
@@ -1373,7 +1348,6 @@ void ac::FramePixelsLeftOver(cv::Mat &frame) {
     static constexpr int MAX = 8;
     static ac::MatrixCollection<MAX> collection;
     static std::list<Pixel> pixels;
-    static int counter = 0;
     
     if(collection.empty()) {
         srand(static_cast<unsigned int>(time(0)));
@@ -1427,8 +1401,7 @@ void ac::FramePixelsLeftOverBlend(cv::Mat &frame) {
     static constexpr int MAX = 8;
     static ac::MatrixCollection<MAX> collection;
     static std::list<Pixel> pixels;
-    static int counter = 0;
-    
+
     if(collection.empty()) {
         srand(static_cast<unsigned int>(time(0)));
         collection.shiftFrames(frame);
@@ -1570,7 +1543,7 @@ void ac::FrameStopStart2(cv::Mat &frame) {
         max = 1+(rand()%30);
         count = 0;
     }
-    static int off = 0;
+    
     cv::Mat &f = collection.frames[15];
     static bool on = true;
     
