@@ -7,4 +7,4 @@ Description: acidcam filters
 Requires: 
 Version: 2.32.0
 Libs: -L${libdir} -lacidcam
-Cflags: -I${includedir} -I${prefix}/include
+Cflags: -O3 -I${includedir} -I${prefix}/include
