@@ -1,5 +1,7 @@
 # libacidcam
 
+Join us on Discord: https://discord.gg/kSxTe6M8
+
 This version shares some code with Acid Cam v2 OSX, so sometimes when I update the parts that are shared show up in both projects. libacidcam uses C++/OpenCV and Autotools, and this macOS program uses Objective-C++/Cocoa/OpenCV and Xcode
 
 When upgrading to new versions of Acid Cam Qt, acidcam-cli or any other project that uses libacidcam:
