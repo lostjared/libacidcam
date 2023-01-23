@@ -45,13 +45,13 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.83.0 (macOS)";
+    const std::string version="2.84.0 (macOS)";
 #elif defined(__linux__)
-    const std::string version="2.83.0 (Linux)";
+    const std::string version="2.84.0 (Linux)";
 #elif defined(_WIN32)
-    const std::string version="2.83.0 (Windows)";
+    const std::string version="2.84.0 (Windows)";
 #else
-    const std::string version="2.83.0 (Generic)";
+    const std::string version="2.84.0 (Generic)";
 #endif
     std::mutex col_lock;
     std::atomic<bool> swapColorOn(true);
@@ -112,7 +112,7 @@ namespace ac {
         {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},{"FrameSep5", FrameSep5},{"FrameSepDiff", FrameSepDiff},
 /**/
         {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},{"FrameReverse", FrameReverse},{"FrameStretch_X", FrameStretch_X},{"FrameStretch_Y", FrameStretch_Y}, {"FrameStretch_XY", FrameStretch_XY},{"FrameStretch_X_IO", FrameStretch_X_IO}, {"FrameStretch_Y_IO", FrameStretch_Y_IO}, {"FrameStretch_XY_IO", FrameStretch_XY_IO},{"FrameSetGamma", FrameSetGamma},{"FramePixelsLeftOver", FramePixelsLeftOver}, {"FramePixelsLeftOverBlend", FramePixelsLeftOverBlend},{"FramePixels", FramePixels},{"FrameStopStart", FrameStopStart},{"FrameStopStart2", FrameStopStart2},{"FrameXBlend", FrameXBlend}, {"FrameYBlend", FrameYBlend},{"FrameXBlendXor", FrameXBlendXor}, {"FrameYBlendXor", FrameYBlendXor},{"StrobeCycle", StrobeCycle},
-        {"StrobeCycleSt", StrobeCycleSt}, {"StrobeCycleSt2", StrobeCycleSt2},{"StrobeCycleSt3", StrobeCycleSt3},{"OutOfOrder", OutOfOrder},
+        {"StrobeCycleSt", StrobeCycleSt}, {"StrobeCycleSt2", StrobeCycleSt2},{"StrobeCycleSt3", StrobeCycleSt3},{"OutOfOrder", OutOfOrder},{"RSquare", RSquare},
         
         
         
@@ -2557,7 +2557,7 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("StrobeCycleSt2");
     v.push_back("StrobeCycleSt3");
     v.push_back("OutOfOrder");
-    
+    v.push_back("RSquare");
     
     v.push_back("No Filter");
     v.push_back("Blend with Source");

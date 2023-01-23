@@ -2519,7 +2519,7 @@ namespace ac {
     void StrobeCycleSt2(cv::Mat &frame);
     void StrobeCycleSt3(cv::Mat &frame);
     void OutOfOrder(cv::Mat &frame);
-
+    void RSquare(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
