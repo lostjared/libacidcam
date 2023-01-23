@@ -2520,6 +2520,7 @@ namespace ac {
     void StrobeCycleSt3(cv::Mat &frame);
     void OutOfOrder(cv::Mat &frame);
     void RSquare(cv::Mat &frame);
+    void TrackingDown(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
