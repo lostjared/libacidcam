@@ -1889,3 +1889,21 @@ void ac::TrackingDown(cv::Mat &frame) {
         offset = 0;
     }
 }
+
+void ac::RSquareEven(cv::Mat &frame) {
+    static constexpr int MAX = 16;
+      static ac::MatrixCollection<MAX> collection;
+      if(collection.empty()) {
+          srand(static_cast<unsigned int>(time(0)));
+          collection.shiftFrames(frame);
+      }
+      collection.shiftFrames(frame);
+      for(int i = 0; i < (50+rand()%50); ++i) {
+          int x = rand()%frame.cols;
+          int y = rand()%frame.rows;
+          int w = 10+rand()%(frame.cols-10);
+          //int h = 10+rand()%(frame.rows-10);
+          drawSquare(frame, x, y, w, w, collection.frames[rand()%(MAX-1)]);
+      }
+      ac::FrameSep2(frame);
+}
