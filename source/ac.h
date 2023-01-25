@@ -2523,6 +2523,7 @@ namespace ac {
     void RSquareEven(cv::Mat &frame);
     void TrackingDown(cv::Mat &frame);
     void TrackingDownBlend(cv::Mat &frame);
+    void TrackingRev(cv::Mat &frame);
     void StretchRand(cv::Mat &frame);
     void FrameWobble1(cv::Mat &frame);
 // #NoFilter
