@@ -1833,8 +1833,10 @@ void ac::OutOfOrder(cv::Mat &frame) {
 void drawSquare(cv::Mat &frame, int x, int y, int w, int h, cv::Mat &off) {
     for(int i = x; i < w; ++i) {
         for(int z = y; z < h; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel = off.at<cv::Vec3b>(z, i);
+            if(i < frame.cols && z < frame.rows && i >= 0 && z >= 0) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                pixel = off.at<cv::Vec3b>(z, i);
+            }
         }
     }
 }
