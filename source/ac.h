@@ -2522,6 +2522,7 @@ namespace ac {
     void RSquare(cv::Mat &frame);
     void RSquareEven(cv::Mat &frame);
     void TrackingDown(cv::Mat &frame);
+    void TrackingDownBlend(cv::Mat &frame);
     void StretchRand(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
