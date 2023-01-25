@@ -113,6 +113,7 @@ namespace ac {
 /**/
         {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},{"FrameReverse", FrameReverse},{"FrameStretch_X", FrameStretch_X},{"FrameStretch_Y", FrameStretch_Y}, {"FrameStretch_XY", FrameStretch_XY},{"FrameStretch_X_IO", FrameStretch_X_IO}, {"FrameStretch_Y_IO", FrameStretch_Y_IO}, {"FrameStretch_XY_IO", FrameStretch_XY_IO},{"FrameSetGamma", FrameSetGamma},{"FramePixelsLeftOver", FramePixelsLeftOver}, {"FramePixelsLeftOverBlend", FramePixelsLeftOverBlend},{"FramePixels", FramePixels},{"FrameStopStart", FrameStopStart},{"FrameStopStart2", FrameStopStart2},{"FrameXBlend", FrameXBlend}, {"FrameYBlend", FrameYBlend},{"FrameXBlendXor", FrameXBlendXor}, {"FrameYBlendXor", FrameYBlendXor},{"StrobeCycle", StrobeCycle},
         {"StrobeCycleSt", StrobeCycleSt}, {"StrobeCycleSt2", StrobeCycleSt2},{"StrobeCycleSt3", StrobeCycleSt3},{"OutOfOrder", OutOfOrder},{"RSquare", RSquare},{"RSquareEven", RSquareEven},{"TrackingDown", TrackingDown},{"TrackingDownBlend", TrackingDownBlend},{"StretchRand", StretchRand},
+        {"FrameWobble1", FrameWobble1},
         //insert new array entry here:
         
         
@@ -2563,6 +2564,7 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("TrackingDown");
     v.push_back("TrackingDownBlend");
     v.push_back("StretchRand");
+    v.push_back("FrameWobble1");
     //insert new push_back here:
     
     v.push_back("No Filter");

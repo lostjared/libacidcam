@@ -2524,6 +2524,7 @@ namespace ac {
     void TrackingDown(cv::Mat &frame);
     void TrackingDownBlend(cv::Mat &frame);
     void StretchRand(cv::Mat &frame);
+    void FrameWobble1(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
