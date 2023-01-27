@@ -2530,6 +2530,7 @@ namespace ac {
     void StretchRand(cv::Mat &frame);
     void FrameWobble1(cv::Mat &frame);
     void FrameWobble2(cv::Mat &frame);
+    void BlockPixels(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
