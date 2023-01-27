@@ -2532,6 +2532,8 @@ namespace ac {
     void FrameWobble2(cv::Mat &frame);
     void BlockPixels(cv::Mat &frame);
     void RGB_Lr(cv::Mat &frame);
+    void TrackRGB1(cv::Mat &frame);
+    void TrackRGB2(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
