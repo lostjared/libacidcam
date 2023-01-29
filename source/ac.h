@@ -2535,7 +2535,8 @@ namespace ac {
     void TrackRGB1(cv::Mat &frame);
     void TrackRGB2(cv::Mat &frame);
     void FrameChop(cv::Mat &frame);
-    void YLineDown(cv::Mat  &frame);
+    void YLineDown(cv::Mat &frame);
+    void YLineDownBlend(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
