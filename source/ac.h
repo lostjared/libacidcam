@@ -2537,6 +2537,7 @@ namespace ac {
     void FrameChop(cv::Mat &frame);
     void YLineDown(cv::Mat &frame);
     void YLineDownBlend(cv::Mat &frame);
+    void FrameBreakX1(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
