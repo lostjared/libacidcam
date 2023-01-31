@@ -2538,6 +2538,7 @@ namespace ac {
     void YLineDown(cv::Mat &frame);
     void YLineDownBlend(cv::Mat &frame);
     void FrameBreakX1(cv::Mat &frame);
+    void RGBLagFrame(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
