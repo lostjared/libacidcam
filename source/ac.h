@@ -2541,6 +2541,8 @@ namespace ac {
     void RGBLagFrame(cv::Mat &frame);
     void LagFrame(cv::Mat &frame);
     void FrameStoreStutter(cv::Mat &frame);
+    void SetFramePixelate1(cv::Mat &frame);
+    void SetFramePixelate2(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
