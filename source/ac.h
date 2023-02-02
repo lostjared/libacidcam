@@ -2540,6 +2540,7 @@ namespace ac {
     void FrameBreakX1(cv::Mat &frame);
     void RGBLagFrame(cv::Mat &frame);
     void LagFrame(cv::Mat &frame);
+    void FrameStoreStutter(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
