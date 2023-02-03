@@ -2544,6 +2544,7 @@ namespace ac {
     void SetFramePixelate1(cv::Mat &frame);
     void SetFramePixelate2(cv::Mat &frame);
     void SetFramePixelate3(cv::Mat &frame);
+    void SquareDiff1(cv::Mat &frame);
 // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
