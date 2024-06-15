@@ -161,7 +161,7 @@ target_include_directories(acidcam PUBLIC
     $<INSTALL_INTERFACE:${include_dest}>
 )
 
-add_subdirectory("examples")
+#add_subdirectory("examples")
 
 if(ENABLE_TESTS)
     add_executable(test-filter1 ${CMAKE_SOURCE_DIR}/tests/test-filters.cpp)
