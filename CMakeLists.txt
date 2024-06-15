@@ -20,8 +20,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(include_dest "include/acidcam")
-set(main_lib_dest "lib/acidcam")
+set(include_dest "${CMAKE_INSTALL_PREFIX}/include/acidcam")
+set(main_lib_dest "${CMAKE_INSTALL_PREFIX}/lib")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     list(APPEND COMPILER_FLAGS "-O2" "-DNO_SCREEN_GRAB" "-DDONT_TEST_BOUNDS")
@@ -146,6 +146,7 @@ write_basic_package_version_file(
 configure_package_config_file(${CMAKE_SOURCE_DIR}/Config.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/acidcamConfig.cmake"
     INSTALL_DESTINATION lib/cmake/acidcam
+    PATH_VARS include_dest main_lib_dest
 )
 
 install(FILES
@@ -158,7 +159,6 @@ target_include_directories(acidcam PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<INSTALL_INTERFACE:${include_dest}>
-    $<INSTALL_INTERFACE:${lib_dest}>
 )
 
 add_subdirectory("examples")
