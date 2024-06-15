@@ -3,19 +3,10 @@
 include("${CMAKE_CURRENT_LIST_DIR}/acidcamTargets.cmake")
 
 # Define the include directories
-set(acidcam_INCLUDE_DIRS "@PACKAGE_INCLUDE_DESTINATION@")
+set_and_check(acidcam_INCLUDE_DIRS "@PACKAGE_INCLUDE_DESTINATION@")
 
 # Define the library directories
-set(acidcam_LIBRARY_DIRS "@PACKAGE_LIB_DESTINATION@")
+set_and_check(acidcam_LIBRARY_DIRS "@PACKAGE_LIB_DESTINATION@")
 
 # Define the libraries
 set(acidcam_LIBRARIES acidcam)
-
-# Check if the directories exist
-if(NOT EXISTS "${acidcam_INCLUDE_DIRS}")
-    message(FATAL_ERROR "File or directory referenced by variable acidcam_INCLUDE_DIRS does not exist !")
-endif()
-
-if(NOT EXISTS "${acidcam_LIBRARY_DIRS}")
-    message(FATAL_ERROR "File or directory referenced by variable acidcam_LIBRARY_DIRS does not exist !")
-endif()
