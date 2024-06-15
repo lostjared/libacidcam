@@ -144,13 +144,13 @@ write_basic_package_version_file(
 )
 
 configure_package_config_file(${CMAKE_SOURCE_DIR}/Config.cmake.in
-    "${CMAKE_CURRENT_BINARY_DIR}/acidcam-config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/acidcamConfig.cmake"
     INSTALL_DESTINATION lib/cmake/acidcam
     PATH_VARS include_dest main_lib_dest
 )
 
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/acidcam-config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/acidcamConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/acidcamConfigVersion.cmake"
     DESTINATION lib/cmake/acidcam
 )
