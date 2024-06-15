@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(libacidcam LANGUAGES CXX)
 set(ACIDCAM_MAJOR_VERSION 2)
 set(ACIDCAM_MINOR_VERSION 0)
-set(ACIDCAM_VERSION ${ACIDCAM_MINOR_VERSION}.${ACIDCAM_MAJOR_VERSION})
+set(ACIDCAM_VERSION ${ACIDCAM_MAJOR_VERSION}.${ACIDCAM_MINOR_VERSION})
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
@@ -144,13 +144,13 @@ write_basic_package_version_file(
 )
 
 configure_package_config_file(${CMAKE_SOURCE_DIR}/Config.cmake.in
-    "${CMAKE_CURRENT_BINARY_DIR}/acidcamConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/acidcam-config.cmake"
     INSTALL_DESTINATION lib/cmake/acidcam
     PATH_VARS include_dest main_lib_dest
 )
 
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/acidcamConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/acidcam-config.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/acidcamConfigVersion.cmake"
     DESTINATION lib/cmake/acidcam
 )
