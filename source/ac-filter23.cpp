@@ -1009,13 +1009,11 @@ void ac::AlphaBlendArrayExpand(cv::Mat &frame) {
     static int num = 1, dir = 1;
     static MatrixCollection<MAX> collection;
     collection.shiftFrames(frame);
-    cv::Mat *frames;
-    frames = new cv::Mat[num];
-    
+    std::vector<cv::Mat> frames(num);
     for(int i = 0; i < num; ++i) {
         frames[i] = collection.frames[i].clone();
-    }
-    AlphaBlendArray(frame, frames, num);
+    }    
+    AlphaBlendArray(frame, &frames[0], num);
     if(dir == 1) {
         ++num;
         if(num >= MAX-1) {
@@ -1029,6 +1027,5 @@ void ac::AlphaBlendArrayExpand(cv::Mat &frame) {
             num = 1;
         }
     }
-    delete [] frames;
     AddInvert(frame);
 }

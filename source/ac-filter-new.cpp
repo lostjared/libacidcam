@@ -1,6 +1,6 @@
-
 #include "ac.h"
 #include<list>
+#include<vector>
 
 void ac::FrameSep(cv::Mat &frame) {
     static constexpr int MAX = 16;
@@ -2565,14 +2565,9 @@ void ac::FrameChop(cv::Mat &frame) {
 }
 
 struct Impl {
-    int *rows = nullptr;
-    int *row_speed = nullptr;
-    
+    std::vector<int> rows;
+    std::vector<int> row_speed;
     Impl() = default;
-    ~Impl() {
-        delete [] rows;
-        delete [] row_speed;
-    }
 };
 
 
@@ -2584,14 +2579,8 @@ void ac::YLineDown(cv::Mat  &frame) {
     static Impl row;
     
     if(row_w == 0 || row_w != frame.cols) {
-        
-        if(row.rows != nullptr) {
-            delete [] row.rows;
-            delete [] row.row_speed;
-        }
-        
-        row.rows = new int[frame.cols+1];
-        row.row_speed =new int[frame.cols+1];
+        row.rows.resize(frame.cols+1);
+        row.row_speed.resize(frame.cols+1);
         for(int i = 0; i < frame.cols; ++i) {
             row.rows[i] = rand()%50;
             row.row_speed[i] = 2+rand()%25;
@@ -2625,14 +2614,8 @@ void ac::YLineDownBlend(cv::Mat &frame) {
      static Impl row;
      
      if(row_w == 0 || row_w != frame.cols) {
-         
-         if(row.rows != nullptr) {
-             delete [] row.rows;
-             delete [] row.row_speed;
-         }
-         
-         row.rows = new int[frame.cols+1];
-         row.row_speed =new int[frame.cols+1];
+         row.rows.resize(frame.cols+1);
+         row.row_speed.resize(frame.cols+1);
          for(int i = 0; i < frame.cols; ++i) {
              row.rows[i] = rand()%50;
              row.row_speed[i] = 2+rand()%25;
@@ -2970,13 +2953,8 @@ struct LineAcrossImpl {
         bool on;
         Item() : col{rand()%50}, speed{rand()%25}, on{true}  {}
     };
-    Item *item = nullptr;
+    std::vector<Item> item;
     LineAcrossImpl() = default;
-    ~LineAcrossImpl() {
-        if(item != nullptr)
-            delete [] item;
-        
-    }
 };
 
 
@@ -2987,11 +2965,8 @@ void ac::LineAcrossX(cv::Mat  &frame) {
     static LineAcrossImpl row;
     
     if(row_w == 0 || row_w != frame.rows) {
-        if(row.item != nullptr) {
-            delete [] row.item;
-        }
+        row.item.resize(frame.rows+1);
         row_w = frame.rows;
-        row.item = new LineAcrossImpl::Item[row_w+1];
     }
     
     for(int z = 0; z < frame.rows; ++z) {
