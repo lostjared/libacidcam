@@ -2686,87 +2686,72 @@ namespace ac {
     // Matrix Collection template
     class Frames {
     public:
-        cv::Mat **frames;
+        std::deque<cv::Mat> frames;
         int Size;
-        Frames(int size) : frames(0), Size(size) {
-            
+        
+        Frames(int size) : Size(size) {
+            // Initialize with empty frames to maintain size
+            frames.resize(Size);
         }
         
         ~Frames() {
-            if(frames != 0) {
-                for(int i = 0; i < Size; ++i) {
-                    delete frames[i];
-                }
-                delete [] frames;
-                frames = 0;
-            }
+            // No manual cleanup needed with deque
         }
         
         void releaseFrames() {
-            if(frames != 0) {
-                for(int i = 0; i < Size; ++i) {
-                    if(frames[i] != 0) frames[i]->release();
-                }
+            for(int i = 0; i < Size; ++i) {
+                if(!frames[i].empty())
+                    frames[i].release();
             }
         }
         
         void initFrames() {
-            if(frames == 0) {
-                frames = new cv::Mat*[Size];
-                for(int i = 0; i < Size; ++i) {
-                    frames[i] = new cv::Mat();
-                }
+            // Make sure we have the right number of frames
+            if(frames.size() != Size) {
+                frames.clear();
+                frames.resize(Size);
             }
         }
         
         void shiftFrames(cv::Mat &frame) {
-            for(int i = Size-1; i > 0; --i) {
-                frames[i] = frames[i-1];
-            }
-            *frames[0] = frame.clone();
-            
+            // Remove last frame and add new one to front
+            if(!frames.empty())
+                frames.pop_back();
+            frames.push_front(frame.clone());
         }
         
         unsigned long getSize() {
-            
-            if(frames == 0) return 0;
-            
             unsigned long total = 0;
-            for(int i = 0; i < Size; ++i) {
-                
-                if(frames[i] != 0 && !frames[i]->empty())
-                    total += frames[i]->rows * frames[i]->cols;
+            for(int i = 0; i < frames.size(); ++i) {
+                if(!frames[i].empty())
+                    total += frames[i].rows * frames[i].cols;
             }
             return total;
         }
         
         void ResizeFrames(int ns) {
-            if(frames != 0) {
-                for(int i = 0; i < Size; ++i) {
-                    delete frames[i];
-                }
-                delete [] frames;
-                frames = 0;
-            }
-            frames = new cv::Mat*[ns];
-            for(int i = 0; i < ns; ++i) {
-                frames[i] = new cv::Mat();
-            }
+            // Update size and resize the deque
             Size = ns;
+            frames.clear();
+            frames.resize(Size);
         }
         
         void setMat(int index, cv::Mat &frame) {
-            *frames[index] = frame;
+            if(index >= 0 && index < frames.size())
+                frames[index] = frame;
         }
         
         cv::Mat &operator[](int pos) {
-            if(frames == 0) {
+            // Make sure we have initialized frames
+            if(frames.empty()) {
                 initFrames();
             }
-            if(pos >= 0 && pos < Size)
-                return *frames[pos];
+            
+            // Bounds checking
+            if(pos >= 0 && pos < frames.size())
+                return frames[pos];
             else
-                return *frames[0];
+                return frames[0];
         }
     };
     
