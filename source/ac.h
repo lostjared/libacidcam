@@ -157,7 +157,7 @@ namespace ac {
     inline unsigned char wrap_cast(double d) {
         unsigned long x = static_cast<unsigned long>(d);
         if(x > 255)
-            x = x%255;
+            x = x%256;
         return static_cast<unsigned char>(x);
     }
     // get version string
