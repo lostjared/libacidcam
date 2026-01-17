@@ -154,10 +154,17 @@ void ac::imageBlendFour(cv::Mat &frame) {
                 // calculate resized image based x,y positions
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                // Ensure indices are within valid range
+                int mirrorY = (ch-1-cY);
+                int mirrorX = (cw-1-cX);
+                if(mirrorY < 0) mirrorY = 0;
+                if(mirrorX < 0) mirrorX = 0;
+                if(mirrorY >= ch) mirrorY = ch - 1;
+                if(mirrorX >= cw) mirrorX = cw - 1;
                 // grab pixel refernces from blend_image
-                cv::Vec3b &pr = blend_image.at<cv::Vec3b>((ch-cY), (cw-cX));
-                cv::Vec3b &pg = blend_image.at<cv::Vec3b>((ch-cY), cX);
-                cv::Vec3b &pb = blend_image.at<cv::Vec3b>(cY, (cw-cX));
+                cv::Vec3b &pr = blend_image.at<cv::Vec3b>(mirrorY, mirrorX);
+                cv::Vec3b &pg = blend_image.at<cv::Vec3b>(mirrorY, cX);
+                cv::Vec3b &pb = blend_image.at<cv::Vec3b>(cY, mirrorX);
                 // perform operation based on current state variable
                 switch(state) {
                     case 0:
@@ -308,7 +315,7 @@ void ac::ImageX(cv::Mat &frame) {
                 int cX = AC_GetFX(frame_blend.cols, i, frame.cols);
                 int cY = AC_GetFZ(frame_blend.rows, z, frame.rows);
                 
-                if(cX >= frame_blend.cols || cY >= frame_blend.rows)
+                if(cX >= frame_blend.cols-1 || cY >= frame_blend.rows-1)
                     continue;
                 
                 cv::Vec3b &pixel = frame_blend.at<cv::Vec3b>(cY, cX);
@@ -366,11 +373,14 @@ void ac::BlendImageOnOff(cv::Mat &frame) {
             for(int i = 3; i < frame.cols-3; ++i) {
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                // Ensure cY+1 and cX+1 are in bounds
+                int cY1 = (cY + 1 < blend_image.rows) ? cY + 1 : cY;
+                int cX1 = (cX + 1 < blend_image.cols) ? cX + 1 : cX;
                 cv::Vec3b pix[4];
                 pix[0] = blend_image.at<cv::Vec3b>(cY, cX);
-                pix[1] = blend_image.at<cv::Vec3b>(cY+1, cX);
-                pix[2] = blend_image.at<cv::Vec3b>(cY, cX+1);
-                pix[3] = blend_image.at<cv::Vec3b>(cY+1, cX+1);
+                pix[1] = blend_image.at<cv::Vec3b>(cY1, cX);
+                pix[2] = blend_image.at<cv::Vec3b>(cY, cX1);
+                pix[3] = blend_image.at<cv::Vec3b>(cY1, cX1);
                 cv::Scalar value;
                 for(int j = 0; j < 4; ++j) {
                     for(int q = 0; q < 3; ++q) {

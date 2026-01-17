@@ -675,6 +675,8 @@ void ac::NegativeByRow(cv::Mat &frame) {
 }
 
 void ac::AveragePixelCollection(cv::Mat &frame) {
+    if(frame.empty() || frame.rows == 0 || frame.cols == 0)
+        return;
     static MatrixCollection<8> collection;
     MedianBlur(frame);
     MedianBlur(frame);
@@ -727,6 +729,8 @@ void ac::IncorrectLine(cv::Mat &frame) {
 }
 
 void ac::XorShift(cv::Mat &frame) {
+    if(frame.empty() || frame.rows == 0 || frame.cols == 0)
+        return;
     int sw = 0;
     static double alpha = 1.0, alpha_max = 4.0;
     cv::Scalar values;
@@ -785,7 +789,7 @@ void ac::StrobeXorAndOr(cv::Mat &frame) {
 }
 
 void ac::XorWithSource(cv::Mat &frame) {
-    if(orig_frame.empty())
+    if(orig_frame.empty() || orig_frame.size() != frame.size())
         return;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -799,7 +803,7 @@ void ac::XorWithSource(cv::Mat &frame) {
 }
 
 void ac::AlphaBlendWithSource(cv::Mat &frame) {
-    if(orig_frame.empty())
+    if(orig_frame.empty() || orig_frame.size() != frame.size())
         return;
     
     static double alpha = 1.0, alpha_max = 4.0;

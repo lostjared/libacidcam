@@ -631,6 +631,8 @@ void ac::ColorPositionAverageXor(cv::Mat &frame) {
             }
         }
     }
+    if(pixels.empty())
+        return;
     cv::Scalar combined;
     int values[3] = {0,0,0};
     for(unsigned int q = 0; q < pixels.size(); ++q) {
@@ -666,6 +668,8 @@ void ac::ColorPositionXor(cv::Mat &frame) {
             }
         }
     }
+    if(pixels.empty())
+        return;
     cv::Scalar combined;
     int values[3] = {0,0,0};
     for(unsigned int q = 0; q < pixels.size(); ++q) {

@@ -831,6 +831,8 @@ void ac::OrigBlendSubFilter(cv::Mat &frame) {
 }
 
 void ac::OrigAndCurrentRandomX2(cv::Mat &frame) {
+    if(orig_frame.empty() || orig_frame.size() != frame.size())
+        return;
     cv::Mat copy1 = frame.clone(), copy2 = orig_frame.clone();
     Random_Filter(copy1);
     Random_Filter(copy2);

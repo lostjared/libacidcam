@@ -207,7 +207,7 @@ void ac::Blend3(cv::Mat &frame) {
 void ac::NegParadox(cv::Mat &frame) {
     static double alpha = 1.0f; // alpha equals 1.0
     for (int z = 0; z < frame.cols - 3; ++z) { // left to right
-        for (int i = 0; i < frame.rows - 3; ++i) { // top to bottom
+        for (int i = 0; i < frame.rows - 4; ++i) { // top to bottom (need -4 since we access i+3)
             cv::Vec3b colors[4];// vector array
             colors[0] = pixelAt(frame,i, z);// grab pixels
             colors[1] = pixelAt(frame,i + 1, z);
@@ -274,15 +274,15 @@ void ac::ThoughtMode(cv::Mat &frame) {
 void ac::Pass2Blend(cv::Mat &frame) {
     if(orig_frame.empty())
         return;
+    if(orig_frame.size() != frame.size())
+        return;
     for(int z = 0;  z < frame.rows; ++z) { // top to bottom
         for(int i = 0; i < frame.cols; ++i) { // left to right
-            if(!frame.empty() && !orig_frame.empty()) {
-                cv::Vec3b &color1 = pixelAt(frame,z, i);// current pixel
-                cv::Vec3b color2 = pixelAt(orig_frame,z, i);// original frame pixel
-                for(int q = 0; q < 3; ++q)
-                    color1[q] = static_cast<unsigned char>(color2[q] * ac::pass2_alpha) + static_cast<unsigned char>(color1[q] * ac::pass2_alpha);
-                    //color1[q] = static_cast<unsigned char>(color2[q]+(color1[q]*ac::pass2_alpha));// multiply
-            }
+            cv::Vec3b &color1 = pixelAt(frame,z, i);// current pixel
+            cv::Vec3b color2 = pixelAt(orig_frame,z, i);// original frame pixel
+            for(int q = 0; q < 3; ++q)
+                color1[q] = static_cast<unsigned char>(color2[q] * ac::pass2_alpha) + static_cast<unsigned char>(color1[q] * ac::pass2_alpha);
+                //color1[q] = static_cast<unsigned char>(color2[q]+(color1[q]*ac::pass2_alpha));// multiply
         }
     }
 }
@@ -564,12 +564,18 @@ void ac::blendFractalMood(cv::Mat &frame) {
 // blend with Image functions Resize X
 inline int ac::GetFX(cv::Mat &frame, int x, int nw) {
     double xp = (double)x * (double)frame.rows / (double)nw;
-    return (int)xp;
+    int result = (int)xp;
+    if(result >= frame.rows) result = frame.rows - 1;
+    if(result < 0) result = 0;
+    return result;
 }
 // blend with Image function Resize Y
 inline int ac::GetFY(cv::Mat &frame, int y, int nh) {
     double yp = (double)y * (double)frame.cols / (double)nh;
-    return (int)yp;
+    int result = (int)yp;
+    if(result >= frame.cols) result = frame.cols - 1;
+    if(result < 0) result = 0;
+    return result;
 }
 // blend with Image function
 // takes cv::Mat as reference

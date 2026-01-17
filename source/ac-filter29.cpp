@@ -117,6 +117,8 @@ void ac::ExactImageSubFilter(cv::Mat &frame) {
 void ac::AlphaImageSourceScale(cv::Mat &frame) {
     if(blend_set == false)
         return;
+    if(orig_frame.empty() || orig_frame.size() != frame.size())
+        return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
     static double alpha = 1.0;

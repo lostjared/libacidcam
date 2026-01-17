@@ -237,8 +237,11 @@ void ac::SlideRGB(cv::Mat &frame) {
             if(offset_x+i < (w-1)) {
                 cv::Vec3b off_pix = pixelAt(frame,z, offset_x+i);
                 pixel[color[0]] += static_cast<unsigned char>(off_pix[color[0]]);
-                cv::Vec3b off_red = pixelAt(frame,z, (w-(offset_x+i)));
-                pixel[color[1]] += static_cast<unsigned char>(off_red[color[1]]);
+                int mirrorX = w - (offset_x + i);
+                if(mirrorX >= 0 && mirrorX < w) {
+                    cv::Vec3b off_red = pixelAt(frame,z, mirrorX);
+                    pixel[color[1]] += static_cast<unsigned char>(off_red[color[1]]);
+                }
             }
         }
     }

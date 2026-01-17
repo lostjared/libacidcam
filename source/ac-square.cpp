@@ -57,20 +57,24 @@ void ac::Square::setPos(const int &p) {
     pos = p;
 }
 void ac::Square::copyImage(const cv::Mat &f) {
-    for(int i = 0, src_x = x; i < width; ++i, ++src_x) {
-        for(int z = 0, src_y = y; z < height; ++z, ++src_y) {
-            cv::Vec3b &pixel = image.at<cv::Vec3b>(z, i);
-            cv::Vec3b src = f.at<cv::Vec3b>(src_y, src_x);
-            pixel = src;
+    for(int i = 0, src_x = x; i < width && src_x < f.cols; ++i, ++src_x) {
+        for(int z = 0, src_y = y; z < height && src_y < f.rows; ++z, ++src_y) {
+            if(z < image.rows && i < image.cols && src_y >= 0 && src_x >= 0) {
+                cv::Vec3b &pixel = image.at<cv::Vec3b>(z, i);
+                cv::Vec3b src = f.at<cv::Vec3b>(src_y, src_x);
+                pixel = src;
+            }
         }
     }
 }
 void ac::Square::copyImageToTarget(int xx, int yy, cv::Mat &f) {
-    for(int i = 0, dst_x = xx; i < width; ++i, ++dst_x) {
-        for(int z = 0, dst_y = yy; z < height; ++z, ++dst_y) {
-            cv::Vec3b &pixel = f.at<cv::Vec3b>(dst_y, dst_x);
-            cv::Vec3b src = image.at<cv::Vec3b>(z, i);
-            pixel = src;
+    for(int i = 0, dst_x = xx; i < width && dst_x < f.cols; ++i, ++dst_x) {
+        for(int z = 0, dst_y = yy; z < height && dst_y < f.rows; ++z, ++dst_y) {
+            if(z < image.rows && i < image.cols && dst_y >= 0 && dst_x >= 0) {
+                cv::Vec3b &pixel = f.at<cv::Vec3b>(dst_y, dst_x);
+                cv::Vec3b src = image.at<cv::Vec3b>(z, i);
+                pixel = src;
+            }
         }
     }
 }

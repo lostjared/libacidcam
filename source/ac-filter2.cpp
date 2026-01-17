@@ -209,12 +209,18 @@ void ac::alphaFlame(cv::Mat &frame) {
 // Resize X variable
 int AC_GetFX(int oldw,int x, int nw) {
     float xp = (float)x * (float)oldw / (float)nw;
-    return (int)xp;
+    int result = (int)xp;
+    if(result >= oldw) result = oldw - 1;
+    if(result < 0) result = 0;
+    return result;
 }
 // Resize Y Variable
 int AC_GetFZ(int oldh, int y, int nh) {
     float yp = (float)y * (float)oldh / (float)nh;
-    return (int)yp;
+    int result = (int)yp;
+    if(result >= oldh) result = oldh - 1;
+    if(result < 0) result = 0;
+    return result;
 }
 
 
@@ -313,7 +319,7 @@ void ac::MirrorBlend(cv::Mat &frame) {
     for(int z = 2; z < h-3; ++z) { // from top to bottom
         for(int i = 2; i < w-3; ++i) {// from left to right
             cv::Vec3b &buffer = pixelAt(frame,z, i); // get pixel at i,z
-            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));// get pixel at w-i, h-z
+            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-1-z), (w-1-i));// get pixel at w-1-i, h-1-z
             // set pixel rgb components
             buffer[0] += static_cast<unsigned char>(pix1[0]*pos);
             buffer[1] += static_cast<unsigned char>(pix1[1]*pos);
@@ -399,9 +405,9 @@ void ac::SidewaysMirror(cv::Mat &frame) {
             // current pixel
             cv::Vec3b &buffer = pixelAt(frame,z, i);
             // h minus y, width minus x positioned pixel
-            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
+            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-1-z), (w-1-i));
             // y and width minus x pixel
-            cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-i));
+            cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-1-i));
             // current pixel compponents equal
             // pix1[0] plus pix2[0] multiplied by kernel
             buffer[0] += static_cast<unsigned char>((pix1[0]+pix2[0])*pos);
@@ -430,11 +436,11 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
         for(int i = 2; i < w-3; ++i) {// go across each row
             cv::Vec3b &buffer = pixelAt(frame,z, i);// current pixel
             // opposite of current pixel
-            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
+            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-1-z), (w-1-i));
             // opposite width, same height
-            cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-i));
+            cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-1-i));
             // opposite height, same width
-            cv::Vec3b &pix3 = orig.at<cv::Vec3b>((h-z), i);
+            cv::Vec3b &pix3 = orig.at<cv::Vec3b>((h-1-z), i);
             // current pixel components equal
             // add each pixel value together
             buffer[0] = (pix1[0]+pix2[0]+pix3[0]);
@@ -526,8 +532,8 @@ void ac::DoubleVision(cv::Mat &frame) {
         for(int i = 3; i < w-3; ++i) { // left to right
             // current pixel
             cv::Vec3b &buffer = pixelAt(frame,z, i);
-            cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i); // pixel at h-y, x
-            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i)); // pixel at y, w-x
+            cv::Vec3b &g = orig.at<cv::Vec3b>((h-1-z), i); // pixel at h-1-y, x
+            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-1-i)); // pixel at y, w-1-x
             // this is what gives the diamond image
             if((i%2) == 0) {// if modulus i by two returns zero
                 if((z%2) == 0) {// modulus z by two returns zero
@@ -568,9 +574,9 @@ void ac::RGBShift(cv::Mat &frame) {
         for(int i = 3; i < w-3; ++i) {// left to right
             // grab pixel values
             cv::Vec3b &buffer = pixelAt(frame,z, i);
-            cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
-            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
-            cv::Vec3b &r = orig.at<cv::Vec3b>((h-z), (w-i));
+            cv::Vec3b &g = orig.at<cv::Vec3b>((h-1-z), i);
+            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-1-i));
+            cv::Vec3b &r = orig.at<cv::Vec3b>((h-1-z), (w-1-i));
             // switch shift, each state preforms addition on different
             // pixel component values
             switch(shift) {
@@ -606,8 +612,8 @@ void ac::RGBSep(cv::Mat &frame) {
         for(int i = 3; i < w-3; ++i) {// left to right
             // grab pixel values
             cv::Vec3b &buffer = pixelAt(frame,z, i);
-            cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
-            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
+            cv::Vec3b &g = orig.at<cv::Vec3b>((h-1-z), i);
+            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-1-i));
             // set pixel values
             buffer[0] += g[0];
             buffer[2] += b[2];
@@ -744,9 +750,9 @@ void ac::MirrorAverage(cv::Mat &frame) {
             // refernce to current pixel located at i,z
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b mir_pix[3]; // array of Vec3b variables
-            mir_pix[0] = orig.at<cv::Vec3b>((h-z), (w-i)); // pixel at w-i, h-z
-            mir_pix[1] = orig.at<cv::Vec3b>((h-z), i); // pixel at i, h-z
-            mir_pix[2] = orig.at<cv::Vec3b>(z,(w-i)); // pixel at w-i, z
+            mir_pix[0] = orig.at<cv::Vec3b>((h-1-z), (w-1-i)); // pixel at w-1-i, h-1-z
+            mir_pix[1] = orig.at<cv::Vec3b>((h-1-z), i); // pixel at i, h-1-z
+            mir_pix[2] = orig.at<cv::Vec3b>(z,(w-1-i)); // pixel at w-1-i, z
             // take each component from mir_pix and find the average
             // with the same index from each variable in the mir_pix array
             // then multiply it by the position index (pos) then add it
@@ -778,9 +784,9 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
         for(int i = 1; i < w-1; ++i) { // loop from left to right
             cv::Vec3b &pixel = pixelAt(frame,z, i); // current pixel at i,z
             cv::Vec3b mir_pix[3]; // array of 3 cv::Vec3b vectors
-            mir_pix[0] = orig.at<cv::Vec3b>((h-z), (w-i)); // pixel at w-i, h-z
-            mir_pix[1] = orig.at<cv::Vec3b>((h-z), i); // pixel at i, h-z
-            mir_pix[2] = orig.at<cv::Vec3b>(z,(w-i)); // pixel at w-i, z
+            mir_pix[0] = orig.at<cv::Vec3b>((h-1-z), (w-1-i)); // pixel at w-1-i, h-1-z
+            mir_pix[1] = orig.at<cv::Vec3b>((h-1-z), i); // pixel at i, h-1-z
+            mir_pix[2] = orig.at<cv::Vec3b>(z,(w-1-i)); // pixel at w-1-i, z
             // take each pixel and average together mulitply by pos
             // and add its value to different components in
             // pixel reference vector

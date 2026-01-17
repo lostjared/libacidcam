@@ -276,6 +276,9 @@ void ac::SlitReverse64(cv::Mat &frame) {
     static int offset = 0;
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
+        // Clamp offset before use
+        if(offset < 0) offset = 0;
+        if(offset > static_cast<int>(collection.size())-1) offset = collection.size()-1;
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = pixelAt(frame, z, i);
             cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
@@ -283,12 +286,16 @@ void ac::SlitReverse64(cv::Mat &frame) {
         }
         if(dir == 1) {
             ++offset;
-            if(offset > (collection.size()-1))
+            if(offset > static_cast<int>(collection.size())-1) {
+                offset = collection.size()-1;
                 dir = rand()%2;
+            }
         } else {
             --offset;
-            if(offset <= 1)
+            if(offset <= 0) {
+                offset = 0;
                 dir = rand()%2;
+            }
         }
     }
     AddInvert(frame);
@@ -301,6 +308,9 @@ void ac::SlitReverse64_Increase(cv::Mat &frame) {
     static int dir = 1;
     static int max = 1;
     for(int z = 0; z < frame.rows; ++z) {
+        // Clamp offset before use
+        if(offset < 0) offset = 0;
+        if(offset > static_cast<int>(collection.size())-1) offset = collection.size()-1;
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = pixelAt(frame, z, i);
             cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
@@ -309,11 +319,12 @@ void ac::SlitReverse64_Increase(cv::Mat &frame) {
         if(dir == 1) {
             ++offset;
             if(offset > max) {
+                offset = max;
                 dir = rand()%2;
                 static int m_dir = 1;
                 if(m_dir == 1) {
                     ++max;
-                    if(max > (collection.size()-1))
+                    if(max > static_cast<int>(collection.size())-1)
                         m_dir = 0;
                 } else {
                     --max;
@@ -323,9 +334,10 @@ void ac::SlitReverse64_Increase(cv::Mat &frame) {
             }
         } else {
             --offset;
-            if(offset <= 1)
+            if(offset <= 0) {
+                offset = 0;
                 dir = rand()%2;
-            
+            }
         }
     }
     AddInvert(frame);
@@ -886,7 +898,7 @@ void ac::DiagSquareInward(cv::Mat &frame) {
                         } else {
                             pos = collection.size()-offset-1;
                         }
-                        if(pos >= 0 && pos < collection.size()-1) {
+                        if(pos >= 0 && pos < static_cast<int>(collection.size())) {
                             cv::Vec3b pix = pixelAt(collection.frames[pos], z+y, i+x);
                             pixel = pix;
                         }
@@ -894,7 +906,7 @@ void ac::DiagSquareInward(cv::Mat &frame) {
                 }
             }
             ++offset;
-            if(offset > collection.size()-1)
+            if(offset > static_cast<int>(collection.size())-1)
                 offset = 0;
             on_ = (on_ == true) ? false : true;
         }
@@ -921,7 +933,7 @@ void ac::DiagSquareInwardResize(cv::Mat &frame) {
                         } else {
                             pos = collection.size()-offset-1;
                         }
-                        if(pos >= 0 && pos < collection.size()-1) {
+                        if(pos >= 0 && pos < static_cast<int>(collection.size())) {
                             cv::Vec3b pix = pixelAt(collection.frames[pos], z+y, i+x);
                             pixel = pix;
                         }
@@ -929,7 +941,7 @@ void ac::DiagSquareInwardResize(cv::Mat &frame) {
                 }
             }
             ++offset;
-            if(offset > collection.size()-1)
+            if(offset > static_cast<int>(collection.size())-1)
                 offset = 0;
             on_ = (on_ == true) ? false : true;
         }
@@ -965,7 +977,7 @@ void ac::DiagSquareInwardResizeXY(cv::Mat &frame) {
                         } else {
                             pos = collection.size()-offset-1;
                         }
-                        if(pos >= 0 && pos < collection.size()-1) {
+                        if(pos >= 0 && pos < static_cast<int>(collection.size())) {
                             cv::Vec3b pix = pixelAt(collection.frames[pos], z+y, i+x);
                             pixel = pix;
                         }
@@ -973,7 +985,7 @@ void ac::DiagSquareInwardResizeXY(cv::Mat &frame) {
                 }
             }
             ++offset;
-            if(offset > collection.size()-1)
+            if(offset > static_cast<int>(collection.size())-1)
                 offset = 0;
             on_ = (on_ == true) ? false : true;
         }

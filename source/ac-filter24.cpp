@@ -470,6 +470,8 @@ void ac::ColorImageBlendOrigMedian(cv::Mat &frame) {
 void ac::ColorImageBlendSource(cv::Mat &frame) {
     if(blend_set == false)
         return;
+    if(orig_frame.empty() || orig_frame.size() != frame.size())
+        return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
     static PixelArray2D pix_container;

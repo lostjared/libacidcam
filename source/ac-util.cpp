@@ -64,13 +64,13 @@ namespace ac {
 void ac::init() {
     fill_filter_map();
     
-    for(int red = 0; red < 255; ++red){
+    for(int red = 0; red < 256; ++red){
         color_value_r[red] = red;
     }
-    for(int green = 0; green < 255; ++green){
+    for(int green = 0; green < 256; ++green){
         color_value_g[green] = green;
     }
-    for(int blue = 0; blue < 255; ++blue){
+    for(int blue = 0; blue < 256; ++blue){
         color_value_b[blue] = blue;
     }
 
@@ -116,7 +116,7 @@ void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
     if(diff <= 0) diff = 1;
     if(diff <= 0) diff = 1;
     diff = 255/diff;
-    for(int red = 0; red < 255; ++red) {
+    for(int red = 0; red < 256; ++red) {
         color_value_r[red] = start;
         if((red%diff)==0 && start < high[2]) {
             start ++;
@@ -128,7 +128,7 @@ void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
     diff = 255/diff;
     if(diff <= 0) diff = 1;
     
-    for(int green = 0; green < 255; ++green){
+    for(int green = 0; green < 256; ++green){
         color_value_g[green] = start;
         if((green%diff)==0 && start < high[1]) {
             start ++;
@@ -139,7 +139,7 @@ void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
     if(diff <= 0) diff = 1;
     diff = 255/diff;
     if(diff <= 0) diff = 1;
-    for(int blue = 0; blue < 255; ++blue){
+    for(int blue = 0; blue < 256; ++blue){
         color_value_b[blue] = start;
         if((blue%diff)==0 && start < high[0]) {
             start ++;
@@ -685,7 +685,10 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha, int 
 void ac::copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const Rect &rc) {
     for(int i = 0; i < rc.w; ++i) {
         for(int z = 0; z < rc.h; ++z) {
-            if(rc.y+z < target.rows && rc.x+i < target.cols) {
+            if(rc.y+z < target.rows && rc.x+i < target.cols && 
+               srcrc.y+z < src.rows && srcrc.x+i < src.cols &&
+               rc.y+z >= 0 && rc.x+i >= 0 &&
+               srcrc.y+z >= 0 && srcrc.x+i >= 0) {
                 cv::Vec3b &dst = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
                 cv::Vec3b srcp = src.at<cv::Vec3b>(srcrc.y+z, srcrc.x+i);
                 dst = srcp;
@@ -697,9 +700,12 @@ void ac::copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const R
 void ac::copyMat(cv::Mat &frame, const cv::Mat &cpy, int x, int y) {
     for(int i = x; i < x+cpy.cols && i < frame.cols; ++i) {
         for(int z = y; z < y+cpy.rows && z < frame.rows; ++z) {
-            if((i < frame.cols) && (z < frame.rows) && (i >= 0 && z >= 0)) {
+            int cpy_x = i - x;
+            int cpy_y = z - y;
+            if((i < frame.cols) && (z < frame.rows) && (i >= 0 && z >= 0) &&
+               (cpy_x >= 0) && (cpy_y >= 0) && (cpy_x < cpy.cols) && (cpy_y < cpy.rows)) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);
-                cv::Vec3b pix = cpy.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = cpy.at<cv::Vec3b>(cpy_y, cpy_x);
                 pixel = pix;
             }
         }

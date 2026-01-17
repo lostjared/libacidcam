@@ -434,6 +434,9 @@ void ac::SetDesktopRect(int x, int y, int w, int h) {
 cv::Mat ac::resizeRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
 {
     cv::Mat output;
+    if(input.empty() || input.cols == 0 || input.rows == 0) {
+        return output;
+    }
     double h1 = dstSize.width * (input.rows/(double)input.cols);
     double w2 = dstSize.height * (input.cols/(double)input.rows);
     if( h1 <= dstSize.height) {
