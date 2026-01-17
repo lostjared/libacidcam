@@ -24,7 +24,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(ACIDCAM_ENABLE_TESTS "Build test programs" ON)
 option(ACIDCAM_ENABLE_EXAMPLES "Build examples" ON)
 option(ACIDCAM_INSTALL "Generate install target" ON)
-find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs highgui)
+find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs highgui PATHS /usr NO_DEFAULT_PATH)
 if(NOT OpenCV_FOUND)
     message(FATAL_ERROR "OpenCV not found. Please install OpenCV 3.0+ with development headers.")
 endif()
@@ -85,10 +85,10 @@ check_include_file_cxx("mutex" HAVE_MUTEX)
 if(NOT HAVE_IOSTREAM OR NOT HAVE_FSTREAM OR NOT HAVE_VECTOR OR NOT HAVE_STRING)
     message(FATAL_ERROR "Required C++ standard library headers not found. Check your compiler installation.")
 endif()
-
 if(NOT HAVE_THREAD OR NOT HAVE_MUTEX)
     message(WARNING "C++11 threading headers not found. Some features may not work correctly.")
 endif()
+
 include(GNUInstallDirs)
 set(include_dest "${CMAKE_INSTALL_INCLUDEDIR}/acidcam")
 set(main_lib_dest "${CMAKE_INSTALL_LIBDIR}")
@@ -214,7 +214,6 @@ target_link_libraries(acidcam
 
 target_compile_options(acidcam PRIVATE ${ACIDCAM_PRIVATE_COMPILE_OPTIONS})
 
-# Set library properties
 set_target_properties(acidcam PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
