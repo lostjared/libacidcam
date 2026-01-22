@@ -2707,7 +2707,7 @@ namespace ac {
         
         void initFrames() {
             // Make sure we have the right number of frames
-            if(frames.size() != Size) {
+            if(frames.size() != static_cast<size_t>(Size)) {
                 frames.clear();
                 frames.resize(Size);
             }
@@ -2722,7 +2722,7 @@ namespace ac {
         
         unsigned long getSize() {
             unsigned long total = 0;
-            for(int i = 0; i < frames.size(); ++i) {
+            for(size_t i = 0; i < frames.size(); ++i) {
                 if(!frames[i].empty())
                     total += frames[i].rows * frames[i].cols;
             }
@@ -2737,7 +2737,7 @@ namespace ac {
         }
         
         void setMat(int index, cv::Mat &frame) {
-            if(index >= 0 && index < frames.size())
+            if(index >= 0 && static_cast<size_t>(index) < frames.size())
                 frames[index] = frame;
         }
         
@@ -2748,7 +2748,7 @@ namespace ac {
             }
             
             // Bounds checking
-            if(pos >= 0 && pos < frames.size())
+            if(pos >= 0 && static_cast<size_t>(pos) < frames.size())
                 return frames[pos];
             else
                 return frames[0];
