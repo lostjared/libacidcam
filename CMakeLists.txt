@@ -90,8 +90,19 @@ if(NOT HAVE_THREAD OR NOT HAVE_MUTEX)
 endif()
 
 include(GNUInstallDirs)
-set(include_dest "${CMAKE_INSTALL_INCLUDEDIR}/acidcam")
-set(main_lib_dest "${CMAKE_INSTALL_LIBDIR}")
+# Convert to absolute paths for the config file
+if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
+    set(include_dest "${CMAKE_INSTALL_INCLUDEDIR}/acidcam")
+else()
+    set(include_dest "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/acidcam")
+endif()
+
+if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+    set(main_lib_dest "${CMAKE_INSTALL_LIBDIR}")
+else()
+    set(main_lib_dest "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+endif()
+
 set(ACIDCAM_PRIVATE_COMPILE_OPTIONS "")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
