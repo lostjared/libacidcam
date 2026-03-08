@@ -24,6 +24,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(ACIDCAM_ENABLE_TESTS "Build test programs" ON)
 option(ACIDCAM_ENABLE_EXAMPLES "Build examples" ON)
 option(ACIDCAM_INSTALL "Generate install target" ON)
+option(ACIDCAM_STATIC_GNU_RUNTIME "Link libgcc and libstdc++ statically" ON)
 find_package(OpenCV REQUIRED)
 if(NOT OpenCV_FOUND)
     message(FATAL_ERROR "OpenCV not found. Please install OpenCV 3.0+ with development headers.")
@@ -104,12 +105,16 @@ else()
 endif()
 
 set(ACIDCAM_PRIVATE_COMPILE_OPTIONS "")
+set(ACIDCAM_PRIVATE_LINK_OPTIONS "")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
     if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
         list(APPEND ACIDCAM_PRIVATE_COMPILE_OPTIONS -O2 -DNO_SCREEN_GRAB -DDONT_TEST_BOUNDS)
     else()
         list(APPEND ACIDCAM_PRIVATE_COMPILE_OPTIONS -g -DNO_SCREEN_GRAB -Wall -Wextra)
+    endif()
+    if(ACIDCAM_STATIC_GNU_RUNTIME AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        list(APPEND ACIDCAM_PRIVATE_LINK_OPTIONS -static-libgcc -static-libstdc++)
     endif()
 elseif(MSVC)
     if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
@@ -224,6 +229,7 @@ target_link_libraries(acidcam
 )
 
 target_compile_options(acidcam PRIVATE ${ACIDCAM_PRIVATE_COMPILE_OPTIONS})
+target_link_options(acidcam PRIVATE ${ACIDCAM_PRIVATE_LINK_OPTIONS})
 
 set_target_properties(acidcam PROPERTIES
     VERSION ${PROJECT_VERSION}
@@ -340,4 +346,5 @@ message(STATUS "Install prefix:    ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "OpenCV version:    ${OpenCV_VERSION}")
 message(STATUS "Tests enabled:     ${ACIDCAM_ENABLE_TESTS}")
 message(STATUS "Install enabled:   ${ACIDCAM_INSTALL}")
+message(STATUS "Static GNU runtime:${ACIDCAM_STATIC_GNU_RUNTIME}")
 message(STATUS "")
