@@ -208,6 +208,8 @@ void ac::alphaFlame(cv::Mat &frame) {
 
 // Resize X variable
 int AC_GetFX(int oldw,int x, int nw) {
+    if(nw <= 0 || oldw <= 0)
+        return 0;
     float xp = (float)x * (float)oldw / (float)nw;
     int result = (int)xp;
     if(result >= oldw) result = oldw - 1;
@@ -216,6 +218,8 @@ int AC_GetFX(int oldw,int x, int nw) {
 }
 // Resize Y Variable
 int AC_GetFZ(int oldh, int y, int nh) {
+    if(nh <= 0 || oldh <= 0)
+        return 0;
     float yp = (float)y * (float)oldh / (float)nh;
     int result = (int)yp;
     if(result >= oldh) result = oldh - 1;

@@ -109,7 +109,16 @@ void ac::EachFilterSubFilter(cv::Mat &frame) {
 void ac::EachFilterRandomStartSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || draw_strings[subfilter] == "EachFilterRandomStartSubFilter")
         return;
-    static int filter_num = rand()%getFilterCount()-3;
+    static int filter_num = 0;
+    static int init = 0;
+    if(init == 0) {
+        int max_filters = getFilterCount()-3;
+        if(max_filters > 0)
+            filter_num = rand()%max_filters;
+        else
+            filter_num = 0;
+        init = 1;
+    }
     static int frame_count = 0, seconds = 0;
     if (++frame_count > static_cast<int>(fps)) {
         frame_count = 0;
