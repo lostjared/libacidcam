@@ -375,31 +375,18 @@ void ac::SmoothTrailsRainbowBlend(cv::Mat &frame) {
 }
 
 void ac::MedianBlend(cv::Mat &frame) {
-    static std::deque<cv::Mat> collection;
-    static int prev_w = 0, prev_h = 0;
+    static MatrixCollection<8> collection;
     int r = 3+rand()%7;
     for(int i = 0; i < r; ++i)
         MedianBlur(frame);
-
-    if(collection.empty() || prev_w != frame.cols || prev_h != frame.rows || reset_filter == true || frames_released == true) {
-        collection.clear();
-        for(int i = 0; i < 8; ++i)
-            collection.push_back(frame.clone());
-        prev_w = frame.cols;
-        prev_h = frame.rows;
-        reset_filter = false;
-        frames_released = false;
-    }
-
-    if(collection.size() >= 8)
-        collection.pop_back();
-    collection.push_front(frame.clone());
+    
+    collection.shiftFrames(frame);
 
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar value;
-            for(size_t j = 0; j < collection.size(); ++j) {
-                cv::Vec3b pixel = collection[j].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
                 for(int q = 0; q < 3; ++q) {
                     value[q] += pixel[q];
                 }
