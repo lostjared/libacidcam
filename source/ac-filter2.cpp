@@ -242,15 +242,8 @@ void ac::GaussianBlur(cv::Mat &frame) {
 }
 // preform MedianBlur
 void ac::MedianBlur(cv::Mat &frame) {
-#ifdef _WIN32
     cv::Mat copy = frame.clone();
     cv::medianBlur(copy, frame, 5);
-#else
-    cv::UMat blur, out;
-    blur = frame.getUMat(cv::ACCESS_FAST);
-    cv::medianBlur(blur, out, 5);
-    out.copyTo(frame);
-#endif
 }
 // Increase / Decrease GaussianBlur
 // takes cv::Mat reference
