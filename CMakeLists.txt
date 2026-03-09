@@ -25,6 +25,18 @@ option(ACIDCAM_ENABLE_TESTS "Build test programs" ON)
 option(ACIDCAM_ENABLE_EXAMPLES "Build examples" ON)
 option(ACIDCAM_INSTALL "Generate install target" ON)
 option(ACIDCAM_STATIC_GNU_RUNTIME "Link libgcc and libstdc++ statically" ON)
+
+# Windows DLL export support for shared builds
+if(WIN32 AND BUILD_SHARED_LIBS)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
+# When cross-compiling with MinGW, help CMake find packages
+if(MINGW)
+    # Ensure .dll.a import libraries are found
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll.a" ".a" ".lib")
+endif()
+
 find_package(OpenCV REQUIRED)
 if(NOT OpenCV_FOUND)
     message(FATAL_ERROR "OpenCV not found. Please install OpenCV 3.0+ with development headers.")
@@ -33,31 +45,58 @@ if(OpenCV_VERSION VERSION_LESS "3.0.0")
     message(FATAL_ERROR "OpenCV version ${OpenCV_VERSION} found, but version 3.0.0 or higher is required.")
 endif()
 
+# Fix empty OpenCV_INCLUDE_DIRS during cross-compilation.
+# OpenCV's config computes include paths relative to its install location,
+# but the path resolution can fail when cross-compiling. Detect and fix.
+if(MINGW AND (NOT OpenCV_INCLUDE_DIRS OR OpenCV_INCLUDE_DIRS STREQUAL ""))
+    set(_mingw_sysroot "/usr/x86_64-w64-mingw32/sys-root/mingw")
+    if(EXISTS "${_mingw_sysroot}/include/opencv4/opencv2/core.hpp")
+        set(OpenCV_INCLUDE_DIRS "${_mingw_sysroot}/include/opencv4")
+        message(STATUS "Fixed empty OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+    elseif(EXISTS "${_mingw_sysroot}/include/opencv2/core.hpp")
+        set(OpenCV_INCLUDE_DIRS "${_mingw_sysroot}/include")
+        message(STATUS "Fixed empty OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+    endif()
+    # Also fix the imported targets' INTERFACE_INCLUDE_DIRECTORIES
+    if(OpenCV_INCLUDE_DIRS)
+        foreach(_opencv_target ${OpenCV_LIBS})
+            if(TARGET ${_opencv_target})
+                set_property(TARGET ${_opencv_target} APPEND PROPERTY
+                    INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIRS}")
+            endif()
+        endforeach()
+    endif()
+endif()
+
 message(STATUS "Found OpenCV: ${OpenCV_VERSION}")
 message(STATUS "  OpenCV include dirs: ${OpenCV_INCLUDE_DIRS}")
 message(STATUS "  OpenCV libraries: ${OpenCV_LIBS}")
 
-include(CheckIncludeFileCXX)
-set(CMAKE_REQUIRED_INCLUDES ${OpenCV_INCLUDE_DIRS})
-check_include_file_cxx("opencv2/opencv.hpp" HAVE_OPENCV_HPP)
-check_include_file_cxx("opencv2/core.hpp" HAVE_OPENCV_CORE_HPP)
-check_include_file_cxx("opencv2/imgproc.hpp" HAVE_OPENCV_IMGPROC_HPP)
-check_include_file_cxx("opencv2/imgcodecs.hpp" HAVE_OPENCV_IMGCODECS_HPP)
-check_include_file_cxx("opencv2/highgui.hpp" HAVE_OPENCV_HIGHGUI_HPP)
-if(NOT HAVE_OPENCV_CORE_HPP)
-    message(FATAL_ERROR "Required header opencv2/core.hpp not found. Install OpenCV development packages.")
+# Skip header checks when cross-compiling (find_package already validated OpenCV)
+if(NOT CMAKE_CROSSCOMPILING)
+    include(CheckIncludeFileCXX)
+    set(CMAKE_REQUIRED_INCLUDES ${OpenCV_INCLUDE_DIRS})
+    check_include_file_cxx("opencv2/opencv.hpp" HAVE_OPENCV_HPP)
+    check_include_file_cxx("opencv2/core.hpp" HAVE_OPENCV_CORE_HPP)
+    check_include_file_cxx("opencv2/imgproc.hpp" HAVE_OPENCV_IMGPROC_HPP)
+    check_include_file_cxx("opencv2/imgcodecs.hpp" HAVE_OPENCV_IMGCODECS_HPP)
+    check_include_file_cxx("opencv2/highgui.hpp" HAVE_OPENCV_HIGHGUI_HPP)
+    if(NOT HAVE_OPENCV_CORE_HPP)
+        message(FATAL_ERROR "Required header opencv2/core.hpp not found. Install OpenCV development packages.")
+    endif()
+    if(NOT HAVE_OPENCV_IMGPROC_HPP)
+        message(FATAL_ERROR "Required header opencv2/imgproc.hpp not found. Install OpenCV development packages.")
+    endif()
+    if(NOT HAVE_OPENCV_IMGCODECS_HPP)
+        message(FATAL_ERROR "Required header opencv2/imgcodecs.hpp not found. Install OpenCV development packages.")
+    endif()
+    if(NOT HAVE_OPENCV_HIGHGUI_HPP)
+        message(FATAL_ERROR "Required header opencv2/highgui.hpp not found. Install OpenCV development packages.")
+    endif()
+    message(STATUS "All required OpenCV headers found")
+else()
+    message(STATUS "Cross-compiling: skipping header checks (OpenCV found via find_package)")
 endif()
-if(NOT HAVE_OPENCV_IMGPROC_HPP)
-    message(FATAL_ERROR "Required header opencv2/imgproc.hpp not found. Install OpenCV development packages.")
-endif()
-if(NOT HAVE_OPENCV_IMGCODECS_HPP)
-    message(FATAL_ERROR "Required header opencv2/imgcodecs.hpp not found. Install OpenCV development packages.")
-endif()
-if(NOT HAVE_OPENCV_HIGHGUI_HPP)
-    message(FATAL_ERROR "Required header opencv2/highgui.hpp not found. Install OpenCV development packages.")
-endif()
-
-message(STATUS "All required OpenCV headers found")
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
@@ -73,21 +112,25 @@ else()
     message(STATUS "PkgConfig not found: pkg-config file will not be generated")
 endif()
 
-include(CheckIncludeFileCXX)
-check_include_file_cxx("iostream" HAVE_IOSTREAM)
-check_include_file_cxx("fstream" HAVE_FSTREAM)
-check_include_file_cxx("vector" HAVE_VECTOR)
-check_include_file_cxx("string" HAVE_STRING)
-check_include_file_cxx("algorithm" HAVE_ALGORITHM)
-check_include_file_cxx("random" HAVE_RANDOM)
-check_include_file_cxx("thread" HAVE_THREAD)
-check_include_file_cxx("mutex" HAVE_MUTEX)
+if(NOT CMAKE_CROSSCOMPILING)
+    include(CheckIncludeFileCXX)
+    check_include_file_cxx("iostream" HAVE_IOSTREAM)
+    check_include_file_cxx("fstream" HAVE_FSTREAM)
+    check_include_file_cxx("vector" HAVE_VECTOR)
+    check_include_file_cxx("string" HAVE_STRING)
+    check_include_file_cxx("algorithm" HAVE_ALGORITHM)
+    check_include_file_cxx("random" HAVE_RANDOM)
+    check_include_file_cxx("thread" HAVE_THREAD)
+    check_include_file_cxx("mutex" HAVE_MUTEX)
 
-if(NOT HAVE_IOSTREAM OR NOT HAVE_FSTREAM OR NOT HAVE_VECTOR OR NOT HAVE_STRING)
-    message(FATAL_ERROR "Required C++ standard library headers not found. Check your compiler installation.")
-endif()
-if(NOT HAVE_THREAD OR NOT HAVE_MUTEX)
-    message(WARNING "C++11 threading headers not found. Some features may not work correctly.")
+    if(NOT HAVE_IOSTREAM OR NOT HAVE_FSTREAM OR NOT HAVE_VECTOR OR NOT HAVE_STRING)
+        message(FATAL_ERROR "Required C++ standard library headers not found. Check your compiler installation.")
+    endif()
+    if(NOT HAVE_THREAD OR NOT HAVE_MUTEX)
+        message(WARNING "C++11 threading headers not found. Some features may not work correctly.")
+    endif()
+else()
+    message(STATUS "Cross-compiling: skipping C++ standard library header checks")
 endif()
 
 include(GNUInstallDirs)
@@ -114,7 +157,15 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
         list(APPEND ACIDCAM_PRIVATE_COMPILE_OPTIONS -g -DNO_SCREEN_GRAB -Wall -Wextra)
     endif()
     if(ACIDCAM_STATIC_GNU_RUNTIME AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        list(APPEND ACIDCAM_PRIVATE_LINK_OPTIONS -static-libgcc -static-libstdc++)
+        # Only statically link GNU runtime for static libs and executables.
+        # Shared DLLs with CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS would re-export
+        # libgcc symbols, causing conflicts when the final exe also links statically.
+        if(NOT (WIN32 AND BUILD_SHARED_LIBS))
+            list(APPEND ACIDCAM_PRIVATE_LINK_OPTIONS -static-libgcc -static-libstdc++)
+            if(MINGW)
+                list(APPEND ACIDCAM_PRIVATE_LINK_OPTIONS -Wl,-Bstatic -lpthread -Wl,-Bdynamic)
+            endif()
+        endif()
     endif()
 elseif(MSVC)
     if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
@@ -217,16 +268,34 @@ target_include_directories(acidcam
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/source>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
         $<INSTALL_INTERFACE:${include_dest}>
-    PRIVATE
-        ${OpenCV_INCLUDE_DIRS}
 )
 
-target_link_libraries(acidcam 
-    PUBLIC 
-        ${OpenCV_LIBS}
-    PRIVATE 
-        Threads::Threads
-)
+# Prefer modern imported targets (OpenCV 4+) over legacy variables.
+# Fedora's MinGW OpenCV config sets targets but may leave OpenCV_INCLUDE_DIRS empty.
+if(TARGET opencv_core)
+    target_link_libraries(acidcam
+        PUBLIC
+            opencv_core
+            opencv_imgproc
+            opencv_imgcodecs
+            opencv_highgui
+            opencv_videoio
+            opencv_video
+            opencv_photo
+            opencv_objdetect
+        PRIVATE
+            Threads::Threads
+    )
+else()
+    # Fallback for older OpenCV or non-target configs
+    target_include_directories(acidcam PRIVATE ${OpenCV_INCLUDE_DIRS})
+    target_link_libraries(acidcam
+        PUBLIC
+            ${OpenCV_LIBS}
+        PRIVATE
+            Threads::Threads
+    )
+endif()
 
 target_compile_options(acidcam PRIVATE ${ACIDCAM_PRIVATE_COMPILE_OPTIONS})
 target_link_options(acidcam PRIVATE ${ACIDCAM_PRIVATE_LINK_OPTIONS})
