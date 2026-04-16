@@ -2922,7 +2922,7 @@ void ac::SquareDiff1(cv::Mat &frame) {
         for(int i = x; i < x+w && i < frame.cols; ++i) {
             for(int z = y; z < y+h && z < frame.rows; ++z) {
                 
-                if(i >= 0 && i < frame.cols && z >= 0 && z < frame.cols) {
+                if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                     cv::Vec3b &pix = sframe.at<cv::Vec3b>(z, i);
                     pixel = pix;

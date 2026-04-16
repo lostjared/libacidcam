@@ -218,7 +218,7 @@ void ac::ImageFile(cv::Mat &frame) {
                 cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 pixel[0] += add_i[0];
                 pixel[1] += add_i[1];
-                pixel[1] += add_i[2];
+                pixel[2] += add_i[2];
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i); // invert pixel
             }

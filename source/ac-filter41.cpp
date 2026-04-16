@@ -763,11 +763,11 @@ void ac::DiamondCollection(cv::Mat &frame) {
                 if((z%2) == 0) {
                     cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
                     buffer[0] = static_cast<unsigned char>(1-pos*index[0]);
-                    buffer[offset] = static_cast<unsigned char>((i+z)*pos);
+                    buffer[offset % 3] = static_cast<unsigned char>((i+z)*pos);
                 } else {
                     cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
                     buffer[0] = static_cast<unsigned char>(pos*index[1]-z);
-                    buffer[offset] = static_cast<unsigned char>((i-z)*pos);
+                    buffer[offset % 3] = static_cast<unsigned char>((i-z)*pos);
                 }
             } else {
                 if((z%2) == 0) {
@@ -780,6 +780,7 @@ void ac::DiamondCollection(cv::Mat &frame) {
                         case 1:
                             buffer[1] = static_cast<unsigned char>(pos*index[2]-i);
                             buffer[0] = static_cast<unsigned char>((i-z)*pos);
+                            break;
                         case 2:
                             buffer[2] = static_cast<unsigned char>(pos*index[2]-i);
                             buffer[0] = static_cast<unsigned char>((i-z)*pos);
@@ -800,6 +801,7 @@ void ac::DiamondCollection(cv::Mat &frame) {
                         case 1:
                             buffer[1] = static_cast<unsigned char>(pos*index[0]-z);
                             buffer[0] = static_cast<unsigned char>((i+z)*pos);
+                            break;
                         case 2:
                             buffer[2] = static_cast<unsigned char>(pos*index[0]-z);
                             buffer[0] = static_cast<unsigned char>((i+z)*pos);

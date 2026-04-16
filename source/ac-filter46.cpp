@@ -87,7 +87,7 @@ void ac::Square_Block_Resize_Vertical_RGB(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_size) {
             for(int y = 0; y < square_size; ++y) {
                 for(int x = 0; x < square_size; ++x) {
-                    if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                    if(z+y < frame.rows && i+x < frame.cols) {
                         cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                         cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
                         pixel[rgb] = static_cast<unsigned char>((0.5 * pixel[rgb]) + (0.5 * pix[rgb]));
@@ -335,7 +335,7 @@ void ac::Square_Block_Resize_RGB(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_size) {
             for(int y = 0; y < square_size; ++y) {
                 for(int x = 0; x < square_size; ++x) {
-                    if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                    if(z+y < frame.rows && i+x < frame.cols) {
                         cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                         cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
                         pixel[rgb] = static_cast<unsigned char>((0.5 * pixel[rgb]) + (0.5 * pix[rgb]));

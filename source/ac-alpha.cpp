@@ -190,7 +190,7 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             total_r /= 3;
             total_r *= static_cast<int>(alpha);
             int iq = i+1;
-            if(iq > width) return;
+            if(iq >= width) return;
             int zq = z;
             cv::Vec3b &temp = full_buffer.at<cv::Vec3b>(zq, iq);
             colorz[1][0] = temp[0];

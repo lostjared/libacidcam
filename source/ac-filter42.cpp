@@ -202,7 +202,7 @@ void ac::HorizontalColorOffset(cv::Mat &frame) {
                     cdir = 0;
                 }
             } else {
-                --offset;
+                --coffset;
                 if(offset <= 0) {
                     coffset = 0;
                     cdir = 1;
@@ -312,7 +312,7 @@ void ac::ErodeKernelOffSubFilter(cv::Mat &frame) {
 }
 
 void ac::DilateKernelOffSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "DilateKernelOfffSubFilter")
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "DilateKernelOffSubFilter")
         return;
     
     cv::Mat copyz = frame.clone();

@@ -502,7 +502,7 @@ void ac::UseOldRowVert(cv::Mat &frame) {
         square_size = 2+ (rand()% 1+(square_max));
         for(int i = row; i < row+square_size; ++i) {
             int val = (rand()%10);
-            for(int z = 0; z < frame.cols; ++z) {
+            for(int z = 0; z < frame.rows; ++z) {
                 if(i < frame.cols && z < frame.rows) {
                     cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if(val > 7) {
@@ -706,7 +706,7 @@ void ac::UseOldRowVert64(cv::Mat &frame) {
         square_size = 2 + (rand()% (square_max));
         for(int i = row; i < row+square_size; ++i) {
             int val = (rand()%10);
-            for(int z = 0; z < frame.cols; ++z) {
+            for(int z = 0; z < frame.rows; ++z) {
                 if(i < frame.cols && z < frame.rows) {
                     cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if(val > 5) {

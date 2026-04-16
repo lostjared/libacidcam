@@ -758,7 +758,7 @@ void ac::ExpandFrame(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            if(z+pos_y < reframe.rows && i+pos_x < reframe.cols) {
+            if(z+pos_y >= 0 && z+pos_y < reframe.rows && i+pos_x >= 0 && i+pos_x < reframe.cols) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = pixelAt(reframe,z+pos_y, i+pos_x);
                 pixel = pix;
@@ -809,7 +809,7 @@ void ac::ExpandImage(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            if(z+pos_y < reframe.rows && i+pos_x < reframe.cols) {
+            if(z+pos_y >= 0 && z+pos_y < reframe.rows && i+pos_x >= 0 && i+pos_x < reframe.cols) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = pixelAt(reframe,z+pos_y, i+pos_x);
                 pixel = pix;
@@ -862,7 +862,7 @@ void ac::ExpandVideo(cv::Mat &frame) {
         }
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                if(z+pos_y < reframe.rows && i+pos_x < reframe.cols) {
+                if(z+pos_y >= 0 && z+pos_y < reframe.rows && i+pos_x >= 0 && i+pos_x < reframe.cols) {
                     cv::Vec3b &pixel = pixelAt(frame,z, i);
                     cv::Vec3b pix = pixelAt(reframe,z+pos_y, i+pos_x);
                     pixel = pix;

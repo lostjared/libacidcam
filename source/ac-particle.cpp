@@ -265,7 +265,7 @@ void ac::ParticleEmiter::movePixels() {
                         p.y += speed;
                         p.x += speed;
                     } else {
-                        p.dir = rand()*8;
+                        p.dir = rand()%8;
                     }
                     break;
                 case DIR_DOWN:

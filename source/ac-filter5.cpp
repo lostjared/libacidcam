@@ -260,7 +260,7 @@ void ac::SurroundPixelXor(cv::Mat &frame) {
             cv::Scalar value;
             value[0] = pix[0][0]+pix[1][0]+pix[2][0];
             value[1] = pix[0][1]+pix[1][1]+pix[2][1];
-            value[3] = pix[0][2]+pix[1][2]+pix[2][2];
+            value[2] = pix[0][2]+pix[1][2]+pix[2][2];
             for(int j = 0; j < 3; ++j) {
                 int val = static_cast<int>(value[j]);
                 pixel[j] = static_cast<unsigned char>((val^pixel[j])*alpha);

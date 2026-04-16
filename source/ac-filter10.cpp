@@ -128,7 +128,7 @@ void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame_copy);
     for(int z = 0; z < frame.cols; ++z) {
         for(int i = start_x; i < stop_x; ++i) {
-            if(z < frame.cols-1 && i < frame.rows-1 &&  z < frame_copy.cols-1 && i < frame_copy.rows-1)
+            if(z < frame.cols && i < frame.rows &&  z < frame_copy.cols && i < frame_copy.rows)
             {
                 cv::Vec3b &pixel = pixelAt(frame,i, z);
                 pixel = frame_copy.at<cv::Vec3b>(i, z);

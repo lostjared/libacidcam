@@ -346,7 +346,7 @@ void ac::AveragePixelMirror(cv::Mat &frame) {
             pix[2] = copy1.at<cv::Vec3b>(copy1.rows-z-1, copy1.cols-i-1);
             pix[3] = copy1.at<cv::Vec3b>(z, copy1.cols-i-1);
             cv::Scalar s;
-            for(int i = 0; i < 5; ++i) {
+            for(int i = 0; i < 4; ++i) {
                 for(int j = 0; j < 3; ++j) {
                     s[j] += pix[i][j];
                 }

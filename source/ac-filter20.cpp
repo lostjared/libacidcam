@@ -377,7 +377,7 @@ void ac::ColorFadeFilter(cv::Mat &frame) {
 }
 
 void ac::ColorChannelMoveUpAndDown(cv::Mat &frame) {
-    int rgb_values[3] = {rand()%2255, rand()%255, rand()%255};
+    int rgb_values[3] = {rand()%255, rand()%255, rand()%255};
     int rgb_stop[3] = {rand()%255, rand()%255, rand()%255};
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {

@@ -666,7 +666,7 @@ void ac::SquareByRow(cv::Mat &frame) {
             for(int x = 0; x < SIZE_VALUE; ++x) {
                 int index = rand()%64;
                 for(int y = 0; y < SIZE_VALUE; ++y) {
-                    if(z+y < frame.rows-1 && i+x < frame.cols-1) {
+                    if(z+y < frame.rows && i+x < frame.cols) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                         cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
                         ++index;
@@ -693,7 +693,7 @@ void ac::SquareByRowRev(cv::Mat &frame) {
                 int index = rand()%64;
                 int offset = 0;
                 for(int y = 0; y < SIZE_VALUE; ++y) {
-                    if(z+y < frame.rows-1 && i+x < frame.cols-1 && (frame.cols-(i+x)-1) > 0) {
+                    if(z+y < frame.rows && i+x < frame.cols && (frame.cols-(i+x)-1) > 0) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                         cv::Vec3b pix;
                         if((offset%2)==0) {
@@ -725,7 +725,7 @@ void ac::SquareByRow2(cv::Mat &frame) {
             for(int x = 0; x < SIZE_VALUE; ++x) {
                 int index = rand()%32;
                 for(int y = 0; y < SIZE_VALUE; ++y) {
-                    if(z+y < frame.rows-1 && i+x < frame.cols-1) {
+                    if(z+y < frame.rows && i+x < frame.cols) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                         cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
                         for(int j = 0; j < 3; ++j) {
@@ -758,7 +758,7 @@ void ac::DivideByValue(cv::Mat &frame) {
                     total_value[q] += pix[j][q];
             }
             for(int j = 0; j < 3; ++j) {
-                total_value[j] /= 5;
+                total_value[j] /= 8;
                 pixel[j] = pixel[j]^total_value[j];
             }
         }

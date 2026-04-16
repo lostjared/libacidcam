@@ -74,7 +74,7 @@ void ac::Square_Block_Resize_Vert_Video(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; i += square_size) {
                 for(int y = 0; y < square_size; ++y) {
                     for(int x = 0; x < square_size; ++x) {
-                        if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                        if(z+y < frame.rows && i+x < frame.cols) {
                             cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
                             for(int j = 0; j < 3; ++j) {
@@ -446,7 +446,7 @@ void ac::PixelateSquares(cv::Mat &frame) {
     for(int z = 0; z < num_square_h; ++z) {
         for(int i = 0; i < num_square_w; ++i) {
             for(int p = (z*pix_size_h); p < (z*pix_size_h)+pix_size_h && p < frame.rows; ++p) {
-                for(int q = (i*pix_size_w); q < (i*pix_size_w)+pix_size_w && p < frame.cols; ++q) {
+                for(int q = (i*pix_size_w); q < (i*pix_size_w)+pix_size_w && q < frame.cols; ++q) {
                     cv::Vec3b &pixel = pixelAt(frame,p, q);
                     cv::Vec3b col = collection.frames[index].at<cv::Vec3b>(p, q);
                     for(int j = 0; j < 3; ++j) {
