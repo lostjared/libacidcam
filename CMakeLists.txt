@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 project(libacidcam 
-    VERSION 2.0.0
+    VERSION 2.2.0
     DESCRIPTION "Acid Cam Filters for OpenCV"
     LANGUAGES CXX
 )
