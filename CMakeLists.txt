@@ -273,16 +273,22 @@ target_include_directories(acidcam
 # Prefer modern imported targets (OpenCV 4+) over legacy variables.
 # Fedora's MinGW OpenCV config sets targets but may leave OpenCV_INCLUDE_DIRS empty.
 if(TARGET opencv_core)
+    set(ACIDCAM_OPENCV_TARGETS
+        opencv_core
+        opencv_imgproc
+        opencv_imgcodecs
+        opencv_highgui
+        opencv_videoio
+        opencv_video
+        opencv_photo
+        opencv_objdetect
+    )
+    if(TARGET opencv_geometry)
+        list(APPEND ACIDCAM_OPENCV_TARGETS opencv_geometry)
+    endif()
     target_link_libraries(acidcam
         PUBLIC
-            opencv_core
-            opencv_imgproc
-            opencv_imgcodecs
-            opencv_highgui
-            opencv_videoio
-            opencv_video
-            opencv_photo
-            opencv_objdetect
+            ${ACIDCAM_OPENCV_TARGETS}
         PRIVATE
             Threads::Threads
     )

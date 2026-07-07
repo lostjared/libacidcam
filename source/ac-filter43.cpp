@@ -444,7 +444,7 @@ void ac::DizzyMode(cv::Mat &frame) {
 void ac::rotate_image(cv::Mat &src, cv::Mat &dst, double angle)
 {
     cv::Point2f pt(src.cols/2., src.rows/2.);
-    cv::Mat r = getRotationMatrix2D(pt, angle, 1.0);
+    cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
     cv::warpAffine(src, dst, r, cv::Size(src.cols, src.rows));
 }
 
@@ -942,5 +942,4 @@ void ac::SlowTrails_SubFilter(cv::Mat &frame) {
     frame = copy1.clone();
     AddInvert(frame);
 }
-
 
