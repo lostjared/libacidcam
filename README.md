@@ -43,6 +43,24 @@ install
 To run the test use:
 
     $ ./test-filter1
+
+### macOS (Apple Silicon)
+
+Install the native dependencies and build with AppleClang:
+
+```sh
+brew install cmake opencv pkg-config
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX="$HOME/.local"
+cmake --build build --parallel
+cmake --install build
+```
+
+`ACIDCAM_STATIC_GNU_RUNTIME` defaults to `OFF` on macOS because AppleClang
+uses libc++ and does not support `-static-libgcc` or `-static-libstdc++`.
+Native Apple Silicon builds select `arm64` automatically; add
+`-DCMAKE_OSX_ARCHITECTURES=arm64` only when an explicit architecture is
+needed.
     
 
 If you want to compile with Autotools this library uses pkg-config and Autoconf,Automake,Libtool.
@@ -68,5 +86,4 @@ AC_LIBS=$ACIDCAM_LIBS
 AC_SUBST(AC_INCLUDES)
 
 AC_SUBST(AC_LIBS)
-
 

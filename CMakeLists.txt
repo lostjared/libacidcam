@@ -24,7 +24,39 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(ACIDCAM_ENABLE_TESTS "Build test programs" ON)
 option(ACIDCAM_ENABLE_EXAMPLES "Build examples" ON)
 option(ACIDCAM_INSTALL "Generate install target" ON)
-option(ACIDCAM_STATIC_GNU_RUNTIME "Link libgcc and libstdc++ statically" ON)
+
+set(_acidcam_static_gnu_runtime_default ON)
+if(APPLE)
+    # AppleClang uses libc++ and the Darwin runtime. It does not provide the
+    # GNU-only -static-libgcc or -static-libstdc++ linker options.
+    set(_acidcam_static_gnu_runtime_default OFF)
+endif()
+option(ACIDCAM_STATIC_GNU_RUNTIME "Link libgcc and libstdc++ statically"
+    ${_acidcam_static_gnu_runtime_default})
+unset(_acidcam_static_gnu_runtime_default)
+
+# Homebrew installs native Apple Silicon packages below /opt/homebrew, which
+# is not searched by CMake on every setup. Preserve user-provided prefixes and
+# add the active Homebrew installation when it is available.
+if(APPLE)
+    find_program(HOMEBREW_EXECUTABLE brew
+        HINTS /opt/homebrew/bin /usr/local/bin)
+    if(HOMEBREW_EXECUTABLE)
+        execute_process(
+            COMMAND "${HOMEBREW_EXECUTABLE}" --prefix
+            OUTPUT_VARIABLE HOMEBREW_PREFIX
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            RESULT_VARIABLE HOMEBREW_PREFIX_RESULT
+        )
+        if(HOMEBREW_PREFIX_RESULT EQUAL 0 AND HOMEBREW_PREFIX)
+            list(PREPEND CMAKE_PREFIX_PATH
+                "${HOMEBREW_PREFIX}"
+                "${HOMEBREW_PREFIX}/opt/opencv"
+            )
+            message(STATUS "Homebrew prefix: ${HOMEBREW_PREFIX}")
+        endif()
+    endif()
+endif()
 
 # Windows DLL export support for shared builds
 if(WIN32 AND BUILD_SHARED_LIBS)
@@ -156,7 +188,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
     else()
         list(APPEND ACIDCAM_PRIVATE_COMPILE_OPTIONS -g -DNO_SCREEN_GRAB -Wall -Wextra)
     endif()
-    if(ACIDCAM_STATIC_GNU_RUNTIME AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    if(ACIDCAM_STATIC_GNU_RUNTIME AND NOT APPLE
+       AND CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang)$")
         # Only statically link GNU runtime for static libs and executables.
         # Shared DLLs with CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS would re-export
         # libgcc symbols, causing conflicts when the final exe also links statically.
