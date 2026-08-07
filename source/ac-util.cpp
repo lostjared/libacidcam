@@ -631,7 +631,8 @@ void ac::AddInvert(cv::Mat &frame) {
 int thread_count = 4;
 
 void ac::setThreadCount(const int &threads) {
-    thread_count = threads;
+    constexpr int max_thread_count = 64;
+    thread_count = std::max(1, std::min(threads, max_thread_count));
 }
 
 int ac::getThreadCount() {
@@ -815,7 +816,10 @@ ac::DrawFunction ac::getRandomFilter() {
 std::atomic<int> ac::subfilter(-1);
 
 void ac::setSubFilter(int value) {
-    subfilter = value;
+    if(value >= 0 && value < static_cast<int>(draw_strings.size()))
+        subfilter = value;
+    else
+        subfilter = -1;
 }
 
 void ac::clearSubFilter() {

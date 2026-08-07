@@ -2950,16 +2950,25 @@ namespace ac {
     // void filter(cv::Mat *frame, int offset, int cols, int size)
     template<typename F>
     void UseMultipleThreads(cv::Mat &frame, int cores, F func) {
-        int size = frame.rows/cores;
+        if(frame.empty() || frame.rows <= 0)
+            return;
+
+        constexpr int max_thread_count = 64;
+        cores = std::max(
+            1, std::min(std::min(cores, frame.rows), max_thread_count));
+        const int rows_per_thread = frame.rows / cores;
+        const int remainder = frame.rows % cores;
         std::vector<std::thread> values;
+        values.reserve(cores);
+        int offset = 0;
         for(int i = 0; i < cores; ++i) {
-            values.push_back(std::thread(func, &frame, i*size, frame.cols, size));
+            const int size = rows_per_thread + (i < remainder ? 1 : 0);
+            values.emplace_back(func, &frame, offset, frame.cols, size);
+            offset += size;
         }
-        col_lock.lock();
-        for(unsigned int i = 0; i < values.size(); ++i) {
-            values[i].join();
+        for(auto &thread : values) {
+            thread.join();
         }
-        col_lock.unlock();
     }
     //  MedianBlend
     template<int Size>

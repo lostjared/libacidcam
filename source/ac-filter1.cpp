@@ -177,7 +177,10 @@ void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
 }
 
 bool ac::CallFilter(int index, cv::Mat &frame) {
-    if(index >= 0 && index < ac::draw_strings.size()) {
+    if(frame.empty() || frame.type() != CV_8UC3)
+        return false;
+
+    if(index >= 0 && index < static_cast<int>(ac::draw_strings.size())) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -203,8 +206,17 @@ unsigned long ac::calculateMemory() {
 }
 
 bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
-    int index = ac::filter_map[name];
-    if(index >= 0 && index < ac::draw_strings.size()) {
+    if(frame.empty() || frame.type() != CV_8UC3)
+        return false;
+
+    const auto found = ac::filter_map.find(name);
+    if(found == ac::filter_map.end()) {
+        std::cout << "filter: " << name << " not found.\n";
+        return false;
+    }
+
+    const int index = found->second;
+    if(index >= 0 && index < static_cast<int>(ac::draw_strings.size())) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
